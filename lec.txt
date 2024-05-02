@@ -1,0 +1,87 @@
+<!------------------------------------------ LEC 4 ------------------------------------------>
+app.component.html   ---  about Components
+
+<div style="text-align: center;">
+  <h1>
+    {{title}}
+  </h1>
+  <app-test></app-test>
+  <!-- <div class="app-test"></div> -->
+  <!-- <div app-test></div> -->
+</div>
+
+
+<!------------------------------------------ LEC 5 ------------------------------------------>
+app.component.html   ---  about Interpolation
+
+<div style="text-align: center;">
+  <h1>
+    From App Component
+  </h1>
+</div>
+
+<app-test2></app-test2>
+
+
+
+
+
+<!------------------------------------------ LEC 6 ------------------------------------------>
+app.component.html   ---  about Property Binding
+
+<div style="text-align: center;">
+  <h1>
+    From App Component
+  </h1>
+</div>
+
+<app-test3></app-test3>
+
+
+
+
+
+
+<!------------------------------------------ LEC 7 ------------------------------------------>
+app.component.html   ---  about Class Binding
+
+<div style="text-align: center;">
+  <h1>
+    From App Component
+  </h1>
+</div>
+
+<app-test4></app-test4>
+
+
+<!------------------------------------------ LEC 8 ------------------------------------------>
+app.component.html   ---  about Style Binding
+
+
+<div style="text-align: center;">
+  <h1>
+    From App Component
+  </h1>
+</div>
+
+<app-test5></app-test5>
+
+
+
+
+
+<!------------------------------------------ LEC 1 ------------------------------------------>
+app.component.html   ---  about Interpolation
+
+
+
+<!------------------------------------------ LEC 1 ------------------------------------------>
+app.component.html   ---  about Interpolation
+
+
+
+<!------------------------------------------ LEC 1 ------------------------------------------>
+app.component.html   ---  about Interpolation
+
+
+
