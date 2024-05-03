@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-// here we learned about Class Binding
+// here we learned about Style Binding
 
 
 
