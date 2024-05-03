@@ -49,13 +49,13 @@ export class DepartmentDetailComponent implements OnInit {
   goNext() {
     let nextId = this.id + 1;
     this.router.navigate(['/departments', nextId]);
-    // this.router.navigate([nextId], { relativeTo: this.route });
+    // this.router.navigate([nextId], { relativeTo: this.route }); // this will not work because it will append the id to the current route
   }
 
   goPrevious() {
     let previousId = this.id - 1;
     this.router.navigate(['/departments', previousId]);
-    // this.router.navigate([previousId], { relativeTo: this.route });
+    // this.router.navigate([previousId], { relativeTo: this.route }); // this will not work because it will append the id to the current route
   }
 
   back() {
