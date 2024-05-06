@@ -1,0 +1,86 @@
+<div class="container">
+  <h1>Bootcamp Enrollment Form</h1>
+  <div class="alert alert-danger" *ngIf="formErrorMessage">
+    {{ formErrorMessage }}
+  </div>
+
+  <form #userForm="ngForm" novalidate (ngSubmit)="onSubmit()" *ngIf="!formSubmitted">
+
+    <!-- {{ userForm.form.invalid }} -->
+
+    <!-- {{ userForm.value | json }} -->
+    <hr>
+    <!-- {{ userModel | json }} -->
+
+    <!-- <div ngModelGroup="address">
+      <div class="form-group">
+        <label >Street</label>
+        <input type="text" class="form-control" id="name" name="street" required ngModel>
+      </div>
+
+      <div class="form-group">
+        <label >City</label>
+        <input type="text" class="form-control" id="name" name="city" required ngModel>
+      </div>
+    </div> -->
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" [class.is-invalid]="name.invalid && name.touched" id="name" #name1 #name="ngModel" name="name" required [(ngModel)]="userModel.name">
+      <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required</small>
+    </div>
+
+    <!-- {{ "Classes Applied by Angular ------ " + name1.className}} <br> -->
+    {{ "valid ------ " + name.valid }} <br>
+    {{ "invalid ------ " + name.invalid }} <br>
+    {{ "dirty ------ " + name.dirty }} <br>
+    {{ "pristine ------ " + name.pristine }} <br>
+    {{ "touched ------ " + name.touched }} <br>
+    {{ "untouched ------ " + name.untouched }} <br>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" name="email" required [(ngModel)]="userModel.email">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="tel" pattern="^\d{10}$" #phone="ngModel" [class.is-invalid]="phone.invalid && phone.touched" class="form-control" id="phone" name="phone" required [(ngModel)]="userModel.phone">
+      <!-- <small class="text-danger" [class.d-none]="phone.valid || phone.untouched">Phone is required and must be of 10 digits</small> -->
+      <div *ngIf="phone.errors && (phone.valid || phone.untouched)">
+        <small class="text-danger" *ngIf="phone.errors.required">Phone is required</small>
+        <small class="text-danger" *ngIf="phone.errors.pattern">Phone must be of 10 digits</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="course">Course</label>
+      <!-- <select [class.is-invalid]="topic.invalid && topic.touched"  class="form-control" id="course" name="course" required #topic="ngModel" [(ngModel)]="userModel.topic"> -->
+      <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)" [class.is-invalid]="topicHasError && topic.touched"  class="form-control" id="course" name="course" required #topic="ngModel" [(ngModel)]="userModel.topic">
+        <option selected value="default"> I am interested in </option>
+        <option *ngFor="let topic of topics"> {{ topic }} </option>
+      </select>
+      <!-- <small class="text-danger" [class.d-none]="topic.valid || topic.untouched">Topic is required</small> -->
+      <small class="text-danger" [class.d-none]="!topicHasError || topic.untouched">Topic is required</small>
+    </div>
+
+    <div class="mb-3">
+      <label>Time Preference</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="timePreference" value="morning" required [(ngModel)]="userModel.timePreference">
+        <label class="form-check-label">Morning (9AM-12PM)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="timePreference" value="evening" required [(ngModel)]="userModel.timePreference">
+        <label class="form-check-label">Evening (5PM-8PM)</label>
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" name="subscribe" [(ngModel)]="userModel.subscribe">
+      <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+    </div>
+
+    <button [disabled]="!userForm.form.valid || topicHasError" type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
