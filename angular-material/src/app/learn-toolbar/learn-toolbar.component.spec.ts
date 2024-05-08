@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Test3Component } from './test3.component';
+import { LearnToolbarComponent } from './learn-toolbar.component';
 
-describe('Test3Component', () => {
-  let component: Test3Component;
-  let fixture: ComponentFixture<Test3Component>;
+describe('LearnToolbarComponent', () => {
+  let component: LearnToolbarComponent;
+  let fixture: ComponentFixture<LearnToolbarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [Test3Component]
+      declarations: [LearnToolbarComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(Test3Component);
+    fixture = TestBed.createComponent(LearnToolbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

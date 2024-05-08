@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Test1Component } from './test1.component';
+import { LearnListComponent } from './learn-list.component';
 
-describe('Test1Component', () => {
-  let component: Test1Component;
-  let fixture: ComponentFixture<Test1Component>;
+describe('LearnListComponent', () => {
+  let component: LearnListComponent;
+  let fixture: ComponentFixture<LearnListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [Test1Component]
+      declarations: [LearnListComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(Test1Component);
+    fixture = TestBed.createComponent(LearnListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

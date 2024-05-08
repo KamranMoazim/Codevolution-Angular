@@ -1,0 +1,14 @@
+<div>
+  <mat-button-toggle #toggleButton checked disableRipple >Toggle</mat-button-toggle>
+  {{toggleButton.checked}}
+</div>
+
+
+<div>
+  <mat-button-toggle-group #group="matButtonToggleGroup" multiple>
+    <mat-button-toggle value="left">Left</mat-button-toggle>
+    <mat-button-toggle value="middle">Middle</mat-button-toggle>
+    <mat-button-toggle value="right">Right</mat-button-toggle>
+  </mat-button-toggle-group>
+  {{group.value}}
+</div>
