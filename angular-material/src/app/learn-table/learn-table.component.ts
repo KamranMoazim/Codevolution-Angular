@@ -73,10 +73,15 @@ export class LearnTableComponent implements OnInit {
     // this.dataSource.sort = this.sort
     // this.dataSource.paginator = this.paginator
 
-    setTimeout(() => {
-      this.dataSource.sort = this.sort
-      this.dataSource.paginator = this.paginator
-    });
+    // setTimeout(() => {
+    //   this.dataSource.sort = this.sort
+    //   this.dataSource.paginator = this.paginator
+    // });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort
+    this.dataSource.paginator = this.paginator
   }
 
   logData(data: any) {
