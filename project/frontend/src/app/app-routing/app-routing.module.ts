@@ -14,6 +14,12 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Role } from '../enums/role';
+import { hasRoleGuard } from '../guards/has-role.guard';
+import { HomeComponent } from '../components/home/home.component';
+import { AdminComponent } from '../components/admin/admin.component';
+import { UnauthorizedComponent } from '../components/unauthorized/unauthorized.component';
+import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
 // import { DepartmentListComponent } from './department-list/department-list.component';
 // import { EmployeeListComponent } from './employee-list/employee-list.component';
 // import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -22,7 +28,7 @@ import { RouterModule, Routes } from '@angular/router';
 // import { DepartmentOverviewComponent } from './department-overview/department-overview.component';
 // import { DepartmentContactComponent } from './department-contact/department-contact.component';
 
-const routes: Routes = [
+const routesOld: Routes = [
   // {
   //   path: '',
   //   component: HomeComponent
@@ -68,10 +74,31 @@ const routes: Routes = [
   // }
 ];
 
+const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [hasRoleGuard],
+    data: {
+      roles: [ Role.ADMIN ]
+    }
+  },
+  { path: 'unauthorized', component: HomeComponent },
+  { path: '**', component: PageNotFoundComponent },
+
+];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
 // export const routingComponents = [DepartmentListComponent, EmployeeListComponent, PageNotFoundComponent];
-export const routingComponents = [];
+export const routingComponents = [
+  HomeComponent,
+  AdminComponent,
+  UnauthorizedComponent,
+  PageNotFoundComponent
+];
