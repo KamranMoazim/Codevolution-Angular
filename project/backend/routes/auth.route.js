@@ -16,7 +16,7 @@ import {
 import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 const userRouter = express.Router();
 
-userRouter.post("/registration", registrationUser);
+userRouter.post("/register", registrationUser);
 
 userRouter.post("/login", loginUser);
 

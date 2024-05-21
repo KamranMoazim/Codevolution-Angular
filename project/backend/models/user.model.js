@@ -43,10 +43,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "user",
         },
-        isVerified: {
-            type: Boolean,
-            default: true,
-        },
+        // isVerified: {
+        //     type: Boolean,
+        //     default: true,
+        // },
         // courses: [
         //     {
         //         courseId: String,

@@ -37,8 +37,11 @@ export const sendToken = (user, statusCode, res) => {
     res.cookie("access_token", accessToken, accessTokenOptions);
     res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
+    console.log(user)
+
     res.status(statusCode).json({
         success: true,
+        message: "Logged in successfully",
         user,
         accessToken,
     });

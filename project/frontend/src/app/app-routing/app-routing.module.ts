@@ -1,25 +1,18 @@
-// import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-
-
-
-// @NgModule({
-//   declarations: [],
-//   imports: [
-//     CommonModule
-//   ]
-// })
-// export class AppRoutingModule { }
-
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { Role } from '../enums/role';
 import { hasRoleGuard } from '../guards/has-role.guard';
+
 import { HomeComponent } from '../components/home/home.component';
 import { AdminComponent } from '../components/admin/admin.component';
 import { UnauthorizedComponent } from '../components/unauthorized/unauthorized.component';
 import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
+import { RegisterComponent } from '../pages/register/register.component';
+import { LoginComponent } from '../pages/login/login.component';
+
+
+
 // import { DepartmentListComponent } from './department-list/department-list.component';
 // import { EmployeeListComponent } from './employee-list/employee-list.component';
 // import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -77,6 +70,7 @@ const routesOld: Routes = [
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+
   {
     path: 'admin',
     component: AdminComponent,
@@ -85,6 +79,10 @@ const routes: Routes = [
       roles: [ Role.ADMIN ]
     }
   },
+
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+
   { path: 'unauthorized', component: HomeComponent },
   { path: '**', component: PageNotFoundComponent },
 
@@ -96,9 +94,9 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 // export const routingComponents = [DepartmentListComponent, EmployeeListComponent, PageNotFoundComponent];
-export const routingComponents = [
-  HomeComponent,
-  AdminComponent,
-  UnauthorizedComponent,
-  PageNotFoundComponent
-];
+// export const routingComponents = [
+//   HomeComponent,
+//   AdminComponent,
+//   UnauthorizedComponent,
+//   PageNotFoundComponent
+// ];

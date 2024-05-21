@@ -10,54 +10,74 @@
     <mat-nav-list>
 
 
-      <a mat-list-item routerLink="/home" >
-        <span class="entry">
-          <mat-icon>house</mat-icon>
-          <span>Home</span>
-        </span>
-      </a>
 
-      <a mat-list-item routerLink="/admin" >
-        <span class="entry">
-          <mat-icon>admin_panel_settings</mat-icon>
-          <span>Admin</span>
-        </span>
-      </a>
 
-      <a mat-list-item routerLink="/dashboard" >
-        <span class="entry">
-          <mat-icon>dashboard</mat-icon>
-          <span>Dashboard</span>
-        </span>
-      </a>
+      @if (getUserRole() == 1){ <!-- 1 means simple USER - got to Role enum -->
 
-      <a mat-list-item routerLink="/person" >
-        <span class="entry">
-          <mat-icon>person</mat-icon>
-          <span>Profile</span>
-        </span>
-      </a>
+        <a mat-list-item routerLink="/home" >
+          <span class="entry">
+            <mat-icon>house</mat-icon>
+            <span>Home</span>
+          </span>
+        </a>
 
-      <a mat-list-item routerLink="/logout" >
-        <span class="entry">
-          <mat-icon>logout</mat-icon>
-          <span>Logout</span>
-        </span>
-      </a>
+        <a mat-list-item routerLink="/person" >
+          <span class="entry">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+          </span>
+        </a>
 
-      <a mat-list-item routerLink="/account_circle" >
-        <span class="entry">
-          <mat-icon>account_circle</mat-icon>
-          <span>Register</span>
-        </span>
-      </a>
+        <a mat-list-item (click)="logout()" >
+          <span class="entry">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </span>
+        </a>
 
-      <a mat-list-item routerLink="/login" >
-        <span class="entry">
-          <mat-icon>login</mat-icon>
-          <span>Login</span>
-        </span>
-      </a>
+      }
+
+      @if (getUserRole() == 2){ <!-- 2 means simple ADMIN - got to Role enum -->
+
+        <a mat-list-item routerLink="/admin" >
+          <span class="entry">
+            <mat-icon>admin_panel_settings</mat-icon>
+            <span>Admin</span>
+          </span>
+        </a>
+
+        <a mat-list-item routerLink="/dashboard" >
+          <span class="entry">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </span>
+        </a>
+
+        <a mat-list-item (click)="logout()" >
+          <span class="entry">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </span>
+        </a>
+
+      }
+
+
+      @if (!getUserRole()) {
+        <a mat-list-item routerLink="/register" >
+          <span class="entry">
+            <mat-icon>account_circle</mat-icon>
+            <span>Register</span>
+          </span>
+        </a>
+        <a mat-list-item routerLink="/login" >
+          <span class="entry">
+            <mat-icon>login</mat-icon>
+            <span>Login</span>
+          </span>
+        </a>
+      }
+
 
 
     </mat-nav-list>
@@ -66,7 +86,7 @@
 
 
   <mat-sidenav-content>
-    <h2>Content</h2>
+    <!-- <h2>Content</h2> -->
     <router-outlet></router-outlet>
     <!-- <app-footer></app-footer> -->
   </mat-sidenav-content>
