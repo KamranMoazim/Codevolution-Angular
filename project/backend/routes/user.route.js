@@ -20,9 +20,9 @@ userRouter.post("/register", registrationUser);
 
 userRouter.post("/login", loginUser);
 
-userRouter.post("/logout", isAutheticated, logoutUser);
+// userRouter.post("/logout", isAutheticated, logoutUser);
 
-// userRouter.get("/me", isAutheticated, getUserInfo);
+userRouter.get("/me", isAutheticated, getUserInfo);
 
 // // userRouter.post("/social-auth", socialAuth);
 

@@ -64,18 +64,28 @@
 
 
       @if (!getUserRole()) {
+
+        <a mat-list-item routerLink="/home" >
+          <span class="entry">
+            <mat-icon>house</mat-icon>
+            <span>Home</span>
+          </span>
+        </a>
+
         <a mat-list-item routerLink="/register" >
           <span class="entry">
             <mat-icon>account_circle</mat-icon>
             <span>Register</span>
           </span>
         </a>
+
         <a mat-list-item routerLink="/login" >
           <span class="entry">
             <mat-icon>login</mat-icon>
             <span>Login</span>
           </span>
         </a>
+
       }
 
 

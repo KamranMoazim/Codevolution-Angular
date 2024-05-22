@@ -22,6 +22,8 @@ export const isAutheticated = CatchAsyncError(
 
         const decoded = jwt.decode(access_token);
 
+        console.log(decoded)
+
         if (!decoded) {
             return next(new ErrorHandler("access token is not valid", 400));
         }

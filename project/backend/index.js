@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import connectDB from "./utils/database.js";
 import {ErrorMiddleware} from "./middlewares/error.js";
 
-import authRoutes from "./routes/auth.route.js";
+import authRoutes from "./routes/user.route.js";
 
 
 const app = express();

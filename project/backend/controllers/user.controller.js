@@ -8,14 +8,13 @@ import jwt from "jsonwebtoken";
 // import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt.js";
 // import { redis } from "../utils/redis";
-import { getAllUsersService, getUserById, updateUserRoleService } from "../services/user.service.js";
+import { getAllUsersService, getUserById } from "../services/user.service.js";
 
 
 
 
 
 // register user
-
 export const registrationUser = CatchAsyncError(
     async (req, res, next) => {
         try {
@@ -76,8 +75,6 @@ export const registrationUser = CatchAsyncError(
 
 
 // Login user
-
-
 export const loginUser = CatchAsyncError(
     async (req, res, next) => {
         try {
@@ -106,24 +103,7 @@ export const loginUser = CatchAsyncError(
     }
 );
 
-// logout user
-export const logoutUser = CatchAsyncError(
-    async (req, res, next) => {
-        try {
-            res.cookie("access_token", "", { maxAge: 1 });
-            res.cookie("refresh_token", "", { maxAge: 1 });
-            const userId = req.user?._id || "";
-            console.log(userId)
-            // redis.del(userId);
-            res.status(200).json({
-                success: true,
-                message: "Logged out successfully",
-            });
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
-        }
-    }
-);
+
 
 // update access token
 export const updateAccessToken = CatchAsyncError(
@@ -182,6 +162,8 @@ export const updateAccessToken = CatchAsyncError(
     }
 );
 
+
+
 // get user info
 export const getUserInfo = CatchAsyncError(
     async (req, res, next) => {
@@ -198,36 +180,8 @@ export const getUserInfo = CatchAsyncError(
 
 
 
-// update user info
-
-export const updateUserInfo = CatchAsyncError(
-    async (req, res, next) => {
-        try {
-            const { name } = req.body;
-
-            const userId = req.user?._id;
-            const user = await userModel.findById(userId);
-
-            if (name && user) {
-                user.name = name;
-            }
-
-            await user?.save();
-
-            await redis.set(userId, JSON.stringify(user));
-
-            res.status(201).json({
-                success: true,
-                user,
-            });
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
-        }
-    }
-);
 
 // update user password
-
 export const updatePassword = CatchAsyncError(
     async (req, res, next) => {
         try {
@@ -280,49 +234,3 @@ export const getAllUsers = CatchAsyncError(
     }
 );
 
-// update user role --- only for admin
-export const updateUserRole = CatchAsyncError(
-    async (req, res, next) => {
-        try {
-            const { email, role } = req.body;
-            const isUserExist = await userModel.findOne({ email });
-            if (isUserExist) {
-                const id = isUserExist._id;
-                updateUserRoleService(res, id, role);
-            } else {
-                res.status(400).json({
-                    success: false,
-                    message: "User not found",
-                });
-            }
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
-        }
-    }
-);
-
-// Delete user --- only for admin
-export const deleteUser = CatchAsyncError(
-    async (req, res, next) => {
-        try {
-            const { id } = req.params;
-
-            const user = await userModel.findById(id);
-
-            if (!user) {
-                return next(new ErrorHandler("User not found", 404));
-            }
-
-            await user.deleteOne({ id });
-
-            await redis.del(id);
-
-            res.status(200).json({
-                success: true,
-                message: "User deleted successfully",
-            });
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
-        }
-    }
-);

@@ -7,7 +7,7 @@ export const getUserById = async (id, res) => {
 
     if (userJson) {
         const user = JSON.parse(userJson);
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             user,
         });
@@ -23,13 +23,3 @@ export const getAllUsersService = async (res) => {
         users,
     });
 };
-
-// update user role
-export const updateUserRoleService = async (res, id, role) => {
-    const user = await userModel.findByIdAndUpdate(id, { role }, { new: true });
-
-    res.status(201).json({
-        success: true,
-        user,
-    });
-}

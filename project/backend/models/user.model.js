@@ -36,22 +36,21 @@ const userSchema = new mongoose.Schema(
             select: false,
         },
         avatar: {
-            public_id: String,
             url: String,
         },
         role: {
             type: String,
+            enum: ["user", "admin"],
             default: "user",
         },
-        // isVerified: {
-        //     type: Boolean,
-        //     default: true,
+        // profile: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Profile",
         // },
-        // courses: [
-        //     {
-        //         courseId: String,
-        //     },
-        // ],
+        tickets: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Ticket",
+        }],
     },
     { timestamps: true }
 );
@@ -67,14 +66,14 @@ userSchema.pre("save", async function (next) {
 
 // sign access token
 userSchema.methods.SignAccessToken = function () {
-    return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN || "", {
+    return jwt.sign({ id: this._id, role:this.role }, process.env.ACCESS_TOKEN || "", {
         expiresIn: "5m",
     });
 };
 
 // sign refresh token
 userSchema.methods.SignRefreshToken = function () {
-    return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN || "", {
+    return jwt.sign({ id: this._id, role:this.role }, process.env.REFRESH_TOKEN || "", {
         expiresIn: "3d",
     });
 };
