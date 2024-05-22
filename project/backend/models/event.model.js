@@ -45,6 +45,14 @@ const eventSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Ticket",
         }],
+        reviews: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review",
+        }],
+        ticketPrice: {
+            type: Number,
+            required: [true, "Please enter ticket price"],
+        },
         status: {
             type: String,
             enum: ["upcoming", "ongoing", "past", "canceled"],

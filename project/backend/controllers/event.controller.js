@@ -6,7 +6,9 @@ import {
     getEventsByUserId, getEventsByUser, getEventsSoldTickets, 
     getEventsAvailableTickets, getEventsByStatusOfParticularUser,
 } from "../services/event.service.js";
-import { eventValidator } from '../validators/event.validator.js';
+import { createEventValidator } from '../validators/event.validator.js';
+import { getReviewsByEventId } from '../services/review.service.js';
+
 
 
 
@@ -19,14 +21,16 @@ export const createEvent = CatchAsyncError(
         try {
 
             // ! apply validation on Event - CLEAN Architecture
-            eventValidator(req, next);
+            createEventValidator(req, next);
 
             const event = await createEvent(req.body);
             
             return res.status(201).json({
                 success: true,
                 message: "Event created successfully",
-                data:event,
+                data:{
+                    event
+                },
             });
 
         } catch (error) {
@@ -41,15 +45,26 @@ export const updateEvent = CatchAsyncError(
     async (req, res, next) => {
         try {
 
+            if(!req.body.eventId){
+                return next(new ErrorHandler("Event Id is required", 400));
+            }
+
+            const eventExists = await getEventById(req.body.eventId);
+            if(!eventExists){
+                return next(new ErrorHandler("Event not found", 400));
+            }
+
             // ! apply validation on Event - CLEAN Architecture
-            eventValidator(req, next);
+            updateEventValidator(req, next);
 
             const event = await updateEvent(req.body);
             
             return res.status(201).json({
                 success: true,
                 message: "Event updated successfully",
-                data:event,
+                data:{
+                    event
+                },
             });
 
         } catch (error) {
@@ -58,4 +73,63 @@ export const updateEvent = CatchAsyncError(
     }
 );
 
+// you have to improve the below function
+export const getAllEvents = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            const events = await getAllEvents("upcoming");
+            return res.status(200).json({
+                success: true,
+                data:{
+                    events
+                },
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
 
+// get all events user has created or get all events from particular user
+export const getEventsByUserId = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            const events = await getEventsByUserId(req.user.id);
+            return res.status(200).json({
+                success: true,
+                data:{
+                    events
+                },
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
+
+
+// get particular event
+export const getEvent = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            const event = await getEventById(req.params.eventId);
+
+            if(!event){
+                return next(new ErrorHandler("Event not found", 400));
+            }
+
+            const ticketsAvailable = await getEventsAvailableTickets(req.params.eventId);
+            const eventReviews = await getReviewsByEventId(req.params.eventId);
+            return res.status(200).json({
+                success: true,
+                data:{
+                        event,
+                        ticketsAvailable,
+                        eventReviews
+                    },
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
