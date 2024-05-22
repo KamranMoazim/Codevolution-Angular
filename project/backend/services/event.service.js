@@ -71,3 +71,87 @@ export const getPersonsWhoBoughtTicket = async (eventId) => {
     }
     return users;
 }
+
+// get top 15 events with most tickets sold along with their reviews 
+export const getTopEvents = async () => {
+    // const events = await eventModel.find()
+    //                                 .sort({ tickets: -1 })
+    //                                 .limit(15);
+    // return events;
+
+
+    // const events = await eventModel.aggregate([
+    //     {
+    //         $project: {
+    //             name: 1,
+    //             tickets: 1,
+    //             reviews: 1,
+    //             organizer: 1,
+    //             date: 1,
+    //             status: 1,
+    //             capacity: 1,
+    //             ticketPrice: 1,
+    //             totalTicketsSold: { $size: "$tickets" }
+    //         }
+    //     },
+    //     {
+    //         $sort: { totalTicketsSold: -1 }
+    //     },
+    //     {
+    //         $limit: 15
+    //     }
+    // ]);
+
+    // overall reviews rating should be calculated and greater than 3
+    // const events = await eventModel.aggregate([
+    //     {
+    //         $project: {
+    //             name: 1,
+    //             tickets: 1,
+    //             reviews: 1,
+    //             organizer: 1,
+    //             date: 1,
+    //             status: 1,
+    //             capacity: 1,
+    //             ticketPrice: 1,
+    //             totalTicketsSold: { $size: "$tickets" },
+    //             reviewsRating: { $avg: "$reviews.rating" }
+    //         }
+    //     },
+    //     {
+    //         $sort: { totalTicketsSold: -1 }
+    //     },
+    //     {
+    //         $limit: 15
+    //     }
+    // ]);
+
+    // overall reviews rating should be calculated and greater than 3
+    const events = await eventModel.aggregate([
+        {
+            $project: {
+                name: 1,
+                tickets: 1,
+                reviews: 1,
+                organizer: 1,
+                date: 1,
+                status: 1,
+                capacity: 1,
+                ticketPrice: 1,
+                totalTicketsSold: { $size: "$tickets" },
+                reviewsRating: { $avg: "$reviews.rating" }
+            }
+        },
+        {
+            $match: { reviewsRating: { $gte: 3 } }
+        },
+        {
+            $sort: { totalTicketsSold: -1 }
+        },
+        {
+            $limit: 15
+        }
+    ]);
+                    
+    return events;
+};

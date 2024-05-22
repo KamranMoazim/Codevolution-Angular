@@ -43,10 +43,10 @@ const userSchema = new mongoose.Schema(
             enum: ["user", "admin"],
             default: "user",
         },
-        // profile: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "Profile",
-        // },
+        profile: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Profile",
+        },
         tickets: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Ticket",
