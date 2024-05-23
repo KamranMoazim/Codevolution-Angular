@@ -63,12 +63,13 @@ export const getEventsByStatusOfParticularUser = async (userId, status) => {
 
 // get list of persons who have bought ticket for an event
 export const getPersonsWhoBoughtTicket = async (eventId) => {
-    const event = await eventModel.findById(eventId);
+    const event = await eventModel.findById(eventId).populate("tickets");
     const tickets = event.tickets;
     const users = [];
     for (let i = 0; i < tickets.length; i++) {
-        const user = await ticketModel.findById(tickets[i].userId);
-        users.push(user);
+        // console.log(tickets[i])
+        const user = await ticketModel.findById(tickets[i]).populate("user").select("user -_id");
+        users.push(user.get("user"));
     }
     return users;
 }
