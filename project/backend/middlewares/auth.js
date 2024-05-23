@@ -9,7 +9,7 @@ import { updateAccessToken } from "../controllers/user.controller.js";
 export const isAutheticated = CatchAsyncError(
     async (req, res, next) => {
         
-        // console.log(req)
+        console.log(req.cookies)
 
         const access_token = req.cookies.access_token;
 
@@ -22,11 +22,14 @@ export const isAutheticated = CatchAsyncError(
 
         const decoded = jwt.decode(access_token);
 
-        console.log(decoded)
-
+        // console.log("decoded")
+        // console.log(decoded)
+        
         if (!decoded) {
             return next(new ErrorHandler("access token is not valid", 400));
         }
+
+        // req.user = decoded;
 
         // check if the access token is expired
         if (decoded.exp && decoded.exp <= Date.now() / 1000) { // 1000ms = 1s

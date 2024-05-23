@@ -1,13 +1,9 @@
 import 'dotenv/config'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
-import { createEventReview, getReviewById } from '../services/review.service.js';
 import { createReviewValidator } from '../validators/review.validator.js';
-import { 
-    createEvent, getAllEvents, updateEvent, getEventById, 
-    getEventsByUserId, getEventsByUser, getEventsSoldTickets, 
-    getEventsAvailableTickets, getEventsByStatusOfParticularUser,
-} from "../services/event.service.js";
+import { createEventReview, getReviewByUserId } from '../services/review.service.js';
+import { getEventById } from "../services/event.service.js";
 
 
 
@@ -38,7 +34,7 @@ export const createReview = CatchAsyncError(
             }
 
             // check if user has already reviewed this event
-            const isAlreadyReviewed = await getReviewById(req.body.eventId);
+            const isAlreadyReviewed = await getReviewByUserId(req.body.userId);
 
             if(isAlreadyReviewed){
                 return next(new ErrorHandler("You have already reviewed this event", 400));

@@ -3,8 +3,8 @@ import reviewModel from "../models/review.model.js";
 
 
 // get review by id
-export const getReviewById = async (reviewId) => {
-    const review = await reviewModel.findById(reviewId);
+export const getReviewByUserId = async (userId) => {
+    const review = await reviewModel.findOne({ user: userId });
     return review;
 };
 

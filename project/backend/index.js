@@ -7,6 +7,9 @@ import connectDB from "./utils/database.js";
 import {ErrorMiddleware} from "./middlewares/error.js";
 
 import authRoutes from "./routes/user.route.js";
+import eventRoutes from "./routes/event.route.js";
+import reviewRoutes from "./routes/review.route.js";
+import ticketRoutes from "./routes/ticket.route.js";
 
 
 const app = express();
@@ -17,14 +20,24 @@ app.use(cors())
 connectDB();
 
 
-app.get("/", (req, res) => {
-    res.send("Hello World")
+app.get("/api/v1/", (req, res) => {
+    res.send({
+        success: true,
+        message: "Welcome to Event Management API",
+        data: {
+            name: "Event Management API",
+            version: "1.0.0",
+        },
+    })
 })
 
 // Routes
 app.use(
     "/api/v1",
-    authRoutes
+    authRoutes,
+    eventRoutes,
+    reviewRoutes,
+    ticketRoutes
 );
 
 // unknown route

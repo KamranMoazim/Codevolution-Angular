@@ -1,13 +1,7 @@
 import 'dotenv/config'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
-import { createEventReview, getReviewById } from '../services/review.service.js';
-import { createReviewValidator } from '../validators/review.validator.js';
-import { 
-    createEvent, getAllEvents, updateEvent, getEventById, 
-    getEventsByUserId, getEventsByUser, getEventsSoldTickets, 
-    getEventsAvailableTickets, getEventsByStatusOfParticularUser,
-} from "../services/event.service.js";
+import { getEventById } from "../services/event.service.js";
 import { purchaseTicket } from '../services/ticket.service.js';
 
 
@@ -26,6 +20,8 @@ export const buyEventTicket = CatchAsyncError(
                 return next(new ErrorHandler("Event not found", 400));
             }
 
+            // console.log(event)
+
             // check if tickets are available
             const ticketsAvailable = event.capacity - event.tickets.length;
 
@@ -35,7 +31,7 @@ export const buyEventTicket = CatchAsyncError(
 
             // check if user has already buyed ticket for this event
             const isTicketBuyed = event.tickets.find(
-                ticket => ticket.userId.toString() === req.body.userId.toString()
+                ticket => ticket.user.toString() === req.user._id.toString()
             );
 
             if(isTicketBuyed){
@@ -43,19 +39,18 @@ export const buyEventTicket = CatchAsyncError(
             }
 
             const ticketData = {
-                userId: req.body.userId,
-                eventId: req.body.eventId,
-                ticketPrice: event.ticketPrice,
+                user: req.user._id,
+                event: req.body.eventId,
+                price: event.ticketPrice,
             };
 
-            const boughtTicket = purchaseTicket(ticketData);
+            const boughtTicket = await purchaseTicket(ticketData);
+
+            // console.log(boughtTicket)
 
             return res.status(201).json({
                 success: true,
-                message: "Ticket bought successfully",
-                data:{
-                    boughtTicket
-                },
+                message: "Ticket bought successfully"
             });
 
         } catch (error) {

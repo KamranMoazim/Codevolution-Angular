@@ -42,7 +42,9 @@ export const sendToken = (user, statusCode, res) => {
     res.status(statusCode).json({
         success: true,
         message: "Logged in successfully",
-        user,
-        accessToken,
+        data:{
+            user,
+            accessToken,
+        }
     });
 };

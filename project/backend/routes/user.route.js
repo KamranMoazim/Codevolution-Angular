@@ -1,19 +1,20 @@
 import express from "express";
 import {
     // activateUser,
-    deleteUser,
+    // deleteUser,
     getAllUsers,
     getUserInfo,
     loginUser,
-    logoutUser,
+    // logoutUser,
     registrationUser,
     // socialAuth,
     updatePassword,
     // updateProfilePicture,
-    updateUserInfo,
-    updateUserRole,
+    // updateUserInfo,
+    // updateUserRole,
 } from "../controllers/user.controller.js";
 import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
+import { getEventsByUserIdController } from "../controllers/event.controller.js";
 const userRouter = express.Router();
 
 userRouter.post("/register", registrationUser);
@@ -23,6 +24,8 @@ userRouter.post("/login", loginUser);
 // userRouter.post("/logout", isAutheticated, logoutUser);
 
 userRouter.get("/me", isAutheticated, getUserInfo);
+
+userRouter.get("/user/events", getEventsByUserIdController);
 
 // // userRouter.post("/social-auth", socialAuth);
 

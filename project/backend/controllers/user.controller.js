@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 // import path from "path";
 // import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt.js";
-// import { redis } from "../utils/redis";
 import { getAllUsersService, getUserById } from "../services/user.service.js";
 
 
