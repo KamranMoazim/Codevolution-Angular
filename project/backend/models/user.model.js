@@ -35,9 +35,6 @@ const userSchema = new mongoose.Schema(
             },
             select: false,
         },
-        avatar: {
-            url: String,
-        },
         role: {
             type: String,
             enum: ["user", "admin"],
@@ -61,6 +58,15 @@ userSchema.pre("save", async function (next) {
         next();
     }
     this.password = await bcrypt.hash(this.password, 10);
+    next();
+});
+
+// create profile for user
+userSchema.post("save", async function (doc, next) {
+    if (!doc.profile) {
+        const ProfileModel = mongoose.model("Profile");
+        await ProfileModel.create({ user: doc._id, bio: "Hello, I am new here", followers: [] });
+    }
     next();
 });
 
