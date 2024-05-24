@@ -127,11 +127,12 @@ export const generateFakeReviews = (count, events, users) => {
 // const reviews = generateFakeReviews(100, events, regularUsers);
 
 
-const { adminUsers, regularUsers } = generateFakeUsers(20);
+const { adminUsers, regularUsers } = generateFakeUsers(200);
 const organizers = adminUsers.map(user => user._id);
 const events = generateFakeEvents(50, organizers);
-const tickets = generateFakeTickets(100, events, regularUsers);
+const tickets = generateFakeTickets(150, events, regularUsers);
 const reviews = generateFakeReviews(100, events, regularUsers);
+
 
 let newUsers = [];
 let newEvents = [];
@@ -143,17 +144,27 @@ userModel.insertMany(adminUsers.concat(regularUsers))
         console.log(`${users.length} users have been inserted into the database.`);
         // return eventModel.insertMany(events);
 
+
+        // take a list of admin user
+        let newCreatedAdmins = [];
         for(const user of users) {
-            newUsers.push(user);
+            if(user.role === "admin"){
+                newCreatedAdmins.push(user)
+            } else {
+                newUsers.push(user);
+            }
         }
+
 
         // let newEvents = [];
         for (const event of events) {
-            event.organizer = users[Math.floor(Math.random() * users.length)]._id;
+            // event.organizer = users[Math.floor(Math.random() * users.length)]._id;
+            event.organizer = newCreatedAdmins[Math.floor(Math.random() * newCreatedAdmins.length)]._id;
             // createEvent(event);
-            newEvents.push(createEvent(event));
+            // newEvents.push(createEvent(event));
         }
-        return Promise.all(newEvents);
+        // return Promise.all(newEvents);
+        return eventModel.insertMany(events);
     })
     .then(events => {
         console.log(`${events.length} events have been inserted into the database.`);
@@ -161,6 +172,11 @@ userModel.insertMany(adminUsers.concat(regularUsers))
         // for (const ticket of tickets) {
         //     purchaseTicket(ticket);
         // }
+
+        for(const event of events) {
+            // console.log(event)
+            newEvents.push(event);
+        }
 
         // let newTickets = [];
         for (const ticket of tickets) {
@@ -177,6 +193,12 @@ userModel.insertMany(adminUsers.concat(regularUsers))
         // for (const review of reviews) {
         //     createEventReview(review);
         // }
+
+        console.log("==================================================================================")
+        console.log(newEvents[0])
+        console.log(newEvents.length)
+
+
 
         // let newReviews = [];
         for (const review of reviews) {

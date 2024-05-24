@@ -10,6 +10,7 @@ export const getReviewByUserId = async (userId) => {
 
 // review event
 export const createEventReview = async (reviewData) => {
+    // console.log(reviewData)
     const review = await reviewModel.create(reviewData);
     return review;
 };
