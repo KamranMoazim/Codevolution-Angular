@@ -2,7 +2,7 @@ import express from "express";
 import {
     createEventController, getAllEventsController, updateEventController, getEventController, 
     getEventsByUserIdController, getPersonsWhoBoughtTicketController, getTopEventsController
-    ,
+    ,test
 } from "../controllers/event.controller.js";
 import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 
@@ -10,6 +10,8 @@ import { addingTempUser } from "../middlewares/temp.js";
 
 const eventRouter = express.Router();
 
+
+eventRouter.get("/event/test", addingTempUser, test);
 
 eventRouter.get("/event/analytics/:id", addingTempUser, getEventsByUserIdController);
 eventRouter.get("/event/analytics/event/:id", addingTempUser, getEventsByUserIdController);

@@ -62,13 +62,13 @@ userSchema.pre("save", async function (next) {
 });
 
 // create profile for user
-userSchema.post("save", async function (doc, next) {
-    if (!doc.profile) {
-        const ProfileModel = mongoose.model("Profile");
-        await ProfileModel.create({ user: doc._id, bio: "Hello, I am new here", followers: [] });
-    }
-    next();
-});
+// userSchema.post("save", async function (doc, next) {
+//     if (!doc.profile) {
+//         const ProfileModel = mongoose.model("Profile");
+//         await ProfileModel.create({ user: doc._id, bio: "Hello, I am new here", followers: [] });
+//     }
+//     next();
+// });
 
 // sign access token
 userSchema.methods.SignAccessToken = function () {

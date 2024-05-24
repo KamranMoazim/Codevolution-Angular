@@ -1,5 +1,6 @@
 // import { redis } from "../utils/redis";
 import reviewModel from "../models/review.model.js";
+import eventModel from "../models/event.model.js";
 
 
 // get review by id
@@ -12,6 +13,13 @@ export const getReviewByUserId = async (userId) => {
 export const createEventReview = async (reviewData) => {
     // console.log(reviewData)
     const review = await reviewModel.create(reviewData);
+
+    // add review to event
+    await eventModel.findByIdAndUpdate(reviewData.event,
+        { $push: { reviews: review._id } },
+        { new: true }
+    );
+
     return review;
 };
 

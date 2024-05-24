@@ -9,7 +9,9 @@ import {
     getEventsByUserId, 
     getEventsAvailableTickets, 
     getPersonsWhoBoughtTicket,
-    getTopEvents
+    getTopEvents,
+    countEventsByStatus,
+    getEventsWithHighestRatings
 } from "../services/event.service.js";
 import { createEventValidator, updateEventValidator } from '../validators/event.validator.js';
 import { getReviewsByEventId } from '../services/review.service.js';
@@ -160,7 +162,7 @@ export const getPersonsWhoBoughtTicketController = CatchAsyncError(
                 return next(new ErrorHandler("Event not found", 400));
             }
 
-            console.log(eventExists)
+            // console.log(eventExists)
 
             const persons = await getPersonsWhoBoughtTicket(req.params.id);
             return res.status(200).json({
@@ -201,9 +203,8 @@ export const test = CatchAsyncError(
             return res.status(200).json({
                 success: true,
                 message: "Test route",
-                data:{
-                    data: getPersonsWhoBoughtTicket("60f3b3b3b3b3b3b3b3b3b3b3")
-                },
+                // data: await countEventsByStatus("665081fd39cd680e538d70f9")
+                data: await getEventsWithHighestRatings()
             });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));
