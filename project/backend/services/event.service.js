@@ -1,4 +1,5 @@
 // import { redis } from "../utils/redis";
+import mongoose from "mongoose";
 import eventModel from "../models/event.model.js";
 import ticketModel from "../models/ticket.model.js";
 
@@ -98,29 +99,35 @@ export const getPersonsWhoBoughtTicket = async (eventId) => {
     // }
     // return users;
 
+    console.log(eventId)
+
+    const objEventId = new mongoose.Types.ObjectId(eventId);
+
     // use aggregate
     const tickets = await ticketModel.aggregate([
         {
-            $match: { event: eventId }
+            // $match: { event: eventId }
+            $match: {event: objEventId}
         },
         {
             $lookup: {
-                from: "users",
+                from: "user",
                 localField: "user",
                 foreignField: "_id",
                 as: "user"
             }
         },
-        {
-            $unwind: "$user"
-        },
-        {
-            $project: {
-                _id: 0,
-                user: 1
-            }
-        }
+        // {
+        //     $unwind: "$user"
+        // },
+        // {
+        //     $project: {
+        //         _id: 0,
+        //         user: 1
+        //     }
+        // }
     ]);
+    console.log(tickets)
     return tickets;
 }
 

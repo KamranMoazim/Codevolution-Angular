@@ -160,6 +160,8 @@ export const getPersonsWhoBoughtTicketController = CatchAsyncError(
                 return next(new ErrorHandler("Event not found", 400));
             }
 
+            console.log(eventExists)
+
             const persons = await getPersonsWhoBoughtTicket(req.params.id);
             return res.status(200).json({
                 success: true,
