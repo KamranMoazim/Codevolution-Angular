@@ -19,7 +19,8 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Connect to MongoDB
-connectDB();
+const dbUrl = process.env.MONGODB_URL || '';
+connectDB(dbUrl);
 
 
 app.get("/api/v1/", (req, res) => {

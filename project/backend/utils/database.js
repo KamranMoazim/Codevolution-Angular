@@ -3,7 +3,7 @@ import 'dotenv/config'
 
 const dbUrl = process.env.MONGODB_URL || '';
 
-const connectDB = async () => {
+const connectDB = async (dbUrl) => {
     try {
         await mongoose.connect(dbUrl).then((data) => {
             console.log(`Database connected with ${data.connection.host}`)

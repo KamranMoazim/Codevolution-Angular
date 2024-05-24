@@ -191,3 +191,20 @@ export const getTopEventsController = CatchAsyncError(
         }
     }
 );
+
+
+export const test = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            return res.status(200).json({
+                success: true,
+                message: "Test route",
+                data:{
+                    data: getPersonsWhoBoughtTicket("60f3b3b3b3b3b3b3b3b3b3b3")
+                },
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
