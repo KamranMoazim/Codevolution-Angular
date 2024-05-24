@@ -2,7 +2,7 @@ import 'dotenv/config'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
 import { 
-    addFollower, getMyProfile, getProfileById, updateProfile,
+    addFollower, getMyProfile, getProfileByUserId, updateProfile,
     removeFollower
 } from "../services/profile.service.js";
 
@@ -12,24 +12,17 @@ import {
 
 
 
-// getting my profile
-export const getMyProfileController = CatchAsyncError(async (req, res, next) => {
-    const profile = await getMyProfile(req.user._id);
-    res.status(200).json({
-        success: true,
-        profile
-    });
-});
+
 
 // getting profile by id
-export const getProfileByIdController = CatchAsyncError(async (req, res, next) => {
-    const profile = await getProfileById(req.params.id);
+export const getProfileByUserIdController = CatchAsyncError(async (req, res, next) => {
+    const profile = await getProfileByUserId(req.params.id);
     if (!profile) {
         return next(new ErrorHandler("Profile not found", 404));
     }
     res.status(200).json({
         success: true,
-        profile
+        data:{profile}
     });
 });
 
@@ -51,7 +44,8 @@ export const addFollowerController = CatchAsyncError(async (req, res, next) => {
     const profile = await addFollower(req.params.id, req.user._id);
     res.status(200).json({
         success: true,
-        profile
+        message: "Followed Successfully",
+        data:{profile}
     });
 });
 
@@ -60,6 +54,7 @@ export const removeFollowerController = CatchAsyncError(async (req, res, next) =
     const profile = await removeFollower(req.params.id, req.user._id);
     res.status(200).json({
         success: true,
-        profile
+        message: "Unfollowed Successfully",
+        data:{profile}
     });
 });

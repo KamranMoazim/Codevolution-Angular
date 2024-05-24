@@ -1,6 +1,6 @@
 import express from "express";
 import {
-    addFollowerController, getMyProfileController, getProfileByIdController, updateProfileController
+    addFollowerController, getProfileByUserIdController, updateProfileController
 } from "../controllers/profile.controller.js";
 import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 
@@ -9,8 +9,8 @@ import { addingTempUser } from "../middlewares/temp.js";
 const profileRouter = express.Router();
 
 
-profileRouter.get("/profile/:id", getProfileByIdController);
-profileRouter.get("/profile/me", addingTempUser, getMyProfileController);
+profileRouter.get("/profile/:id", getProfileByUserIdController);
+// profileRouter.get("/profile/me", addingTempUser, getMyProfileController);
 
 profileRouter.put("/profile/:id", addingTempUser, updateProfileController);
 

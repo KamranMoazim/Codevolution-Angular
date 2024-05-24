@@ -3,6 +3,7 @@ import {
     // activateUser,
     // deleteUser,
     getAllUsers,
+    getMyProfileController,
     getUserInfo,
     loginUser,
     // logoutUser,
@@ -15,6 +16,7 @@ import {
 } from "../controllers/user.controller.js";
 import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 import { getEventsByUserIdController } from "../controllers/event.controller.js";
+import { addingTempUser } from "../middlewares/temp.js";
 const userRouter = express.Router();
 
 userRouter.post("/register", registrationUser);
@@ -23,7 +25,8 @@ userRouter.post("/login", loginUser);
 
 // userRouter.post("/logout", isAutheticated, logoutUser);
 
-userRouter.get("/me", isAutheticated, getUserInfo);
+// userRouter.get("/me", addingTempUser, getUserInfo);
+userRouter.get("/me", addingTempUser, getMyProfileController);
 
 userRouter.get("/user/events", getEventsByUserIdController);
 

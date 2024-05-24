@@ -9,15 +9,15 @@ export const getMyProfile = async (userId) => {
 }
 
 // getting profile by id
-export const getProfileById = async (profileId) => {
-    let profile = await profileModel.findById(profileId);
+export const getProfileByUserId = async (userId) => {
+    let profile = await profileModel.findOne({ user: userId });
 
-    // if (!profile) {
-    //     // create new profile
-    //     profile = await profileModel.create({ user: profileId, bio: "Hello, I am new here", followers: [] });
-    //     // update user profile
-    //     await userModel.findOne({ _id: profileId }).updateOne({ profile: profile._id });
-    // }
+    if (!profile) {
+        // create new profile
+        profile = await profileModel.create({ user: userId, bio: "Hello, I am new here", followers: [] });
+        // update user profile
+        await userModel.findOne({ _id: userId }).updateOne({ profile: profile._id });
+    }
 
     return profile;
 }

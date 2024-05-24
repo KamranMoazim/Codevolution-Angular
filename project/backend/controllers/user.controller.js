@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 // import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt.js";
 import { getAllUsersService, getUserById } from "../services/user.service.js";
+import { getMyProfile } from '../services/profile.service.js';
 
 
 
@@ -167,14 +168,30 @@ export const updateAccessToken = CatchAsyncError(
 export const getUserInfo = CatchAsyncError(
     async (req, res, next) => {
         try {
-            const userId = req.user?._id;
-            getUserById(userId, res);
+            // const userId = req.user?._id;
+            // getUserById(userId, res);
+            res.status(200).json({
+                success: true,
+                data:{
+                    user: req.user
+                },
+            });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));
         }
     }
 );
 
+// getting my profile
+export const getMyProfileController = CatchAsyncError(async (req, res, next) => {
+    const profile = await getMyProfile(req.user._id);
+    res.status(200).json({
+        success: true,
+        data:{
+            profile
+        }
+    });
+});
 
 
 
