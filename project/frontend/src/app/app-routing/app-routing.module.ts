@@ -4,12 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { Role } from '../enums/role';
 import { hasRoleGuard } from '../guards/has-role.guard';
 
-import { HomeComponent } from '../components/home/home.component';
+// import { HomeComponent } from '../components/home/home.component';
 import { AdminComponent } from '../components/admin/admin.component';
 import { UnauthorizedComponent } from '../components/unauthorized/unauthorized.component';
 import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
+
 import { RegisterComponent } from '../pages/register/register.component';
 import { LoginComponent } from '../pages/login/login.component';
+import { HomeComponent } from '../pages/home/home.component';
+import { AllEventsComponent } from '../pages/all-events/all-events.component';
 
 
 
@@ -80,6 +83,7 @@ const routes: Routes = [
     }
   },
 
+  { path: 'events', component: AllEventsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
 

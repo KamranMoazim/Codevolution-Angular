@@ -12,3 +12,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .full-width-input {
   width: 100%;
 }
+
+.internal-margin {
+  margin: 16px; /* Adjust the margin value as needed */
+}

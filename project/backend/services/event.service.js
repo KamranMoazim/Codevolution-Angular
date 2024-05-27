@@ -454,15 +454,17 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
         matchStage.$or = [
             { title: { $regex: search, $options: 'i' } },
             { description: { $regex: search, $options: 'i' } },
+            { location: { $regex: search, $options: 'i' } },
+            { category: { $regex: search, $options: 'i' } },
         ];
     }
 
     if (filters.ticketPrice) {
         matchStage.ticketPrice = { $gte: filters.ticketPrice.min, $lte: filters.ticketPrice.max };
     }
-    if (filters.category) {
-        matchStage.category = filters.category;
-    }
+    // if (filters.category) {
+    //     matchStage.category = filters.category;
+    // }
     if (filters.status) {
         matchStage.status = filters.status;
     }
@@ -476,9 +478,9 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
     if (filters.endTime) {
         matchStage.endTime = { $lte: filters.endTime };
     }
-    if (filters.location) {
-        matchStage.location = { $regex: filters.location, $options: 'i' };
-    }
+    // if (filters.location) {
+    //     matchStage.location = { $regex: filters.location, $options: 'i' };
+    // }
     // if (filters.reviews) {
     //     matchStage.reviews = { $size: { $gte: filters.reviews.min, $lte: filters.reviews.max } };
     // }

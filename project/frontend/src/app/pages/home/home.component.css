@@ -1,0 +1,18 @@
+.section-image {
+  max-width: 50%; /* Ensures the image does not exceed the width of its container */
+  height: auto; /* Allows the image to maintain its aspect ratio */
+}
+
+.section-text {
+  max-width: 600px; /* Limit the maximum width of the text for better readability */
+  font-size: 1.2em; /* Increase the font size for better readability */
+  line-height: 1.6; /* Increase the line height for better spacing between lines */
+  margin: 20px; /* Add margin for spacing between text sections */
+}
+
+.text-title {
+  font-size: 3em;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.6;
+}

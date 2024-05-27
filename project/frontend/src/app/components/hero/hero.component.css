@@ -1,0 +1,26 @@
+.hero-container {
+  height: 100vh; /* Full viewport height */
+  background: url('../../../assets/amazon.png') no-repeat center center/cover;
+  color: white;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero-title {
+  font-size: 3em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.hero-subtitle {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+button {
+  font-size: 1.2em;
+}
