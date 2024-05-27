@@ -55,7 +55,7 @@ const eventSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["upcoming", "ongoing", "past", "canceled"],
+            enum: ["upcoming", "ongoing", "past"],
             default: "upcoming",
         },
         // sould be list of image urls

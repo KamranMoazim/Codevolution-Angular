@@ -2,7 +2,8 @@ import express from "express";
 import {
     createEventController, getAllEventsController, updateEventController, getEventController, 
     getEventsByUserIdController, getPersonsWhoBoughtTicketController, getTopEventsController
-    ,test
+    ,test,
+    searchEventsController, fetchEventsController
 } from "../controllers/event.controller.js";
 import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 
@@ -17,11 +18,15 @@ eventRouter.get("/event/analytics/:id", addingTempUser, getEventsByUserIdControl
 eventRouter.get("/event/analytics/event/:id", addingTempUser, getEventsByUserIdController);
 
 
+// eventRouter.get("/event/search", searchEventsController);
 eventRouter.get("/event/top", getTopEventsController);
+eventRouter.get("/event/admin-posted-events", getTopEventsController);
+eventRouter.get("/event/my-events", getTopEventsController);
 
 eventRouter.get("/event/:id/persons", getPersonsWhoBoughtTicketController);
 eventRouter.get("/event/:id", getEventController);
-eventRouter.get("/event", getAllEventsController);
+// eventRouter.get("/event", getAllEventsController);
+eventRouter.get("/event", fetchEventsController);
 eventRouter.post("/event", addingTempUser, createEventController);
 eventRouter.put("/event/:id", addingTempUser, updateEventController); 
 

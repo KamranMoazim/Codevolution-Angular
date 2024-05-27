@@ -47,7 +47,7 @@ export const generateFakeUsers = (count) => {
 export const generateFakeEvents = (count, organizers) => {
     const events = [];
 
-    const statusOptions = ["upcoming", "ongoing", "past", "canceled"];
+    const statusOptions = ["upcoming", "ongoing", "past"];
 
     for (let i = 0; i < count; i++) {
         const event = {

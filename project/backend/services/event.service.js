@@ -18,14 +18,71 @@ export const getAllEvents = async (status) => {
 // get event by id
 export const getEventById = async (eventId) => {
     // console.log(eventId)
-    const event = await eventModel.findById(eventId).populate("tickets");
-    return event;
+    // const event = await eventModel.findById(eventId).populate("organizer").populate("reviews").exec();
+    // return event;
+
+    const event = await eventModel.aggregate([
+        {
+            $match: { _id: mongoose.Types.ObjectId.createFromHexString(eventId) }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "organizer",
+                foreignField: "_id",
+                as: "organizer"
+            }
+        },
+        {
+            $unwind: "$organizer"
+        },
+        {
+            $lookup: {
+                from: "reviews",
+                localField: "_id",
+                foreignField: "event",
+                as: "reviews"
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                name: 1,
+                description: 1,
+                date: 1,
+                startTime: 1,
+                endTime: 1,
+                location: 1,
+                organizer: 1,
+                capacity: 1,
+                category: 1,
+                tickets: 1,
+                reviews: 1,
+                ticketPrice: 1,
+                status: 1,
+                media: 1
+            }
+        }
+    ]);
+
+    return event[0];
 };
 
 // get all events particular user has created
 export const getEventsByUserId = async (userId) => {
-    const events = await eventModel.find({ organizer: userId })
-                                    .sort({ date: -1 });
+    // const events = await eventModel.find({ organizer: userId })
+    //                                 .sort({ date: -1 });
+    // return events;
+
+    const events = await eventModel.aggregate([
+        {
+            $match: { organizer: mongoose.Types.ObjectId.createFromHexString(userId) }
+        },
+        {
+            $sort: { date: -1 }
+        }
+    ]);
+
     return events;
 };
 
@@ -335,28 +392,144 @@ export const getEventsWithHighestRatings = async () => {
 };
 
 // aggregation calculates the total revenue generated from ticket sales for each event.
-export const getRevenueGenerated = async (organizerId) => {
+export const getTotalRevenueGenerated = async (organizerId) => {
 
     const objOrganizerId = mongoose.Types.ObjectId.createFromHexString(organizerId);
 
-    const events = await eventModel.aggregate([
+    const totalRevenueGenerated = await eventModel.aggregate([
+        {
+            $match: { organizer: objOrganizerId }
+        },
         {
             $project: {
-                name: 1,
-                tickets: 1,
-                organizer: 1,
-                date: 1,
+                // _id: 1,
+                // name: 1,
+                // tickets: 1,
+                // organizer: 1,
+                // date: 1,
                 status: 1,
-                capacity: 1,
+                // capacity: 1,
                 ticketPrice: 1,
                 totalTicketsSold: { $size: "$tickets" }
             }
         },
         {
+            status: "past"
+        },
+        {
             $addFields: {
                 revenue: { $multiply: ["$totalTicketsSold", "$ticketPrice"] }
             }
+        },
+        {
+            // sum of revenue
+            $group: {
+                _id: null, // group all documents
+                totalRevenue: { $sum: "$revenue" }
+            }
         }
     ]);
-    return events;
+    return totalRevenueGenerated;
 }
+
+
+// search events name or description
+export const searchEvents = async (query) => {
+    const events = await eventModel.find({
+        $or: [
+            { title: { $regex: query, $options: "i" } },
+            { description: { $regex: query, $options: "i" } }
+        ]
+    });
+    return events;
+};
+
+
+// get all events
+export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 'date', sortOrder = 'asc', filters = {} } = {}) => {
+
+    const matchStage = {};
+
+    if (search) {
+        matchStage.$or = [
+            { title: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } },
+        ];
+    }
+
+    if (filters.ticketPrice) {
+        matchStage.ticketPrice = { $gte: filters.ticketPrice.min, $lte: filters.ticketPrice.max };
+    }
+    if (filters.category) {
+        matchStage.category = filters.category;
+    }
+    if (filters.status) {
+        matchStage.status = filters.status;
+    }
+    if (filters.date) {
+        // matchStage.date = { $gte: new Date(filters.date.start), $lte: new Date(filters.date.end) };
+        matchStage.date = { $eq: new Date(filters.date) };
+    }
+    if (filters.startTime) {
+        matchStage.startTime = { $gte: filters.startTime };
+    }
+    if (filters.endTime) {
+        matchStage.endTime = { $lte: filters.endTime };
+    }
+    if (filters.location) {
+        matchStage.location = { $regex: filters.location, $options: 'i' };
+    }
+    // if (filters.reviews) {
+    //     matchStage.reviews = { $size: { $gte: filters.reviews.min, $lte: filters.reviews.max } };
+    // }
+
+    const sortOrderValue = sortOrder === 'asc' ? 1 : -1;
+
+    const aggregationPipeline = [
+        { $match: matchStage },
+        {
+            $lookup: {
+                from: 'reviews', // Name of the reviews collection
+                localField: '_id',
+                foreignField: 'event',
+                as: 'reviews',
+            },
+        },
+        {
+            $addFields: {
+                averageRating: { $avg: '$reviews.rating' }
+            }
+        }
+    ];
+    // Add the rating filter
+    if (filters.reviews) {
+        aggregationPipeline.push({
+            $match: {
+                averageRating: { $gte: filters.reviews.min, $lte: filters.reviews.max }
+            }
+        });
+    }
+
+    // const events = await EventModel.aggregate([
+    //     { $match: matchStage },
+    //     { $sort: { [sortBy]: sortOrderValue } },
+    //     { $skip: (page - 1) * limit },
+    //     { $limit: limit }
+    // ]);
+
+    aggregationPipeline.push(
+        { $sort: { [sortBy]: sortOrderValue } },
+        { $skip: (page - 1) * limit },
+        { $limit: limit }
+    );
+
+    const events = await EventModel.aggregate(aggregationPipeline);
+
+
+    // return events;
+    return {
+        events,
+        page,
+        pages: Math.ceil(events.length / limit)
+    }
+};

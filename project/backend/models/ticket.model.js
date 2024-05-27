@@ -23,7 +23,7 @@ const ticketSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["purchased", "canceled"],
+            enum: ["purchased"],
             default: "purchased",
         },
     },

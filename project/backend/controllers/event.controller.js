@@ -11,7 +11,8 @@ import {
     getPersonsWhoBoughtTicket,
     getTopEvents,
     countEventsByStatus,
-    getEventsWithHighestRatings
+    getEventsWithHighestRatings,
+    fetchEvents
 } from "../services/event.service.js";
 import { createEventValidator, updateEventValidator } from '../validators/event.validator.js';
 import { getReviewsByEventId } from '../services/review.service.js';
@@ -134,14 +135,14 @@ export const getEventController = CatchAsyncError(
                 return next(new ErrorHandler("Event not found", 400));
             }
 
-            const ticketsAvailable = await getEventsAvailableTickets(req.params.id);
-            const eventReviews = await getReviewsByEventId(req.params.id);
+            // const ticketsAvailable = await getEventsAvailableTickets(req.params.id);
+            // const eventReviews = await getReviewsByEventId(req.params.id);
             return res.status(200).json({
                 success: true,
                 data:{
                         event,
-                        ticketsAvailable,
-                        eventReviews
+                        // ticketsAvailable,
+                        // eventReviews
                     },
             });
         } catch (error) {
@@ -197,6 +198,24 @@ export const getTopEventsController = CatchAsyncError(
 );
 
 
+// search events name or description
+export const searchEventsController = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            const events = await searchEvents(req.query.q);
+            return res.status(200).json({
+                success: true,
+                data:{
+                    events
+                },
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+); 
+
+
 export const test = CatchAsyncError(
     async (req, res, next) => {
         try {
@@ -204,7 +223,82 @@ export const test = CatchAsyncError(
                 success: true,
                 message: "Test route",
                 // data: await countEventsByStatus("665081fd39cd680e538d70f9")
-                data: await getEventsWithHighestRatings()
+                // data: await getEventsWithHighestRatings()
+                data: await fetchEvents()
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
+
+
+
+export const fetchEventsController = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            const {
+                search = '',
+                page = 1,
+                limit = 15,
+                sortBy = 'date',
+                sortOrder = 'asc',
+                minPrice,
+                maxPrice,
+                category,
+                date,
+                startTime,
+                endTime,
+                location,
+                minReviews,
+                maxReviews
+            } = req.query;
+
+            const filters = {};
+
+            if (minPrice !== undefined && maxPrice !== undefined) {
+                filters.ticketPrice = { min: Number(minPrice), max: Number(maxPrice) };
+            }
+
+            if (category !== undefined) {
+                filters.category = category;
+            }
+
+            if (startDate !== undefined) {
+                filters.date = date;
+            }
+
+            if (startTime !== undefined) {
+                filters.startTime = startTime;
+            }
+
+            if (endTime !== undefined) {
+                filters.endTime = endTime;
+            }
+
+            if (location !== undefined) {
+                filters.location = location;
+            }
+
+            if (minReviews !== undefined && maxReviews !== undefined) {
+                filters.reviews = { min: Number(minReviews), max: Number(maxReviews) };
+            }
+
+            const options = {
+                search,
+                page: Number(page),
+                limit: Number(limit),
+                sortBy,
+                sortOrder,
+                filters,
+            };
+
+            const events = await fetchEvents(options);
+
+            return res.status(200).json({
+                success: true,
+                message: "Fetched events successfully",
+                data: events
             });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));
