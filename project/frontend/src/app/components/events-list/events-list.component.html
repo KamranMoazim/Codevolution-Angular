@@ -15,7 +15,14 @@
 
 
 
-<app-generic-pagination [items]="items" [template]="itemTemplate" [pageSizeOptions]="[5, 10, 20]" [pageSize]="10">
+<app-generic-pagination
+  [items]="items"
+  [template]="itemTemplate"
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="pageSize"
+  [length]="length"
+  (pageChange)="handlePageChange($event)"
+>
 </app-generic-pagination>
 
 

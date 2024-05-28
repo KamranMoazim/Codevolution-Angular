@@ -1,33 +1,17 @@
-<!-- <mat-paginator #paginator
-              class="demo-paginator"
-              (page)="handlePageEvent($event)"
-              [length]="length"
-              [pageSize]="pageSize"
-              [disabled]="disabled"
-              [showFirstLastButtons]="showFirstLastButtons"
-              [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-              [hidePageSize]="hidePageSize"
-              [pageIndex]="pageIndex"
-              aria-label="Select page">
-
-</mat-paginator>
-
-<p>generic-pagination works!</p> -->
-
 
 <div>
-  <ng-container *ngFor="let item of paginatedItems">
+  <mat-paginator
+  [length]="length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="pageIndex"
+  [showFirstLastButtons]="showFirstLastButtons"
+  (page)="handlePageEvent($event)">
+  </mat-paginator>
+
+  <ng-container *ngFor="let item of items">
     <!-- {{ item | json }} -->
     <!-- <ng-content [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: item }"></ng-content> -->
     <ng-container *ngTemplateOutlet="template; context: { $implicit: item }"></ng-container>
   </ng-container>
-
-  <mat-paginator
-    [length]="length"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    [pageIndex]="pageIndex"
-    [showFirstLastButtons]="showFirstLastButtons"
-    (page)="handlePageEvent($event)">
-  </mat-paginator>
 </div>

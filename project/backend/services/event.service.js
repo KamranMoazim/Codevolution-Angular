@@ -8,10 +8,10 @@ import ticketModel from "../models/ticket.model.js";
 // get all events
 export const getAllEvents = async (status) => {
     const events = await eventModel.find({
-                                        status,
-                                        date: { $gte: new Date() }
-                                    })
-                                    .sort({ date: -1 });
+        status,
+        date: { $gte: new Date() }
+    })
+        .sort({ date: -1 });
     return events;
 };
 
@@ -95,7 +95,7 @@ export const createEvent = async (event) => {
 // update event
 export const updateEvent = async (event) => {
     const updateEvent = await eventModel.findOne({ _id: event.id })
-                                        .updateOne(event);
+        .updateOne(event);
     return updateEvent;
 };
 
@@ -163,7 +163,7 @@ export const getPersonsWhoBoughtTicket = async (eventId) => {
     // use aggregate
     const tickets = await ticketModel.aggregate([
         {
-            $match: {event: objEventId},
+            $match: { event: objEventId },
         },
         {
             $lookup: {
@@ -542,3 +542,57 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
         pages: Math.ceil(events.length / limit)
     }
 };
+
+
+const averageRating = async () => {
+    return await eventModel.aggregate([
+        { $unwind: "$reviews" },
+        {
+            $lookup: {
+                from: "reviews",
+                localField: "reviews",
+                foreignField: "_id",
+                as: "reviewDetails"
+            }
+        },
+        { $unwind: "$reviewDetails" },
+        {
+            $group: {
+                _id: "$_id",
+                averageRating: { $avg: "$reviewDetails.rating" }
+            }
+        }
+    ]);
+}
+
+
+// Pseudocode for sentiment analysis
+const sentimentAnalysis = async () => {
+    return await eventModel.aggregate([
+        { $unwind: "$reviews" },
+        {
+            $lookup: {
+                from: "reviews",
+                localField: "reviews",
+                foreignField: "_id",
+                as: "reviewDetails"
+            }
+        },
+        { $unwind: "$reviewDetails" },
+        {
+            $group: {
+                _id: "$_id",
+                positiveReviews: { $sum: { $cond: [{ $gt: ["$reviewDetails.rating", 3] }, 1, 0] } },
+                neutralReviews: { $sum: { $cond: [{ $eq: ["$reviewDetails.rating", 3] }, 1, 0] } },
+                negativeReviews: { $sum: { $cond: [{ $lt: ["$reviewDetails.rating", 3] }, 1, 0] } }
+            }
+        }
+    ]);
+}
+
+const popularCategories = async () => {
+    return await eventModel.aggregate([
+        { $group: { _id: "$category", totalEvents: { $sum: 1 } } },
+        { $sort: { totalEvents: -1 } }
+    ]);
+}

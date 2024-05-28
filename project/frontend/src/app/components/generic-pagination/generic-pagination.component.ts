@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -6,7 +6,7 @@ import { PageEvent } from '@angular/material/paginator';
   templateUrl: './generic-pagination.component.html',
   styleUrl: './generic-pagination.component.css'
 })
-export class GenericPaginationComponent {
+export class GenericPaginationComponent implements OnInit {
 
   // length = 50;
   // pageSize = 10;
@@ -35,32 +35,40 @@ export class GenericPaginationComponent {
 
   @Input() items: any[] = [];
   @Input() pageSizeOptions: number[] = [5, 10, 20];
-  @Input() pageSize = 10;
+  @Input() pageSize = 5;
+  @Input() length = 10;
   @Input() showFirstLastButtons = true;
   @Input() template: TemplateRef<any>;
 
-  paginatedItems: any[] = [];
-  length: number;
+  @Output() pageChange = new EventEmitter<any>(); // Add this line
+
+  // paginatedItems: any[] = [];
   pageIndex = 0;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.items) {
-      this.length = this.items.length;
-      this.paginateItems();
-    }
+  constructor() { }
+
+  ngOnInit(): void {
+    // this.paginateItems();
   }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes.items) {
+  //     this.length = this.items.length;
+  //     this.paginateItems();
+  //   }
+  // }
 
   handlePageEvent(event: any): void {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
-    this.paginateItems();
+    // this.paginateItems();
+    this.pageChange.emit({ pageIndex: this.pageIndex, pageSize: this.pageSize }); // Emit pagination information
   }
 
   private paginateItems(): void {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.paginatedItems = this.items.slice(startIndex, endIndex);
-
+    // this.paginatedItems = this.items.slice(startIndex, endIndex);
   }
 
 }
