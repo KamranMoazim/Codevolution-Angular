@@ -34,8 +34,10 @@ export class LoginResponse {
   constructor(
     public success: boolean,
     public message: string,
-    public accessToken: string,
-    public user: User
+    public data: {
+      accessToken: string,
+      user: User
+    }
   ) {
   }
 }

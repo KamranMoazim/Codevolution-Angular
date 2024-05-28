@@ -22,6 +22,16 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AllEventsComponent } from './pages/all-events/all-events.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { OrganizationDetailComponent } from './pages/organization-detail/organization-detail.component';
+import { OrganizationComponent } from './pages/organization/organization.component';
+import { UserAttendEventsComponent } from './pages/user-attend-events/user-attend-events.component';
+import { AdminCreatedEventsComponent } from './pages/admin-created-events/admin-created-events.component';
+import { CreateUpdateEventComponent } from './pages/create-update-event/create-update-event.component';
+import { EventDetailsComponent } from './pages/event-details/event-details.component';
+import { EventRatingComponent } from './components/event-rating/event-rating.component';
+import { EventsListComponent } from './components/events-list/events-list.component';
+// import { AttendedEventsComponent } from './pages/attended-events/attended-events.component';
 
 
 
@@ -36,7 +46,17 @@ import { AllEventsComponent } from './pages/all-events/all-events.component';
     EventCardComponent,
     HomeComponent,
     AllEventsComponent,
-    HeroComponent
+    HeroComponent,
+    ProfileComponent,
+    OrganizationDetailComponent,
+    OrganizationComponent,
+    UserAttendEventsComponent,
+    AdminCreatedEventsComponent,
+    CreateUpdateEventComponent,
+    EventDetailsComponent,
+    EventRatingComponent,
+    EventsListComponent,
+    // AttendedEventsComponent
   ],
   imports: [
     BrowserModule,

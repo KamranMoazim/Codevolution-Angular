@@ -87,11 +87,14 @@ export const loginUser = CatchAsyncError(
 
             const user = await userModel.findOne({ email }).select("+password");
 
+            // console.log(user);
+
             if (!user) {
                 return next(new ErrorHandler("Invalid email or password", 400));
             }
 
             const isPasswordMatch = await user.comparePassword(password);
+            // console.log(isPasswordMatch);
             if (!isPasswordMatch) {
                 return next(new ErrorHandler("Invalid email or password", 400));
             }

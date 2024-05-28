@@ -53,8 +53,8 @@ export class AuthService {
                             catchError(this.errorHandler),
                             tap((response: LoginResponse) => {
                               if (response.success) {
-                                localStorage.setItem('accessToken', response.accessToken);
-                                localStorage.setItem('user', JSON.stringify(response.user));
+                                localStorage.setItem('accessToken', response.data.accessToken);
+                                localStorage.setItem('user', JSON.stringify(response.data.user));
                               }
                             })
                           );

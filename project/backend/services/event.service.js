@@ -470,7 +470,14 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
     }
     if (filters.date) {
         // matchStage.date = { $gte: new Date(filters.date.start), $lte: new Date(filters.date.end) };
-        matchStage.date = { $eq: new Date(filters.date) };
+        // matchStage.date = { $eq: new Date(filters.date) };
+        if (filters.date.start && filters.date.end) {
+            matchStage.date = { $gte: filters.date.start, $lte: filters.date.end };
+        } else if (filters.date.start) {
+            matchStage.date = { $gte: filters.date.start };
+        } else if (filters.date.end) {
+            matchStage.date = { $lte: filters.date.end };
+        }
     }
     if (filters.startTime) {
         matchStage.startTime = { $gte: filters.startTime };
@@ -525,7 +532,7 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
         { $limit: limit }
     );
 
-    const events = await EventModel.aggregate(aggregationPipeline);
+    const events = await eventModel.aggregate(aggregationPipeline);
 
 
     // return events;

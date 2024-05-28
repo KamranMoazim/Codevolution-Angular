@@ -13,6 +13,14 @@ import { RegisterComponent } from '../pages/register/register.component';
 import { LoginComponent } from '../pages/login/login.component';
 import { HomeComponent } from '../pages/home/home.component';
 import { AllEventsComponent } from '../pages/all-events/all-events.component';
+import { ProfileComponent } from '../pages/profile/profile.component';
+import { OrganizationDetailComponent } from '../pages/organization-detail/organization-detail.component';
+import { OrganizationComponent } from '../pages/organization/organization.component';
+import { UserAttendEventsComponent } from '../pages/user-attend-events/user-attend-events.component';
+import { AdminCreatedEventsComponent } from '../pages/admin-created-events/admin-created-events.component';
+import { CreateUpdateEventComponent } from '../pages/create-update-event/create-update-event.component';
+import { EventDetailsComponent } from '../pages/event-details/event-details.component';
+// import { AttendedEventsComponent } from '../pages/attended-events/attended-events.component';
 
 
 
@@ -72,8 +80,8 @@ const routesOld: Routes = [
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
 
+  // admin routes
   {
     path: 'admin',
     component: AdminComponent,
@@ -82,8 +90,20 @@ const routes: Routes = [
       roles: [ Role.ADMIN ]
     }
   },
+  { path: 'admin/events', component: AdminCreatedEventsComponent },
+  { path: 'admin/events/:id', component: CreateUpdateEventComponent },
 
+  // user routes
+  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/attend-events', component: UserAttendEventsComponent },
+
+
+  // public routes
+  { path: 'home', component: HomeComponent },
   { path: 'events', component: AllEventsComponent },
+  { path: 'events/:id', component: EventDetailsComponent },
+  { path: 'organizations', component: OrganizationComponent },
+  { path: 'organizations/:id', component: OrganizationDetailComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
 

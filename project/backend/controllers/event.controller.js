@@ -264,8 +264,19 @@ export const fetchEventsController = CatchAsyncError(
                 filters.category = category;
             }
 
-            if (startDate !== undefined) {
-                filters.date = date;
+            // if (startDate !== undefined) {
+            //     filters.date = date;
+            // }
+
+            // if startDate and endDate are both present, then filter by both
+            if (date.startDate !== undefined && date.endDate !== undefined) {
+                filters.date = { startDate: date.startDate, endDate: date.endDate };
+            } else if (date.startDate !== undefined) { // if only startDate is present, then filter by startDate
+                filters.date = { startDate: date.startDate };
+            } else if (date.endDate !== undefined) {
+                filters.date = { endDate: date.endDate };
+            } else {
+                filters.date = undefined;
             }
 
             if (startTime !== undefined) {

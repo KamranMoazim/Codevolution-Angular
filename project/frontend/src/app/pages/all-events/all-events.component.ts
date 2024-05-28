@@ -9,6 +9,8 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class AllEventsComponent {
 
+  value = 'Title, Category, Description, Location';
+
   length = 50;
   pageSize = 10;
   pageIndex = 0;
@@ -38,5 +40,15 @@ export class AllEventsComponent {
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
+
+  formatLabel(value: number): string {
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'k';
+    }
+
+    console.log(value)
+
+    return `${value}`;
+  }
 
 }
