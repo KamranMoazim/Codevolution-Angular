@@ -1,17 +1,87 @@
 <app-hero></app-hero>
 
-<div fxLayout="row" fxLayoutAlign="center center">
-  <img src="../../../assets/daniel.jpg" alt="Left Image" class="section-image">
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <img src="../../../assets/one.jpg" alt="Left Image" class="section-image">
   <p class="text-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec ex a nisi congue euismod nec nec justo.</p>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center center">
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
   <p class="text-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec ex a nisi congue euismod nec nec justo.</p>
-  <img src="../../../assets/nasa.jpg" alt="Right Image" class="section-image">
+  <img src="../../../assets/two.jpg" alt="Right Image" class="section-image">
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center center">
-  <img src="../../../assets/zion.jpg" alt="Left Image" class="section-image">
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <img src="../../../assets/three.jpg" alt="Left Image" class="section-image">
   <p class="text-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec ex a nisi congue euismod nec nec justo.</p>
 </div>
 
+
+<!-- New Content Section -->
+<div fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="40px" class="new-content-section">
+
+  <h2 class="section-heading">Event Highlights</h2>
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+    <div class="highlight-card">
+      <img src="../../../assets/one.jpg" alt="Highlight 1" class="highlight-image">
+      <p class="highlight-text">Highlight 1: Amazing keynote speakers and sessions.</p>
+    </div>
+    <div class="highlight-card">
+      <img src="../../../assets/two.jpg" alt="Highlight 2" class="highlight-image">
+      <p class="highlight-text">Highlight 2: Networking opportunities with industry leaders.</p>
+    </div>
+    <div class="highlight-card">
+      <img src="../../../assets/three.jpg" alt="Highlight 2" class="highlight-image">
+      <p class="highlight-text">Highlight 2: Networking opportunities with industry leaders.</p>
+    </div>
+    <div class="highlight-card">
+      <img src="../../../assets/four.jpg" alt="Highlight 2" class="highlight-image">
+      <p class="highlight-text">Highlight 2: Networking opportunities with industry leaders.</p>
+    </div>
+  </div>
+
+
+  <!-- <h2 class="section-heading">Testimonials</h2>
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+    <div class="testimonial-card">
+      <p class="testimonial-text">"This event was a game-changer for my business. Highly recommend!" - John Doe</p>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">"An incredible experience from start to finish. Can't wait for the next one!" - Jane Smith</p>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">"An incredible experience from start to finish. Can't wait for the next one!" - Jane Smith</p>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">"An incredible experience from start to finish. Can't wait for the next one!" - Jane Smith</p>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">"An incredible experience from start to finish. Can't wait for the next one!" - Jane Smith</p>
+    </div>
+  </div> -->
+  <h2 class="section-heading">Testimonials</h2>
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+    <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+      <p class="testimonial-text">"{{ testimonial.text }}" - <strong>{{ testimonial.author }}</strong> </p>
+      <div class="rating">
+        <mat-icon *ngFor="let star of getStars(testimonial.rating)">star</mat-icon>
+        <mat-icon *ngFor="let star of getEmptyStars(testimonial.rating)">star_border</mat-icon>
+      </div>
+      <p class="testimonial-date">{{ testimonial.date | date: 'longDate' }}</p>
+    </div>
+  </div>
+
+  <!-- <h2 class="section-heading">Follow Us on Social Media</h2>
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+    <div class="social-media-card">
+      <img src="../../../assets/one.jpg" alt="Social Media 1" class="social-media-image">
+      <p class="social-media-text">Event Management on Twitter</p>
+    </div>
+    <div class="social-media-card">
+      <img src="../../../assets/two.jpg" alt="Social Media 2" class="social-media-image">
+      <p class="social-media-text">Event Management on Facebook</p>
+    </div>
+  </div>
+</div> -->
+
+
+<h1>fssd</h1>

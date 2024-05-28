@@ -1,18 +1,65 @@
+.testimonial-card {
+  max-width: 300px;
+  text-align: center;
+  margin: 10px;
+}
+
+.testimonial-date {
+  font-size: 0.9em;
+  color: gray;
+  margin-top: 5px;
+}
+
+.rating mat-icon {
+  color: gold;
+}
+
+
+.content-section {
+  margin: 40px 0;
+}
+
+.new-content-section {
+  margin-top: 40px;
+}
+
+.section-heading {
+  font-size: 2em;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.highlight-card, .testimonial-card, .social-media-card {
+  max-width: 300px;
+  text-align: center;
+  margin: 10px;
+}
+
+.highlight-image, .social-media-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.highlight-text, .testimonial-text, .social-media-text {
+  font-size: 1.1em;
+  margin: 10px 0;
+}
+
+
 .section-image {
   max-width: 50%; /* Ensures the image does not exceed the width of its container */
   height: auto; /* Allows the image to maintain its aspect ratio */
+  border-radius: 20px; /* Adjust the value to achieve desired roundness */
+  overflow: hidden; /* Ensure the background image does not overflow the rounded corners */
+  /* margin: 20px; Optional: Add margin around the hero section for better spacing */
 }
 
-.section-text {
-  max-width: 600px; /* Limit the maximum width of the text for better readability */
-  font-size: 1.2em; /* Increase the font size for better readability */
-  line-height: 1.6; /* Increase the line height for better spacing between lines */
-  margin: 20px; /* Add margin for spacing between text sections */
-}
 
 .text-title {
   font-size: 3em;
   font-weight: bold;
   margin: 0;
   line-height: 1.6;
+  text-align: center;
 }

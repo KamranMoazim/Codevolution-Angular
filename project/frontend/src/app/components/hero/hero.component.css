@@ -1,24 +1,31 @@
 .hero-container {
   height: 100vh; /* Full viewport height */
-  background: url('../../../assets/amazon.png') no-repeat center center/cover;
+  background: url('../../../assets/four.jpg') no-repeat center center/cover;
   color: white;
   text-align: center;
+  border-radius: 20px; /* Adjust the value to achieve desired roundness */
+  overflow: hidden; /* Ensure the background image does not overflow the rounded corners */
+  /* margin: 20px; Optional: Add margin around the hero section for better spacing */
+  margin: 20px 0;
 }
 
 .hero-content {
-  max-width: 800px;
-  padding: 0 20px;
+  /* max-width: 800px; */
+  /* padding: 0 20px; */
 }
 
 .hero-title {
-  font-size: 3em;
+  font-size: 4em;
   font-weight: bold;
   margin: 0;
+  color: black;
+  line-height: 3rem;
 }
 
 .hero-subtitle {
-  font-size: 1.5em;
+  font-size: 2.5em;
   margin: 0;
+  color: black;
 }
 
 button {
