@@ -60,6 +60,7 @@ export class GenericPaginationComponent {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedItems = this.items.slice(startIndex, endIndex);
+
   }
 
 }

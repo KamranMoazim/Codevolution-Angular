@@ -17,7 +17,9 @@
 
 <div>
   <ng-container *ngFor="let item of paginatedItems">
-    <ng-content [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: item }"></ng-content>
+    <!-- {{ item | json }} -->
+    <!-- <ng-content [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: item }"></ng-content> -->
+    <ng-container *ngTemplateOutlet="template; context: { $implicit: item }"></ng-container>
   </ng-container>
 
   <mat-paginator
