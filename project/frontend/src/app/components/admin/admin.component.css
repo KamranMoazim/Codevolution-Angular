@@ -1,0 +1,24 @@
+/* analytics.component.css */
+.total-revenue-card,
+.average-ratings-card,
+.sentiment-analysis-card,
+.popular-categories-card {
+  margin: 20px;
+  padding: 20px;
+}
+
+.mat-card {
+  background-color: #f9f9f9;
+}
+
+.mat-icon {
+  color: #ffb300;
+}
+
+.mat-accordion {
+  width: 100%;
+}
+
+.mat-list-item {
+  align-items: flex-start;
+}

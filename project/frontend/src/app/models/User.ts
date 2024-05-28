@@ -4,11 +4,11 @@ import { Role } from "../enums/role";
 export class User {
 
   public role: Role;
+  public profile?: Profile = null;
 
   constructor(
       public name: string,
       public email: string,
-      public avatar: string,
       role: string
   ) {
     if (role === 'admin') {
@@ -17,4 +17,14 @@ export class User {
       this.role = Role.USER;
     }
   }
+}
+
+export class Profile {
+
+  public followers?: User[] = [];
+
+  constructor(
+      public avatar: string,
+      public bio: string,
+  ) {}
 }

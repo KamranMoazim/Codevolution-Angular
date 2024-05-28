@@ -32,6 +32,7 @@ import { EventDetailsComponent } from './pages/event-details/event-details.compo
 import { EventRatingComponent } from './components/event-rating/event-rating.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { GenericPaginationComponent } from './components/generic-pagination/generic-pagination.component';
+import { AdminComponent } from './components/admin/admin.component';
 // import { AttendedEventsComponent } from './pages/attended-events/attended-events.component';
 
 
@@ -59,6 +60,7 @@ import { GenericPaginationComponent } from './components/generic-pagination/gene
     EventsListComponent,
     GenericPaginationComponent,
     // AttendedEventsComponent
+    AdminComponent
   ],
   imports: [
     BrowserModule,

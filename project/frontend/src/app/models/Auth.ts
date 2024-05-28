@@ -1,3 +1,4 @@
+import { BaseResponse } from "./BaseResponse";
 import { User } from "./User";
 
 
@@ -12,11 +13,18 @@ export class RegisterRequest {
 
 }
 
-export class RegisterResponse {
+export class RegisterResponse extends BaseResponse {
+  // constructor(
+  //   public success: boolean,
+  //   public message: string
+  // ) {
+  // }
+
   constructor(
-    public success: boolean,
-    public message: string
+    success: boolean,
+    message: string
   ) {
+    super(success, message);
   }
 }
 
@@ -30,15 +38,29 @@ export class LoginRequest {
   }
 }
 
-export class LoginResponse {
+export class LoginResponse extends BaseResponse {
+  // constructor(
+  //   // public success: boolean,
+  //   // public message: string,
+  //   public data: {
+  //     accessToken: string,
+  //     user: User
+  //   }
+  // ) {
+  // }
+
+  accessToken: string;
+  user: User;
+
   constructor(
-    public success: boolean,
-    public message: string,
-    public data: {
-      accessToken: string,
-      user: User
-    }
+    success: boolean,
+    message: string,
+    accessToken: string,
+    user: User
   ) {
+    super(success, message);
+    this.accessToken = accessToken;
+    this.user = user;
   }
 }
 

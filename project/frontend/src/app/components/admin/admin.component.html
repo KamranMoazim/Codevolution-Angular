@@ -1,1 +1,102 @@
-<h3>Total Revenue Generated : $32000</h3>
+<!--
+
+<mat-card class="total-revenue-card">
+  <h3>Total Revenue Generated: ${{ totalRevenue }}</h3>
+</mat-card>
+
+<mat-card class="average-ratings-card">
+  <h3>Average Ratings</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let rating of avgRating">
+      <mat-icon matListIcon>star</mat-icon>
+      <h4 matLine>Event ID: {{ rating._id }}</h4>
+      <p matLine>Average Rating: {{ rating.averageRating }}</p>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
+
+<mat-card class="sentiment-analysis-card">
+  <h3>Sentiment Analysis</h3>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let sentiment of sentiment">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Event ID: {{ sentiment._id }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item>
+          <h4 matLine> <mat-icon matListIcon>thumb_up</mat-icon> Positive Reviews: {{ sentiment.positiveReviews }}</h4>
+        </mat-list-item>
+        <mat-list-item>
+          <h4 matLine><mat-icon matListIcon>thumbs_up_down</mat-icon>Neutral Reviews: {{ sentiment.neutralReviews }}</h4>
+        </mat-list-item>
+        <mat-list-item>
+          <h4 matLine><mat-icon matListIcon>thumb_down</mat-icon>Negative Reviews: {{ sentiment.negativeReviews }}</h4>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+
+<mat-card class="popular-categories-card">
+  <h3>Popular Categories</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let category of categories">
+      <mat-icon matListIcon>category</mat-icon> <h4 matLine>Category: {{ category._id }}</h4>
+      <p matLine>Total Events: {{ category.totalEvents }}</p>
+    </mat-list-item>
+  </mat-list>
+</mat-card> -->
+
+
+
+
+<!-- analytics.component.html -->
+<mat-card class="total-revenue-card">
+  <h3>Total Revenue Generated: ${{ totalRevenue }}</h3>
+</mat-card>
+
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutWrap>
+  <mat-card class="average-ratings-card" fxFlex="45%">
+    <h3>Average Ratings</h3>
+    <mat-list>
+      <mat-list-item *ngFor="let rating of avgRating">
+        <h4 matLine><mat-icon matListIcon>star</mat-icon> Event Name: {{ rating._id }} - Average Rating: {{ rating.averageRating }}</h4>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+
+  <mat-card class="sentiment-analysis-card" fxFlex="45%">
+    <h3>Sentiment Analysis</h3>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let sentiment of sentiment">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Event ID: {{ sentiment._id }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item>
+            <h4 matLine><mat-icon matListIcon>thumb_up</mat-icon> Positive Reviews: {{ sentiment.positiveReviews }}</h4>
+          </mat-list-item>
+          <mat-list-item>
+            <h4 matLine><mat-icon matListIcon>thumbs_up_down</mat-icon> Neutral Reviews: {{ sentiment.neutralReviews }}</h4>
+          </mat-list-item>
+          <mat-list-item>
+            <h4 matLine><mat-icon matListIcon>thumb_down</mat-icon> Negative Reviews: {{ sentiment.negativeReviews }}</h4>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card>
+
+  <mat-card class="popular-categories-card" fxFlex="100%">
+    <h3>Popular Categories</h3>
+    <mat-list>
+      <mat-list-item *ngFor="let category of categories">
+        <h4 matLine><mat-icon matListIcon>category</mat-icon> Category: {{ category._id }} - Total Events: {{ category.totalEvents }}</h4>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>
