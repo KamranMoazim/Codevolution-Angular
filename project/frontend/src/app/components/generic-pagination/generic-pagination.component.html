@@ -9,9 +9,23 @@
               [hidePageSize]="hidePageSize"
               [pageIndex]="pageIndex"
               aria-label="Select page">
+
 </mat-paginator>
 
-<p>admin-created-events works!</p> -->
+<p>generic-pagination works!</p> -->
 
 
-<app-events-list></app-events-list>
+<div>
+  <ng-container *ngFor="let item of paginatedItems">
+    <ng-content [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: item }"></ng-content>
+  </ng-container>
+
+  <mat-paginator
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="pageIndex"
+    [showFirstLastButtons]="showFirstLastButtons"
+    (page)="handlePageEvent($event)">
+  </mat-paginator>
+</div>

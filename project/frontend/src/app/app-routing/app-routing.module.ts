@@ -104,6 +104,7 @@ const routes: Routes = [
   { path: 'events/:id', component: EventDetailsComponent },
   { path: 'organizations', component: OrganizationComponent },
   { path: 'organizations/:id', component: OrganizationDetailComponent },
+
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
 

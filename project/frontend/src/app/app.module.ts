@@ -31,6 +31,7 @@ import { CreateUpdateEventComponent } from './pages/create-update-event/create-u
 import { EventDetailsComponent } from './pages/event-details/event-details.component';
 import { EventRatingComponent } from './components/event-rating/event-rating.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
+import { GenericPaginationComponent } from './components/generic-pagination/generic-pagination.component';
 // import { AttendedEventsComponent } from './pages/attended-events/attended-events.component';
 
 
@@ -56,6 +57,7 @@ import { EventsListComponent } from './components/events-list/events-list.compon
     EventDetailsComponent,
     EventRatingComponent,
     EventsListComponent,
+    GenericPaginationComponent,
     // AttendedEventsComponent
   ],
   imports: [

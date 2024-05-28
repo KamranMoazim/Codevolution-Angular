@@ -9,29 +9,41 @@
   <mat-sidenav #sideNav mode="push" >
     <mat-nav-list>
 
+      <a mat-list-item routerLink="/home" >
+        <span class="entry">
+          <mat-icon>house</mat-icon>
+          <span>Home</span>
+        </span>
+      </a>
 
+      <a mat-list-item routerLink="/events" >
+        <span class="entry">
+          <mat-icon>theater_comedy</mat-icon>
+          <span>Events</span>
+        </span>
+      </a>
+
+      <a mat-list-item routerLink="/organizations" >
+        <span class="entry">
+          <mat-icon>corporate_fare</mat-icon>
+          <span>Organizations</span>
+        </span>
+      </a>
 
 
       @if (getUserRole() == 1){ <!-- 1 means simple USER - got to Role enum -->
 
-        <a mat-list-item routerLink="/home" >
-          <span class="entry">
-            <mat-icon>house</mat-icon>
-            <span>Home</span>
-          </span>
-        </a>
-
-        <a mat-list-item routerLink="/events" >
-          <span class="entry">
-            <mat-icon>theater_comedy</mat-icon>
-            <span>Events</span>
-          </span>
-        </a>
-
-        <a mat-list-item routerLink="/person" >
+        <a mat-list-item routerLink="/profile" >
           <span class="entry">
             <mat-icon>person</mat-icon>
             <span>Profile</span>
+          </span>
+        </a>
+
+        <a mat-list-item routerLink="/profile/attend-events" >
+          <span class="entry">
+            <mat-icon>shopping_basket</mat-icon>
+            <span>Your Events</span>
           </span>
         </a>
 
@@ -53,17 +65,10 @@
           </span>
         </a>
 
-        <a mat-list-item routerLink="/events" >
+        <a mat-list-item routerLink="/admin/events">
           <span class="entry">
             <mat-icon>theater_comedy</mat-icon>
-            <span>Events</span>
-          </span>
-        </a>
-
-        <a mat-list-item routerLink="/dashboard" >
-          <span class="entry">
-            <mat-icon>dashboard</mat-icon>
-            <span>Dashboard</span>
+            <span>Manage Events</span>
           </span>
         </a>
 
@@ -78,20 +83,6 @@
 
 
       @if (!getUserRole()) {
-
-        <a mat-list-item routerLink="/home" >
-          <span class="entry">
-            <mat-icon>house</mat-icon>
-            <span>Home</span>
-          </span>
-        </a>
-
-        <a mat-list-item routerLink="/events" >
-          <span class="entry">
-            <mat-icon>theater_comedy</mat-icon>
-            <span>Events</span>
-          </span>
-        </a>
 
         <a mat-list-item routerLink="/register" >
           <span class="entry">

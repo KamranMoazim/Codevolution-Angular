@@ -1,1 +1,32 @@
-<p>events-list works!</p>
+<!-- <mat-paginator #paginator
+              class="demo-paginator"
+              (page)="handlePageEvent($event)"
+              [length]="length"
+              [pageSize]="pageSize"
+              [disabled]="disabled"
+              [showFirstLastButtons]="showFirstLastButtons"
+              [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+              [hidePageSize]="hidePageSize"
+              [pageIndex]="pageIndex"
+              aria-label="Select page">
+</mat-paginator>
+
+<p>events-list works!</p> -->
+
+
+
+<app-generic-pagination [items]="items" [template]="itemTemplate" [pageSizeOptions]="[5, 10, 20]" [pageSize]="10">
+</app-generic-pagination>
+
+<ng-template #itemTemplate let-item>
+  <!-- Custom item rendering -->
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{ item.title }}</mat-card-title>
+      <mat-card-subtitle>{{ item.subtitle }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ item.content }}</p>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
