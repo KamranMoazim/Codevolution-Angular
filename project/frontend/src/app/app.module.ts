@@ -33,6 +33,8 @@ import { EventRatingComponent } from './components/event-rating/event-rating.com
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { GenericPaginationComponent } from './components/generic-pagination/generic-pagination.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { FilterDialogComponent } from './components/filter-dialog/filter-dialog.component';
+import { DatePipe } from '@angular/common';
 // import { AttendedEventsComponent } from './pages/attended-events/attended-events.component';
 
 
@@ -60,7 +62,8 @@ import { AdminComponent } from './components/admin/admin.component';
     EventsListComponent,
     GenericPaginationComponent,
     // AttendedEventsComponent
-    AdminComponent
+    AdminComponent,
+    FilterDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,8 @@ import { AdminComponent } from './components/admin/admin.component';
     // CarouselModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

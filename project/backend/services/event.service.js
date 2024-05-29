@@ -468,20 +468,19 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
     if (filters.status) {
         matchStage.status = filters.status;
     }
-    if (filters.date) {
-        // matchStage.date = { $gte: new Date(filters.date.start), $lte: new Date(filters.date.end) };
-        // matchStage.date = { $eq: new Date(filters.date) };
-        if (filters.date.start && filters.date.end) {
-            matchStage.date = { $gte: filters.date.start, $lte: filters.date.end };
-        } else if (filters.date.start) {
-            matchStage.date = { $gte: filters.date.start };
-        } else if (filters.date.end) {
-            matchStage.date = { $lte: filters.date.end };
-        }
+
+    if (filters.startDate) {
+        matchStage.startDate = filters.startDate;
     }
+
+    if (filters.endDate) {
+        matchStage.endDate = filters.endDate;
+    }
+
     if (filters.startTime) {
         matchStage.startTime = { $gte: filters.startTime };
     }
+
     if (filters.endTime) {
         matchStage.endTime = { $lte: filters.endTime };
     }
@@ -528,18 +527,21 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
 
     aggregationPipeline.push(
         { $sort: { [sortBy]: sortOrderValue } },
-        { $skip: (page - 1) * limit },
+        // { $skip: (page - 1) * limit },
         { $limit: limit }
     );
 
     const events = await eventModel.aggregate(aggregationPipeline);
 
+    // console.log(matchStage)
+    // console.log(filters)
+    // console.log(events)
 
     // return events;
     return {
         events,
         page,
-        pages: Math.ceil(events.length / limit)
+        totalPages: Math.ceil(events.length / limit)
     }
 };
 

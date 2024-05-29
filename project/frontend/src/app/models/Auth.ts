@@ -49,8 +49,10 @@ export class LoginResponse extends BaseResponse {
   // ) {
   // }
 
-  accessToken: string;
-  user: User;
+  public data:{
+    accessToken: string;
+    user: User;
+  }
 
   constructor(
     success: boolean,
@@ -59,8 +61,12 @@ export class LoginResponse extends BaseResponse {
     user: User
   ) {
     super(success, message);
-    this.accessToken = accessToken;
-    this.user = user;
+    // this.accessToken = accessToken;
+    // this.user = user;
+    this.data = {
+      accessToken: accessToken,
+      user: user
+    }
   }
 }
 

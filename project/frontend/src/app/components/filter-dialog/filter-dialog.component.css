@@ -1,0 +1,8 @@
+/* / * Ensure the dialog and time picker have appropriate z-index * / */
+.mat-dialog-container {
+  z-index: 1000 !important;
+}
+
+.ngx-material-timepicker-content {
+  z-index: 1050 !important;
+}

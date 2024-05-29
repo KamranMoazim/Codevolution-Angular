@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>Filter Events</h2>
+<mat-dialog-content>
+  <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <mat-form-field>
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(value)]="selectedStatus">
+        <mat-option value="upcoming">Upcoming</mat-option>
+        <mat-option value="ongoing">Ongoing</mat-option>
+        <mat-option value="past">Past</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h4>Price Range</h4>
+    <mat-slider style="width: 100%;" min="100" max="2000" step="50" tickInterval="500">
+      <input value="300" matSliderStartThumb [(ngModel)]="minPrice">
+      <input value="400" matSliderEndThumb [(ngModel)]="maxPrice">
+    </mat-slider>
+
+    <!-- <div fxLayout="row" fxLayoutGap="20px">
+      <div class="12hr-example" fxFlex="45%">
+        <h4>Start time:</h4>
+        <input placeholder="12hr format (default settings)" aria-label="12hr format" [ngxTimepicker]="default1" [(ngModel)]="startTime" readonly>
+        <ngx-material-timepicker class="ngx-material-timepicker-content" #default1></ngx-material-timepicker>
+      </div>
+
+      <div class="12hr-example" fxFlex="45%">
+        <h4>End time:</h4>
+        <input placeholder="12hr format (default settings)" aria-label="12hr format" [ngxTimepicker]="default2" [(ngModel)]="endTime" readonly>
+        <ngx-material-timepicker class="ngx-material-timepicker-content" #default2></ngx-material-timepicker>
+      </div>
+    </div> -->
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <div fxFlex="45%">
+        <h4>Start time:</h4>
+        <mat-form-field>
+          <mat-label>Start Time</mat-label>
+          <mat-select [(value)]="startTime">
+            <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="45%">
+        <h4>End time:</h4>
+        <mat-form-field>
+          <mat-label>End Time</mat-label>
+          <mat-select [(value)]="endTime">
+            <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <h4>Enter a Date Range</h4>
+    <mat-form-field fxFlex="100%">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date" >
+        <input matEndDate formControlName="end" placeholder="End date" >
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="dateRange.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+      <mat-error *ngIf="dateRange.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="applyFilters()">Apply</button>
+</mat-dialog-actions>

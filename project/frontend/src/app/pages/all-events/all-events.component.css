@@ -27,3 +27,30 @@ mat-slider {
 .example-form-field {
   width: 200px;
 }
+.search-filter-container {
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-field {
+  max-width: 400px;
+}
+
+.demo-paginator {
+  max-width: 400px;
+}
+
+mat-form-field, button, mat-paginator {
+  margin: 0 10px;
+}
+
+.mat-dialog-container {
+  z-index: 1000 !important;
+}
+
+
+.ngx-material-timepicker-content {
+  z-index: 1050 !important;
+}

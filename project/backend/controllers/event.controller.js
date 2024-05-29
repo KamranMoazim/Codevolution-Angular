@@ -245,11 +245,11 @@ export const fetchEventsController = CatchAsyncError(
                 sortOrder = 'asc',
                 minPrice,
                 maxPrice,
-                category,
-                date,
+                status,
+                startDate,
+                endDate,
                 startTime,
                 endTime,
-                location,
                 minReviews,
                 maxReviews
             } = req.query;
@@ -260,23 +260,21 @@ export const fetchEventsController = CatchAsyncError(
                 filters.ticketPrice = { min: Number(minPrice), max: Number(maxPrice) };
             }
 
-            if (category !== undefined) {
-                filters.category = category;
-            }
 
             // if (startDate !== undefined) {
             //     filters.date = date;
             // }
 
-            // if startDate and endDate are both present, then filter by both
-            if (date.startDate !== undefined && date.endDate !== undefined) {
-                filters.date = { startDate: date.startDate, endDate: date.endDate };
-            } else if (date.startDate !== undefined) { // if only startDate is present, then filter by startDate
-                filters.date = { startDate: date.startDate };
-            } else if (date.endDate !== undefined) {
-                filters.date = { endDate: date.endDate };
-            } else {
-                filters.date = undefined;
+            if(status !== undefined){
+                filters.status = status
+            }
+
+            if(startDate !== undefined){
+                filters.startDate = startDate
+            }
+
+            if(endDate !== undefined){
+                filters.endDate = endDate
             }
 
             if (startTime !== undefined) {
@@ -285,10 +283,6 @@ export const fetchEventsController = CatchAsyncError(
 
             if (endTime !== undefined) {
                 filters.endTime = endTime;
-            }
-
-            if (location !== undefined) {
-                filters.location = location;
             }
 
             if (minReviews !== undefined && maxReviews !== undefined) {

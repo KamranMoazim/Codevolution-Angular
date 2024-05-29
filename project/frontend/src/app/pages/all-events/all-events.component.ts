@@ -1,25 +1,28 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { FilterDialogComponent } from '../../components/filter-dialog/filter-dialog.component';
+import { EventService } from '../../services/event/event.service';
+import { AllEventsRequest } from '../../models/Event';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-all-events',
   templateUrl: './all-events.component.html',
   styleUrl: './all-events.component.css'
 })
-export class AllEventsComponent {
+export class AllEventsComponent implements OnInit {
 
-  value = 'Title, Category, Description, Location';
+  searchValue = '';
 
   length = 50;
   pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25];
-
   hidePageSize = false;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
-  disabled = false;
 
   pageEvent: PageEvent;
 
@@ -28,27 +31,126 @@ export class AllEventsComponent {
     this.length = e.length;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
+    console.log(e)
   }
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-    }
-  }
+  // setPageSizeOptions(setPageSizeOptionsInput: string) {
+  //   if (setPageSizeOptionsInput) {
+  //     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  //   }
+  // }
 
-  range = new FormGroup({
+
+
+
+  selectedStatus: string = '';
+  minPrice: number = 0;
+  maxPrice: number = 0;
+  startTime: string = '';
+  endTime: string = '';
+  startDate: string = '';
+  endDate: string = '';
+
+  dateRange = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
-  formatLabel(value: number): string {
-    if (value >= 1000) {
-      return Math.round(value / 1000) + 'k';
-    }
 
-    console.log(value)
+  // selectedStatus: this.selectedStatus,
+  // dateRange: this.dateRange.value,
+  // minPrice: this.minPrice,
+  // maxPrice: this.maxPrice,
+  // startTime: this.startTime,
+  // endTime: this.endTime
 
-    return `${value}`;
+
+  constructor(
+    private fb: FormBuilder,
+    public dialog: MatDialog,
+    private datePipe: DatePipe,
+    public eventService: EventService,
+
+  ) {
+    // this.dateRange = this.fb.group({
+    //   start: [null],
+    //   end: [null]
+    // });
   }
 
+  ngOnInit(): void {}
+
+
+  openFilterDialog(): void {
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
+      width: '400px',
+      data: { selectedStatus: '', start: null, end: null }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Filters applied:', this.dateRange.value);
+        // console.log("searchValue:", this.searchValue);
+        // console.log("pageEvent:", this.pageEvent);
+
+        this.selectedStatus = result.selectedStatus;
+        this.dateRange = result.dateRange;
+        this.startDate = result.startDate;
+        this.endDate = result.endDate;
+        this.minPrice = result.minPrice;
+        this.maxPrice = result.maxPrice;
+        this.startTime = result.startTime;
+        this.endTime = result.endTime;
+
+      }
+    });
+  }
+
+
+  search(): void {
+    console.log('searchValue:', this.searchValue);
+    console.log('pageEvent:', this.pageEvent);
+    // console.log(this.pageEvent);
+
+    // let allEventsRequest = new AllEventsRequest(
+    //   this.searchValue ? this.searchValue : undefined,
+    //   this.pageEvent ? this.pageEvent.pageIndex : 1,
+    //   this.pageEvent ? this.pageEvent?.pageSize : 5,
+    //   "date",
+    //   "asc",
+    //   this.minPrice ? this.minPrice : undefined,
+    //   this.maxPrice ? this.maxPrice : undefined,
+    //   this.selectedStatus ? this.selectedStatus : undefined,
+    //   this.startDate ? this.startDate : undefined,
+    //   this.endDate ? this.endDate : undefined,
+    //   this.startTime ? this.startTime : undefined,
+    //   this.endTime ? this.endTime : undefined,
+    //   0,
+    //   5
+    // )
+    let allEventsRequest = new AllEventsRequest();
+
+    if(this.searchValue) allEventsRequest.search = this.searchValue;
+    if(this.pageEvent) allEventsRequest.page = this.pageEvent.pageIndex;
+    if(this.pageEvent) allEventsRequest.limit = this.pageEvent.pageSize;
+    if(this.minPrice) allEventsRequest.minPrice = this.minPrice;
+    if(this.maxPrice) allEventsRequest.maxPrice = this.maxPrice;
+    if(this.selectedStatus) allEventsRequest.status = this.selectedStatus;
+    if(this.startDate) allEventsRequest.startDate = this.startDate;
+    if(this.endDate) allEventsRequest.endDate = this.endDate;
+    if(this.startTime) allEventsRequest.startTime = this.startTime;
+    if(this.endTime) allEventsRequest.endTime = this.endTime;
+
+
+    this.eventService.getEvents(allEventsRequest).subscribe(data => {
+      console.log(data)
+    })
+  }
+
+
+  formatDate(date: Date): string {
+    let k = this.datePipe.transform(date, 'dd/MM/yyyy');
+    console.log(k)
+    return k
+  }
 }
