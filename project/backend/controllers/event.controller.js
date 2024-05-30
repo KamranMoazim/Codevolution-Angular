@@ -254,6 +254,8 @@ export const fetchEventsController = CatchAsyncError(
                 maxReviews
             } = req.query;
 
+            console.log(req.query)
+
             const filters = {};
 
             if (minPrice !== undefined && maxPrice !== undefined) {

@@ -462,9 +462,7 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
     if (filters.ticketPrice) {
         matchStage.ticketPrice = { $gte: filters.ticketPrice.min, $lte: filters.ticketPrice.max };
     }
-    // if (filters.category) {
-    //     matchStage.category = filters.category;
-    // }
+
     if (filters.status) {
         matchStage.status = filters.status;
     }
@@ -484,12 +482,6 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
     if (filters.endTime) {
         matchStage.endTime = { $lte: filters.endTime };
     }
-    // if (filters.location) {
-    //     matchStage.location = { $regex: filters.location, $options: 'i' };
-    // }
-    // if (filters.reviews) {
-    //     matchStage.reviews = { $size: { $gte: filters.reviews.min, $lte: filters.reviews.max } };
-    // }
 
     const sortOrderValue = sortOrder === 'asc' ? 1 : -1;
 
@@ -504,10 +496,22 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
             },
         },
         {
+            $lookup: {
+                from: 'users', // return User of the organizer
+                localField: 'organizer',
+                foreignField: '_id',
+                as: 'organizer',
+            },
+        },
+        {
+            $unwind: '$organizer',
+        },
+        {
             $addFields: {
                 averageRating: { $avg: '$reviews.rating' }
             }
-        }
+        },
+
     ];
     // Add the rating filter
     if (filters.reviews) {
@@ -525,9 +529,12 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
     //     { $limit: limit }
     // ]);
 
+    console.log((page - 1))
+    console.log(limit)
+
     aggregationPipeline.push(
         { $sort: { [sortBy]: sortOrderValue } },
-        // { $skip: (page - 1) * limit },
+        { $skip: (page - 1) * limit },
         { $limit: limit }
     );
 

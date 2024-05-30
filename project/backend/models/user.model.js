@@ -40,10 +40,22 @@ const userSchema = new mongoose.Schema(
             enum: ["user", "admin"],
             default: "user",
         },
-        profile: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Profile",
+        // profile: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Profile",
+        // },
+        avatar: {
+            type: String,
+            default: "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
         },
+        bio: {
+            type: String,
+            required: [true, "Please enter your bio"],
+        },
+        followers: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        }],
         tickets: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Ticket",

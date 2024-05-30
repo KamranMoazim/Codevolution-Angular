@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { FilterDialogComponent } from '../../components/filter-dialog/filter-dialog.component';
 import { EventService } from '../../services/event/event.service';
-import { AllEventsRequest } from '../../models/Event';
+import { AllEventsRequest, Event } from '../../models/Event';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -14,11 +14,13 @@ import { DatePipe } from '@angular/common';
 })
 export class AllEventsComponent implements OnInit {
 
+  public events: Event[] = [];
+
   searchValue = '';
 
   length = 50;
-  pageSize = 10;
-  pageIndex = 0;
+  pageSize = 5;
+  pageIndex = 1;
   pageSizeOptions = [5, 10, 25];
   hidePageSize = false;
   showPageSizeOptions = true;
@@ -78,7 +80,12 @@ export class AllEventsComponent implements OnInit {
     // });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
+      console.log(data)
+      this.events = data.data.events;
+    })
+  }
 
 
   openFilterDialog(): void {
@@ -128,22 +135,11 @@ export class AllEventsComponent implements OnInit {
     //   0,
     //   5
     // )
-    let allEventsRequest = new AllEventsRequest();
-
-    if(this.searchValue) allEventsRequest.search = this.searchValue;
-    if(this.pageEvent) allEventsRequest.page = this.pageEvent.pageIndex;
-    if(this.pageEvent) allEventsRequest.limit = this.pageEvent.pageSize;
-    if(this.minPrice) allEventsRequest.minPrice = this.minPrice;
-    if(this.maxPrice) allEventsRequest.maxPrice = this.maxPrice;
-    if(this.selectedStatus) allEventsRequest.status = this.selectedStatus;
-    if(this.startDate) allEventsRequest.startDate = this.startDate;
-    if(this.endDate) allEventsRequest.endDate = this.endDate;
-    if(this.startTime) allEventsRequest.startTime = this.startTime;
-    if(this.endTime) allEventsRequest.endTime = this.endTime;
 
 
-    this.eventService.getEvents(allEventsRequest).subscribe(data => {
-      console.log(data)
+
+    this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
+      // console.log(data)
     })
   }
 
@@ -152,5 +148,35 @@ export class AllEventsComponent implements OnInit {
     let k = this.datePipe.transform(date, 'dd/MM/yyyy');
     console.log(k)
     return k
+  }
+
+  private getQueryParams(): AllEventsRequest {
+    let allEventsRequest = new AllEventsRequest();
+
+    if(this.searchValue) allEventsRequest.search = this.searchValue;
+    if(this.pageEvent) {
+      allEventsRequest.page = this.pageEvent.pageIndex;
+    } else {
+      allEventsRequest.page = 1;
+      console.log("page:", allEventsRequest.page)
+    }
+    if(this.pageEvent) {
+      allEventsRequest.limit = this.pageEvent.pageSize;
+    } else {
+      allEventsRequest.limit = 5;
+      console.log("limit:", allEventsRequest.limit)
+    }
+    if(this.minPrice) allEventsRequest.minPrice = this.minPrice;
+    if(this.maxPrice) allEventsRequest.maxPrice = this.maxPrice;
+    if(this.selectedStatus) allEventsRequest.status = this.selectedStatus;
+    if(this.startDate) allEventsRequest.startDate = this.startDate;
+    if(this.endDate) allEventsRequest.endDate = this.endDate;
+    if(this.startTime) allEventsRequest.startTime = this.startTime;
+    if(this.endTime) allEventsRequest.endTime = this.endTime;
+
+    console.log(allEventsRequest)
+
+
+    return allEventsRequest;
   }
 }
