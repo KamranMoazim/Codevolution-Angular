@@ -4,7 +4,10 @@ import { Role } from "../enums/role";
 export class User {
 
   public role: Role;
-  public profile?: Profile = null;
+  public followers?: User[] = [];
+  public avatar?: string = '';
+  public bio?: string = '';
+  // public profile?: Profile = null;
 
   constructor(
       public name: string,
@@ -21,10 +24,9 @@ export class User {
 
 export class Profile {
 
-  public followers?: User[] = [];
+
 
   constructor(
-      public avatar: string,
-      public bio: string,
+
   ) {}
 }

@@ -8,6 +8,9 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class OrganizationComponent {
 
+  organizations: any[]
+  searchValue: string;
+
   length = 50;
   pageSize = 10;
   pageIndex = 0;

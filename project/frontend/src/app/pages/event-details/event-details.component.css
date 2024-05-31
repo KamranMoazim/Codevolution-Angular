@@ -1,0 +1,9 @@
+.event-details-card {
+  max-width: 90%;
+  margin: 20px auto;
+}
+
+.review-item img {
+  border-radius: 50%;
+  object-fit: cover;
+}

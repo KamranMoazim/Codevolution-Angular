@@ -35,6 +35,7 @@ import { GenericPaginationComponent } from './components/generic-pagination/gene
 import { AdminComponent } from './components/admin/admin.component';
 import { FilterDialogComponent } from './components/filter-dialog/filter-dialog.component';
 import { DatePipe } from '@angular/common';
+import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
 // import { AttendedEventsComponent } from './pages/attended-events/attended-events.component';
 
 
@@ -63,7 +64,8 @@ import { DatePipe } from '@angular/common';
     GenericPaginationComponent,
     // AttendedEventsComponent
     AdminComponent,
-    FilterDialogComponent
+    FilterDialogComponent,
+    OrganizationCardComponent
   ],
   imports: [
     BrowserModule,

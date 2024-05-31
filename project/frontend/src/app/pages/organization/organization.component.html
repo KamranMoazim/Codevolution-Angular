@@ -1,18 +1,39 @@
-<mat-paginator #paginator
-              class="demo-paginator"
-              (page)="handlePageEvent($event)"
-              [length]="length"
-              [pageSize]="pageSize"
-              [disabled]="disabled"
-              [showFirstLastButtons]="showFirstLastButtons"
-              [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-              [hidePageSize]="hidePageSize"
-              [pageIndex]="pageIndex"
-              aria-label="Select page">
-</mat-paginator>
+
+<div fxLayout="row wrap" fxLayoutAlign="space-around center">
+  <mat-form-field class="search-field" fxFlex="40%">
+    <mat-label>Search By Organisation Name</mat-label>
+    <input matInput type="text" [(ngModel)]="searchValue">
+    <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="searchValue=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
 
 
 <!-- <div fxLayout="row wrap" fxLayoutAlign="space-around center"*ngIf="organizations$ | async as organizations; else loading"> -->
 <div fxLayout="row wrap" fxLayoutAlign="space-around center">
     <!-- <app-organization-card *ngFor="let organization of organizations" [organization]="organization"></app-organization-card> -->
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+    <app-organization-card ></app-organization-card>
+
+    <mat-paginator #paginator
+      class="demo-paginator"
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [disabled]="disabled"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+      [hidePageSize]="hidePageSize"
+      [pageIndex]="pageIndex"
+      aria-label="Select page">
+  </mat-paginator>
 </div>
+
