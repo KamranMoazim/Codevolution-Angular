@@ -1,6 +1,31 @@
-<!-- <div fxLayout="row wrap" fxLayoutAlign="space-around" fxLayout.gt-sm="column">
+<div fxLayout="row wrap" fxLayoutAlign="space-around">
 
   <div fxFlex="80%">
+
+    <!-- <mat-card class="event-details-card">
+      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <mat-card-title>{{ event.title }}</mat-card-title>
+        <mat-card-subtitle>
+          {{ event.category }} - {{ event.location }}
+        </mat-card-subtitle>
+        <mat-card-actions>
+          <button mat-button *ngIf="isAdmin()" (click)="editEvent()">Edit</button>
+          <button mat-button (click)="buyTicket()">Buy Ticket</button>
+        </mat-card-actions>
+      </mat-card-header>
+      <img mat-card-image [src]="event.media[0]" alt="Event image">
+      <mat-card-content>
+        <div fxLayout="row wrap" fxLayoutAlign="space-around" style="margin: 10px;">
+          <p><strong>Date:</strong> {{ event.date | date }}</p>
+          <p><strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}</p>
+          <p><strong>Organizer:</strong> {{ event.organizer.name }}</p>
+          <p><strong>Capacity:</strong> {{ event.capacity }}</p>
+          <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
+        </div>
+
+        <p>{{ event.description }}</p>
+      </mat-card-content>
+    </mat-card> -->
 
     <mat-card class="event-details-card">
       <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between center">
@@ -36,7 +61,7 @@
 
 
 
-    <div>
+    <div style="margin: 10px;">
 
       <mat-card class="reviews-card" style="padding: 10px;">
         <mat-card-title>Reviews</mat-card-title>
@@ -69,8 +94,6 @@
 
       </mat-card>
 
-    </div>
-
       <mat-card style="margin: 20px 0px;">
         <mat-card-content>
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
@@ -99,126 +122,8 @@
         </mat-card-actions>
       </mat-card>
 
-  </div>
-
-
-
-  <div fxFlex="20%">
-    <h3>
-      Top Events By the Organizer
-    </h3>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-  </div>
-
-</div>
- -->
-
-
-
- <div fxLayout="row wrap" fxLayoutAlign="space-around" fxLayout.gt-sm="column">
-
-  <div fxFlex="80%">
-
-    <mat-card class="event-details-card">
-      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between center">
-        <div>
-          <mat-card-title>{{ event.title }}</mat-card-title>
-          <mat-card-subtitle>
-            {{ event.category }} - {{ event.location }}
-          </mat-card-subtitle>
-        </div>
-        <mat-card-actions>
-          <button mat-button *ngIf="isAdmin()" (click)="editEvent()">Edit</button>
-          <button mat-button (click)="buyTicket()">Buy Ticket</button>
-        </mat-card-actions>
-      </mat-card-header>
-
-      <mat-card-content>
-        <div fxLayout="row wrap" fxLayoutAlign="space-around center" class="image-grid">
-          <div *ngFor="let image of event.media; let i = index" class="image-wrapper">
-            <img [src]="image" alt="Event image {{ i + 1 }}" class="event-image">
-          </div>
-        </div>
-        <div fxLayout="row wrap" fxLayoutAlign="space-around" style="margin: 10px;">
-          <p><strong>Date:</strong> {{ event.date | date }}</p>
-          <p><strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}</p>
-          <p><strong>Organizer:</strong> {{ event.organizer.name }}</p>
-          <p><strong>Capacity:</strong> {{ event.capacity }}</p>
-          <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
-        </div>
-
-        <p>{{ event.description }}</p>
-      </mat-card-content>
-    </mat-card>
-
-
-
-    <div>
-
-      <mat-card class="reviews-card" style="padding: 10px;">
-        <mat-card-title>Reviews</mat-card-title>
-        <div *ngFor="let review of event.reviews" class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
-          <img [src]="review.user.avatar" style="height: 50px; width: 50px; border-radius: 50%;" alt="User avatar">
-          <div>
-            <h4>{{ review.user.name }}</h4>
-            <p>
-              Rating:
-              <ng-container *ngFor="let star of getStars(review.rating)">
-                <mat-icon>{{ star }}</mat-icon>
-              </ng-container>
-              - {{ review.comment }}
-            </p>
-          </div>
-        </div>
-
-        <mat-paginator #paginator
-            class="demo-paginator"
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [disabled]="disabled"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-            [hidePageSize]="hidePageSize"
-            [pageIndex]="pageIndex"
-            aria-label="Select page">
-        </mat-paginator>
-
-      </mat-card>
-
     </div>
 
-      <mat-card style="margin: 20px 0px;">
-        <mat-card-content>
-          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-
-            <div fxLayout="row">
-              <button mat-icon-button
-                      *ngFor="let ratingId of ratingArr; index as i"
-                      [id]="'star_' + i"
-                      (click)="onClick(i + 1)"
-                      [matTooltip]="ratingId + 1"
-                      matTooltipPosition="above"
-                      [color]="color">
-                <mat-icon>{{ showIcon(i) }}</mat-icon>
-              </button>
-            </div>
-            <mat-form-field style="width: 100%;">
-              <mat-label>Comments</mat-label>
-              <input matInput placeholder="Write your comments" [(ngModel)]="comments" >
-            </mat-form-field>
-
-          </div>
-        </mat-card-content>
-
-        <mat-card-actions fxLayout="row" fxLayoutAlign="end">
-          <button mat-raised-button color="primary" (click)="submitReview()">Submit Review</button>
-        </mat-card-actions>
-      </mat-card>
 
   </div>
 
@@ -234,6 +139,5 @@
     <app-event-card></app-event-card>
     <app-event-card></app-event-card>
   </div>
-
 </div>
 
