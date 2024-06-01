@@ -1,8 +1,9 @@
-/* / * Ensure the dialog and time picker have appropriate z-index * / */
-.mat-dialog-container {
-  z-index: 1000 !important;
+/* Ensures the dialog content takes full width */
+.mat-dialog-content {
+  width: 100%;
 }
 
-.ngx-material-timepicker-content {
-  z-index: 1050 !important;
+/* Optional: to style the dialog content further */
+.dialog-content-wrapper {
+  width: 100%;
 }

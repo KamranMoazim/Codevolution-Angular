@@ -7,3 +7,79 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+
+.event-details-card {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.image-wrapper {
+  flex: 1 1 calc(33% - 10px);
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+.event-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.mat-card-header {
+  align-items: center;
+}
+
+.mat-card-actions {
+  margin-left: auto;
+}
+
+
+
+.event-details-card {
+  margin: 20px 0;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.image-wrapper {
+  flex: 1 1 calc(33% - 10px);
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+.event-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.reviews-card {
+  margin: 20px 0;
+}
+
+.mat-card-header {
+  align-items: center;
+}
+
+.mat-card-actions {
+  margin-left: auto;
+}
+
+@media (max-width: 600px) {
+  .image-wrapper {
+    flex: 1 1 calc(100% - 10px);
+  }
+}

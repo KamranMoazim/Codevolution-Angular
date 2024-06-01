@@ -48,7 +48,13 @@ export class EventDetailsComponent implements OnInit {
     category: "Event Category",
     startTime: "10:00 AM",
     endTime: "12:00 PM",
-    media: ["https://material.angular.io/assets/img/examples/shiba2.jpg"],
+    media: [
+      "https://material.angular.io/assets/img/examples/shiba1.jpg",
+      "https://material.angular.io/assets/img/examples/shiba2.jpg",
+      "https://material.angular.io/assets/img/examples/shiba1.jpg",
+      "https://material.angular.io/assets/img/examples/shiba2.jpg",
+      "https://material.angular.io/assets/img/examples/shiba1.jpg",
+    ],
     organizer: {
       email: "test@gmail.com",
       name: "Test Organizer",
