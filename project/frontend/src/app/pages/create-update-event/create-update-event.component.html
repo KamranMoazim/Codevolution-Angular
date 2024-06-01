@@ -46,6 +46,11 @@
 
 
 <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+
+  <h2>
+    {{isEditMode ? 'Update' : 'Create'}} Event
+  </h2>
+
   <mat-form-field>
     <mat-label>Title</mat-label>
     <input matInput formControlName="title">
@@ -75,28 +80,67 @@
     </mat-form-field>
   </div>
 
-  <mat-form-field>
-    <mat-label>Location</mat-label>
-    <input matInput formControlName="location">
-  </mat-form-field>
+  <div fxLayout="row" fxLayoutGap="10px">
+    <mat-form-field>
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Capacity</mat-label>
-    <input matInput type="number" formControlName="capacity">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Capacity</mat-label>
+      <input matInput type="number" formControlName="capacity">
+      <!-- <small class="text-danger" *ngIf="capacity.errors?.min">Capacity should be at least {{capacity.value}}</small> -->
+      <!-- <small class="text-danger" *ngIf="capacity.errors?.min">Capacity should be at least 1</small> -->
 
-  <mat-form-field>
-    <mat-label>Category</mat-label>
-    <input matInput formControlName="category">
-  </mat-form-field>
+    </mat-form-field>
+    <!-- {{capacity.errors | json}} -->
 
-  <mat-form-field>
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <input matInput formControlName="category">
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+  <mat-form-field floatLabel="always">
     <mat-label>Ticket Price</mat-label>
-    <input matInput type="number" formControlName="ticketPrice">
+    <input matInput type="number" placeholder="0" formControlName="ticketPrice">
+    <span matTextPrefix>$&nbsp;</span>
+    <span matTextSuffix>.00</span>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Status</mat-label>
+    <!-- <mat-select [formControl]="statusOptions" formControlName="status"> -->
+    <mat-select formControlName="status">
+      <mat-option *ngFor="let status of statusOptions" value="{{status}}">{{status | titlecase}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-card>
+  <mat-card-title style="margin: 10px;">Upload Event Images</mat-card-title>
+  <mat-card-content>
+    <input type="file" (change)="onFileSelected($event)" multiple>
+    <div *ngIf="images.length > 0">
+      <mat-list>
+        <mat-list-item *ngFor="let image of images; let i = index">
+          <img [src]="image.preview || image.url" alt="Image preview" width="100%">
+          <button mat-button color="warn" (click)="removeImage(i)">Remove</button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <p *ngIf="images.length >= 5" class="text-danger">You can only upload up to 5 images.</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="images.length === 0">Upload Images</button>
+  </mat-card-actions>
+</mat-card>
+
+
 
   <!-- Assuming status and media fields are multiselect dropdowns or checkboxes -->
   <!-- Implement as per your requirement -->
 
-  <button mat-raised-button color="primary" type="submit">Submit</button>
+  <button mat-raised-button color="primary" type="submit" style="margin-top: 20px;">Submit</button>
 </form>
