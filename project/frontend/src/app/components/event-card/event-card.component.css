@@ -16,3 +16,25 @@
   flex: 1 1 auto; /* Allow content to grow and take available space */
 }
 
+
+
+.past-button {
+  background-color: #9e9e9e; /* Grey */
+  color: white;
+}
+
+.upcoming-button {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.ongoing-button {
+  background-color: #ff9800; /* Orange */
+  color: white;
+}
+
+/* Ensure buttons have a consistent look */
+button.mat-flat-button {
+  margin: 5px;
+  min-width: 100px;
+}
