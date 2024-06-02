@@ -1,1 +1,43 @@
-<p>profile works!</p>
+<form [formGroup]="profileForm" class="profile-container" *ngIf="user">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img [src]="user.avatar" alt="{{ user.name }}" class="profile-avatar">
+    </div>
+    <mat-card-title>
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="name" placeholder="Name">
+      </mat-form-field>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="bio" placeholder="Bio">
+      </mat-form-field>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-grid-list >
+      <mat-grid-tile>
+        <mat-icon>email</mat-icon>
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-icon>verified_user</mat-icon>
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="role" placeholder="Role">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-icon>group</mat-icon>
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="followers" placeholder="Followers">
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="saveProfile()">Save</button>
+    <button mat-button (click)="cancelEdit()">Cancel</button>
+  </mat-card-actions>
+</form>
