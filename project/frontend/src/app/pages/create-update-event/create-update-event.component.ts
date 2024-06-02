@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as AWS from 'aws-sdk';
 
 @Component({
@@ -13,13 +14,14 @@ export class CreateUpdateEventComponent {
   statusOptions = ['upcoming', 'ongoing', 'past'];
 
   isEditMode = false;
+  eventId: string = null;
 
   images: { file?: File, preview?: string, url?: string }[] = [];
   s3: AWS.S3;
   localImageUrls: string[] = []; // Store the uploaded image URLs locally
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     AWS.config.update({
       accessKeyId: 'YOUR_ACCESS_KEY_ID',
       secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
@@ -49,6 +51,12 @@ export class CreateUpdateEventComponent {
     //   this.localImageUrls = savedUrls;
     //   this.images = savedUrls.map(url => ({ url }));
     // }
+
+    this.eventId = this.route.snapshot.paramMap.get('id');
+    if (this.eventId) {
+      this.isEditMode = true;
+      // Fetch the event details by ID and set the form values
+    }
   }
 
 

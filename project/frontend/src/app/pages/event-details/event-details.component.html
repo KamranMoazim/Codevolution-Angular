@@ -28,7 +28,7 @@
     </mat-card> -->
 
     <mat-card class="event-details-card">
-      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
         <div>
           <mat-card-title>{{ event.title }}</mat-card-title>
           <mat-card-subtitle>
@@ -36,8 +36,12 @@
           </mat-card-subtitle>
         </div>
         <mat-card-actions>
-          <button mat-button *ngIf="isAdmin()" (click)="editEvent()">Edit</button>
-          <button mat-button (click)="buyTicket()">Buy Ticket</button>
+          <button mat-raised-button style="margin-right: 5px;" *ngIf="isAdmin()" (click)="editEvent()">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+          <button mat-raised-button color="primary" (click)="buyTicket()">
+            <mat-icon>shopping_cart</mat-icon> Buy Ticket ${{ event.ticketPrice | number: '1.2-2'}}
+          </button>
         </mat-card-actions>
       </mat-card-header>
 
@@ -47,13 +51,38 @@
             <img [src]="image" alt="Event image {{ i + 1 }}" class="event-image">
           </div>
         </div>
-        <div fxLayout="row wrap" fxLayoutAlign="space-around" style="margin: 10px;">
+        <!-- <div fxLayout="row wrap" fxLayoutAlign="space-around" style="margin: 10px;">
           <p><strong>Date:</strong> {{ event.date | date }}</p>
           <p><strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}</p>
           <p><strong>Organizer:</strong> {{ event.organizer.name }}</p>
           <p><strong>Capacity:</strong> {{ event.capacity }}</p>
           <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
+        </div> -->
+        <div fxLayout="column" fxLayoutGap="10px" style="margin: 10px;">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+            <mat-icon>event</mat-icon>
+            <p><strong>Date:</strong> {{ event.date | date }}</p>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+            <mat-icon>schedule</mat-icon>
+            <p><strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}</p>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+            <mat-icon>person</mat-icon>
+            <p><strong>Organizer:</strong> {{ event.organizer.name }}</p>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+            <mat-icon>group</mat-icon>
+            <p><strong>Capacity:</strong> {{ event.capacity }}</p>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+            <mat-icon>attach_money</mat-icon>
+            <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
+          </div>
         </div>
+
+
+
 
         <p>{{ event.description }}</p>
       </mat-card-content>

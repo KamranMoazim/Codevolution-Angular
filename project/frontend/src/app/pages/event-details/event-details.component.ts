@@ -4,6 +4,7 @@ import { Role } from '../../enums/role';
 import { User } from '../../models/User';
 import { Review } from '../../models/Review';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-details',
@@ -93,7 +94,9 @@ export class EventDetailsComponent implements OnInit {
     name: "Test User",
   } as User
 
-  constructor() { }
+  constructor(
+    private router:Router,
+  ) { }
 
 
   isAdmin(): boolean {
@@ -107,7 +110,8 @@ export class EventDetailsComponent implements OnInit {
 
   editEvent(): void {
     // Implement edit event functionality
-    alert('Edit event clicked!');
+    // alert('Edit event clicked!');
+    this.router.navigate(['/admin/events/', this.event.id]);
   }
 
   getStars(rating: number): string[] {
@@ -141,7 +145,6 @@ export class EventDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("a "+this.starCount)
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
