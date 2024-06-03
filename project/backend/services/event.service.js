@@ -538,6 +538,13 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
     console.log((page - 1))
     console.log(limit)
 
+    const tempPipeline = [
+        ...aggregationPipeline,
+        {
+            $count: 'total'
+        }]
+    const totalEventsCount = await eventModel.aggregate(tempPipeline);
+
     aggregationPipeline.push(
         { $sort: { [sortBy]: sortOrderValue } },
         { $skip: (page - 1) * limit },
@@ -564,7 +571,7 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         }
     );
 
-    console.log(JSON.stringify(aggregationPipeline))
+    // console.log(JSON.stringify(aggregationPipeline))
 
     const events = await eventModel.aggregate(aggregationPipeline);
 
@@ -576,7 +583,8 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
     return {
         events,
         page,
-        totalPages: Math.ceil(events.length / limit)
+        // totalPages: Math.ceil(events.length / limit)
+        totalPages: totalEventsCount[0].total
     }
 };
 

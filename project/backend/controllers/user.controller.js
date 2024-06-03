@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 // import path from "path";
 // import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt.js";
-import { getAllUsersService, getUserById } from "../services/user.service.js";
+import { getAllOrganisationsService, getAllUsersService, getUserById } from "../services/user.service.js";
 import { getMyProfile } from '../services/profile.service.js';
 
 
@@ -280,6 +280,29 @@ export const updateUserInfo = CatchAsyncError(
             res.status(200).json({
                 success: true,
                 message: "User updated successfully",
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
+
+
+
+export const getAllOrganisationsController = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            const orgName = req.query.search || "";
+            const pageNo = parseInt(req.query.page) || 1;
+            const pageSize = parseInt(req.query.limit) || 5;
+
+            const users = await getAllOrganisationsService(orgName, pageNo, pageSize);
+
+            res.status(200).json({
+                success: true,
+                data: {
+                    users
+                },
             });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));

@@ -38,3 +38,22 @@ export class Organization extends User {
 export class Profile {
   constructor() {}
 }
+
+
+
+export class AllOrgRequest {
+  constructor(
+    public search?: string,
+    public page?: number,
+    public limit?: number,
+  ) {}
+}
+
+export class AllOrgResponse {
+  constructor(
+    public data: {
+      organizations: Organization[],
+      total: number
+    }
+  ) {}
+}

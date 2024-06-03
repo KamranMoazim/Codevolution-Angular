@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    getAllOrganisationsController,
     // activateUser,
     // deleteUser,
     getAllUsers,
@@ -34,6 +35,8 @@ userRouter.post("/login", loginUser);
 // // userRouter.post("/social-auth", socialAuth);
 
 userRouter.put("/update-user-info", isAutheticated, updateUserInfo);
+
+userRouter.get("/get-organisations", getAllOrganisationsController);
 
 // userRouter.put("/update-user-password", isAutheticated, updatePassword);
 

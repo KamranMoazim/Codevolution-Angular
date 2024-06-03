@@ -28,12 +28,7 @@ export const getAllUsersService = async (res) => {
 export const getAllOrganisationsService = async (orgName, pageNo, pageSize) => {
 
     // const users = await userModel.find({ role: "admin" }).sort({ createdAt: -1 });
-
-    // all admins are organisations 
-    // return the average rating of the organisation and the number of events they have created
-    // also apply limit and skip pagination
-
-    const users = await userModel.aggregate([
+    const stages = [
         {
             // $match: { role: "admin" }
             $match: { role: "admin", name: { $regex: orgName, $options: "i" } }
@@ -64,6 +59,7 @@ export const getAllOrganisationsService = async (orgName, pageNo, pageSize) => {
                 // followers: 1,
                 // events: 1,
                 // reviews: 1,
+                avatar: 1,
                 averageRating: { $avg: "$reviews.rating" },
                 totalEvents: { $size: "$events" }
             }
@@ -77,114 +73,44 @@ export const getAllOrganisationsService = async (orgName, pageNo, pageSize) => {
         {
             $limit: pageSize
         }
-    ]);
-
-    // const users = await userModel.aggregate([
-    //     {
-    //         $match: { role: "admin" }
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "events",
-    //             localField: "_id",
-    //             foreignField: "user",
-    //             as: "events"
-    //         }
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "reviews",
-    //             localField: "_id",
-    //             foreignField: "user",
-    //             as: "reviews"
-    //         }
-    //     },
-    //     {
-    //         $project: {
-    //             _id: 1,
-    //             name: 1,
-    //             email: 1,
-    //             profile: 1,
-    //             followers: 1,
-    //             events: 1,
-    //             reviews: 1,
-    //             averageRating: { $avg: "$reviews.rating" },
-    //             totalEvents: { $size: "$events" }
-    //         }
-    //     },
-    //     {
-    //         $sort: { followers: -1 }
-    //     }
-    // ]);
+    ];
 
 
-    // const organisations = await userModel.aggregate([
-    //     {
-    //         $match: { role: "admin" }
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "events",
-    //             localField: "_id",
-    //             foreignField: "user",
-    //             as: "events"
-    //         }
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "reviews",
-    //             localField: "_id",
-    //             foreignField: "user",
-    //             as: "reviews"
-    //         }
-    //     },
-    //     {
-    //         $project: {
-    //             _id: 1,
-    //             name: 1,
-    //             email: 1,
-    //             profile: 1,
-    //             followers: 1,
-    //             events: 1,
-    //             reviews: 1,
-    //             averageRating: { $avg: "$reviews.rating" },
-    //             totalEvents: { $size: "$events" }
-    //         }
-    //     },
-    //     {
-    //         $sort: { followers: -1 }
-    //     }
-    // ]);
+    const totalCountStage = [
+        {
+            // $match: { role: "admin" }
+            $match: { role: "admin", name: { $regex: orgName, $options: "i" } }
+        },
+        {
+            $lookup: {
+                from: "events",
+                localField: "_id",
+                foreignField: "user",
+                as: "events"
+            }
+        },
+        {
+            $lookup: {
+                from: "reviews",
+                localField: "_id",
+                foreignField: "user",
+                as: "reviews"
+            }
+        },
+        {
+            $count: "total"
+        }
+    ];
+
+    const users = await userModel.aggregate(stages);
+
+    const total = await userModel.aggregate(totalCountStage);
+
+    console.log(total)
 
 
-    // const users = await userModel.aggregate([
-    //     {
-    //         $match: { role: "admin" }
-    //     },
-    //     {
-    //         $lookup: {
-    //             from: "users",
-    //             localField: "_id",
-    //             foreignField: "followers",
-    //             as: "followers"
-    //         }
-    //     },
-    //     {
-    //         $project: {
-    //             _id: 1,
-    //             name: 1,
-    //             followersCount: { $size: "$followers" }
-    //         }
-    //     },
-    //     {
-    //         $sort: { followersCount: -1 }
-    //     }
-    // ]);
-    
-
-    // res.status(201).json({
-    //     success: true,
-    //     ,
-    // });
-    return users;
+    return {
+        organisations:users,
+        total: total[0].total
+    };
 };
