@@ -564,11 +564,13 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         }
     );
 
+    console.log(JSON.stringify(aggregationPipeline))
+
     const events = await eventModel.aggregate(aggregationPipeline);
 
     // console.log(matchStage)
     // console.log(filters)
-    // console.log(events)
+    console.log(events)
 
     // return events;
     return {

@@ -20,7 +20,7 @@ export class LoginComponent {
 
   loginForm = new FormGroup({
     email: new FormControl('kamrannaseer765@gmail.com', [Validators.required, Validators.email]),
-    password: new FormControl('Kamran1234', [Validators.required])
+    password: new FormControl('Kamran12345', [Validators.required])
   });
 
   get email() {
@@ -41,6 +41,7 @@ export class LoginComponent {
       next: response => {
         console.log(response);
         this.showSnackBar(response.message);
+        this.router.navigate(['/']);
       },
       error: error => {
         // console.log("error");
@@ -52,7 +53,7 @@ export class LoginComponent {
 
   showSnackBar(message: string) {
     let snackBarRef = this.snackBar.open(message, 'Close', {
-      duration: 500,
+      duration: 2000,
     });
 
     snackBarRef.afterDismissed().subscribe(() => {

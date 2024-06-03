@@ -251,7 +251,8 @@ export class AllEventsComponent implements OnInit {
 
 
     this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
-      console.log(data)
+      // console.log(data)
+      this.events = data.data.events;
     })
   }
 

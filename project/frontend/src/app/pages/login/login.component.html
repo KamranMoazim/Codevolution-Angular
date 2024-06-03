@@ -2,7 +2,7 @@
 
 <h2>Login Here</h2>
 
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="example-form">
+<form [formGroup]="loginForm" class="example-form">
   <mat-form-field class="example-full-width">
     <mat-label>Email</mat-label>
     <input type="email" matInput [formControl]="email" placeholder="Ex. pat@example.com">
@@ -24,7 +24,7 @@
 
 </form>
 <a (click)="goToRegisterPage()">New Here?</a>
-<button type="submit" mat-raised-button color="primary">Login</button>
+<button type="submit"  (click)="onSubmit()" mat-raised-button color="primary">Login</button>
 
 
 </div>

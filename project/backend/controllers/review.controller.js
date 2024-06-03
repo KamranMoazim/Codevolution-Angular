@@ -2,7 +2,7 @@ import 'dotenv/config'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
 import { createReviewValidator } from '../validators/review.validator.js';
-import { createEventReview, getReviewByUserId } from '../services/review.service.js';
+import { createEventReview, getReviewByUserId, getReviewsByEventId } from '../services/review.service.js';
 import { getEventById } from "../services/event.service.js";
 
 
@@ -47,6 +47,35 @@ export const createReview = CatchAsyncError(
                 message: "Reviewed event successfully",
                 data:{
                     review
+                },
+            });
+
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
+
+
+
+// get event reviews
+export const getReviews = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+
+            const event = await getEventById(req.query.id);
+
+            if(!event){
+                return next(new ErrorHandler("Event not found", 400));
+            }
+
+            const reviews = await getReviewsByEventId(req.query.id)
+
+            return res.status(201).json({
+                success: true,
+                message: "Reviews get successfully",
+                data:{
+                    reviews
                 },
             });
 
