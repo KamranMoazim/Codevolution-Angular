@@ -6,6 +6,7 @@ import { FilterDialogComponent } from '../../components/filter-dialog/filter-dia
 import { EventService } from '../../services/event/event.service';
 import { AllEventsRequest, Event } from '../../models/Event';
 import { DatePipe } from '@angular/common';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-all-events',
@@ -14,7 +15,118 @@ import { DatePipe } from '@angular/common';
 })
 export class AllEventsComponent implements OnInit {
 
-  public events: Event[] = [];
+  public events: Event[] = [
+    {
+      id: "1",
+      title: 'Event Name 1',
+      description: 'Event Description 1',
+      date: new Date(),
+      startTime: '12:00',
+      endTime: '14:00',
+      location: 'Event Location 1',
+      organizer: {
+        id: "1",
+        email: "",
+        name: "Organizer Name",
+        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
+        bio: "",
+      } as User,
+      capacity: 100,
+      category: 'culture',
+      ticketPrice: 100,
+      status: 'Upcoming',
+      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
+      // image: 'https://material.angular.io/assets/img/examples/shiba2.jpg'
+    },
+    {
+      id: "2",
+      title: 'Event Name 2',
+      description: 'Event Description 2',
+      date: new Date(),
+      startTime: '12:00',
+      endTime: '14:00',
+      location: 'Event Location 2',
+      organizer: {
+        id: "2",
+        email: "",
+        name: "Organizer Name",
+        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
+        bio: "",
+      } as User,
+      capacity: 100,
+      category: 'culture',
+      ticketPrice: 100,
+      status: 'Upcoming',
+      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
+      // image: ''
+    },
+    {
+      id: "3",
+      title: 'Event Name 3',
+      description: 'Event Description 3',
+      date: new Date(),
+      startTime: '12:00',
+      endTime: '14:00',
+      location: 'Event Location 3',
+      organizer: {
+        id: "3",
+        email: "",
+        name: "Organizer Name",
+        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
+        bio: "",
+      } as User,
+      capacity: 100,
+      category: 'culture',
+      ticketPrice: 100,
+      status: 'Upcoming',
+      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
+      // image: ''
+    },
+    {
+      id: "4",
+      title: 'Event Name 4',
+      description: 'Event Description 4',
+      date: new Date(),
+      startTime: '12:00',
+      endTime: '14:00',
+      location: 'Event Location 4',
+      organizer: {
+        id: "4",
+        email: "",
+        name: "Organizer Name",
+        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
+        bio: "",
+      } as User,
+      capacity: 100,
+      category: 'culture',
+      ticketPrice: 100,
+      status: 'Upcoming',
+      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
+      // image: ''
+    },
+    {
+      id: "5",
+      title: 'Event Name 5',
+      description: 'Event Description 5',
+      date: new Date(),
+      startTime: '12:00',
+      endTime: '14:00',
+      location: 'Event Location 5',
+      organizer: {
+        id: "5",
+        email: "",
+        name: "Organizer Name",
+        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
+        bio: "",
+      } as User,
+      capacity: 100,
+      category: 'culture',
+      ticketPrice: 100,
+      status: 'Upcoming',
+      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
+      // image: ''
+    }
+  ];
 
   searchValue = '';
 
@@ -139,7 +251,7 @@ export class AllEventsComponent implements OnInit {
 
 
     this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
-      // console.log(data)
+      console.log(data)
     })
   }
 

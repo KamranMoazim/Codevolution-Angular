@@ -159,14 +159,18 @@
 
 
   <div fxFlex="20%">
-    <h3>
+
+    <button mat-raised-button color="primary">
       Top Events By the Organizer
-    </h3>
+    </button>
+
+    <!-- <app-event-card></app-event-card>
     <app-event-card></app-event-card>
     <app-event-card></app-event-card>
     <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
+    <app-event-card></app-event-card> -->
+
+    <app-event-card *ngFor="let event of topEvents" [event]="event"></app-event-card>
   </div>
 </div>
 

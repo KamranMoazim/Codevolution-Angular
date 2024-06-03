@@ -1,14 +1,13 @@
-<mat-card class="example-card">
+<!-- <mat-card class="example-card">
   <mat-card-header>
     <div mat-card-avatar>
       <img mat-card-avatar class="example-header-image" src="https://material.angular.io/assets/img/examples/shiba2.jpg">
     </div>
     <mat-card-title>Shiba Inu</mat-card-title>
     <mat-card-subtitle>3.5/5</mat-card-subtitle>
-    <!-- <button mat-flat-button color="primary">Past</button> -->
     <div fxLayout="row" fxLayoutGap="10px">
       <button mat-flat-button color="primary" class="past-button">Past</button>
-      <!-- <button mat-flat-button color="accent" class="upcoming-button">Upcoming</button> -->
+      <button mat-flat-button color="accent" class="upcoming-button">Upcoming</button>
       <button mat-flat-button color="warn" class="ongoing-button">Ongoing</button>
     </div>
 
@@ -17,6 +16,38 @@
   <mat-card-content>
     <p style="margin-top: 10px;">
       The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="showDetails()">Show Details</button>
+  </mat-card-actions>
+</mat-card> -->
+
+
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img mat-card-avatar class="example-header-image" src={{event.organizer.avatar}}>
+    </div>
+    <mat-card-title>{{event.title}}</mat-card-title>
+    <mat-card-subtitle>{{event.organizer.name}}</mat-card-subtitle>
+    <div fxLayout="row" fxLayoutGap="10px">
+      @if (event.status.toLowerCase() === 'past') {
+        <button mat-flat-button color="primary" class="past-button">Past</button>
+      }
+      @if (event.status.toLowerCase() === 'upcoming') {
+        <button mat-flat-button color="accent" class="upcoming-button">Upcoming</button>
+      }
+      @if (event.status.toLowerCase() === 'ongoing') {
+        <button mat-flat-button color="warn" class="ongoing-button">Ongoing</button>
+      }
+    </div>
+
+  </mat-card-header>
+  <img mat-card-image  src={{event.media[0]}} alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    <p style="margin-top: 10px;">
+      {{event.description}}
     </p>
   </mat-card-content>
   <mat-card-actions>

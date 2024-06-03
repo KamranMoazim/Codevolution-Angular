@@ -7,21 +7,16 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
+  <button mat-raised-button color="primary" fxFlex="20%">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
 </div>
 
 
 <!-- <div fxLayout="row wrap" fxLayoutAlign="space-around center"*ngIf="organizations$ | async as organizations; else loading"> -->
 <div fxLayout="row wrap" fxLayoutAlign="space-around center">
-    <!-- <app-organization-card *ngFor="let organization of organizations" [organization]="organization"></app-organization-card> -->
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
-    <app-organization-card ></app-organization-card>
+    <app-organization-card *ngFor="let organization of organizations" [organization]="organization"></app-organization-card>
 
     <mat-paginator #paginator
       class="demo-paginator"

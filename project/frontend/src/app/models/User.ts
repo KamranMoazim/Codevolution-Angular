@@ -23,11 +23,18 @@ export class User {
   }
 }
 
-export class Profile {
-
-
-
+export class Organization extends User {
   constructor(
+      public averageRating: number,
+      public totalEvents: number,
+      name: string,
+      email: string,
+      role: string
+  ) {
+    super(name, email, role);
+  }
+}
 
-  ) {}
+export class Profile {
+  constructor() {}
 }

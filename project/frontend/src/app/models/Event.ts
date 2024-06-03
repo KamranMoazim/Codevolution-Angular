@@ -20,7 +20,7 @@ export class Event {
     public status?: string,
     public media?: string[],
     public reviews?: Review[],
-    public image?: string,
+    // public image?: string,
   ) {}
 }
 

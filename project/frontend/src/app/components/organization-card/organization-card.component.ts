@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Organization } from '../../models/User';
 
 @Component({
   selector: 'app-organization-card',
@@ -8,12 +9,8 @@ import { Router } from '@angular/router';
 })
 export class OrganizationCardComponent {
 
-  organization = {
-    id: 1,
-    name: 'Organization Name',
-    description: 'Organization Description',
-    location: 'Organization Location'
-  }
+  // @Input() event: Event;
+  @Input() organization:Organization;
 
   constructor(private router: Router) { }
 

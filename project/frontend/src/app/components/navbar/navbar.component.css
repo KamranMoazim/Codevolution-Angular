@@ -40,3 +40,15 @@ mat-sidenav-content {
 .expanded {
   width: 250px;
 }
+
+
+.footer {
+  /* Apply styles for positioning, background color, etc. */
+  /* position: fixed; */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 10px;
+  text-align: center; /* Or adjust as needed */
+}
