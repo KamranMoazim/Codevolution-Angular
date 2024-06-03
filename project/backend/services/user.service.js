@@ -25,13 +25,13 @@ export const getAllUsersService = async (res) => {
 };
 
 
-export const getAllOrganisationsService = async (orgName, pageNo, pageSize) => {
+export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
 
     // const users = await userModel.find({ role: "admin" }).sort({ createdAt: -1 });
     const stages = [
         {
             // $match: { role: "admin" }
-            $match: { role: "admin", name: { $regex: orgName, $options: "i" } }
+            $match: { role: "admin", name: { $regex: search, $options: "i" } }
         },
         {
             $lookup: {
@@ -79,7 +79,7 @@ export const getAllOrganisationsService = async (orgName, pageNo, pageSize) => {
     const totalCountStage = [
         {
             // $match: { role: "admin" }
-            $match: { role: "admin", name: { $regex: orgName, $options: "i" } }
+            $match: { role: "admin", name: { $regex: search, $options: "i" } }
         },
         {
             $lookup: {
@@ -106,11 +106,11 @@ export const getAllOrganisationsService = async (orgName, pageNo, pageSize) => {
 
     const total = await userModel.aggregate(totalCountStage);
 
-    console.log(total)
+    // console.log(total)
 
 
     return {
-        organisations:users,
+        organizations:users,
         total: total[0].total
     };
 };

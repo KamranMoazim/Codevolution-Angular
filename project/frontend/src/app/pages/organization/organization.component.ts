@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Organization } from '../../models/User';
+import { AllOrgRequest, Organization } from '../../models/User';
 import { Role } from '../../enums/role';
+import { OrganizationService } from '../../services/organization/organization.service';
 
 @Component({
   selector: 'app-organization',
@@ -89,7 +90,7 @@ export class OrganizationComponent {
       followers: []
     } as Organization,
   ]
-  searchValue: string;
+  searchValue: string = '';
 
   length = 50;
   pageSize = 10;
@@ -114,6 +115,42 @@ export class OrganizationComponent {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
+  }
+
+
+  constructor(private organizationService:OrganizationService) {}
+
+  ngOnInit() {
+
+    let allOrgReq = new AllOrgRequest();
+
+    allOrgReq.search = this.searchValue;
+    allOrgReq.page = this.pageIndex ? this.pageIndex : 1;
+    allOrgReq.limit = this.pageSize ? this.pageSize : 10;
+
+    this.organizationService.getOrganizations(allOrgReq).subscribe(data => {
+      console.log(data.data.organizations)
+      this.organizations = data.data.organizations;
+    })
+
+    // this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
+    //   console.log(data)
+    //   this.events = data.data.events;
+    // })
+  }
+
+
+  search(){
+    let allOrgReq = new AllOrgRequest();
+
+    allOrgReq.search = this.searchValue;
+    allOrgReq.page = this.pageIndex ? this.pageIndex : 1;
+    allOrgReq.limit = this.pageSize ? this.pageSize : 10;
+
+    this.organizationService.getOrganizations(allOrgReq).subscribe(data => {
+      console.log(data.data.organizations)
+      this.organizations = data.data.organizations;
+    })
   }
 
 }
