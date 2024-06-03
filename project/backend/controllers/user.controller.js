@@ -47,7 +47,9 @@ export const registrationUser = CatchAsyncError(
                 name,
                 email,
                 password,
-                role
+                role,
+                bio: "Hello, I am new here",
+                avatar: "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
             });
 
             try {
@@ -253,3 +255,34 @@ export const getAllUsers = CatchAsyncError(
     }
 );
 
+
+
+export const updateUserInfo = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            // const user = await userModel.findByIdAndUpdate(req.user?._id, req.body, {
+            //     new: true,
+            //     runValidators: true,
+            //     useFindAndModify: false,
+            // });
+
+            const user = await userModel.findById(req.user?._id);
+
+            if (!user) {
+                return next(new ErrorHandler("User not found", 400));
+            }
+
+            user.bio = req.body.bio || user.bio;
+            user.avatar = req.body.avatar || user.avatar;
+
+            await user.save();
+
+            res.status(200).json({
+                success: true,
+                message: "User updated successfully",
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);

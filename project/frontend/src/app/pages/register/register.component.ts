@@ -70,6 +70,7 @@ export class RegisterComponent {
         next: response => {
           console.log(response);
           this.showSnackBar(response.message);
+          this.goToLoginPage()
         },
         error: error => {
           // console.log("error");
@@ -87,8 +88,12 @@ export class RegisterComponent {
 
     snackBarRef.afterDismissed().subscribe(() => {
       // take user to login page
-      this.router.navigate(['/login']);
     })
+  }
+
+
+  goToLoginPage(){
+    this.router.navigate(['/login']);
   }
 
 }

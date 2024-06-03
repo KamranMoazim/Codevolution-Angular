@@ -48,6 +48,7 @@ export class AllEventsRequest {
     public limit?: number,
     public sortBy: string = 'date',
     public sortOrder: string = 'asc',
+
     public minPrice?: number,
     public maxPrice?: number,
     public status?: string,

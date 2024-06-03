@@ -70,6 +70,8 @@ userSchema.pre("save", async function (next) {
         next();
     }
     this.password = await bcrypt.hash(this.password, 10);
+    console.log("Password hashed")
+    console.log(this.password)
     next();
 });
 

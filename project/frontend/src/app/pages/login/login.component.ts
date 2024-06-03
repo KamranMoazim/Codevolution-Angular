@@ -57,7 +57,7 @@ export class LoginComponent {
 
     snackBarRef.afterDismissed().subscribe(() => {
       // take user to home page
-      this.router.navigate(['/home']);
+      // this.router.navigate(['/home']);
     })
 
 
@@ -71,4 +71,9 @@ export class LoginComponent {
     //   console.log("snackBar action was triggered")
     // })
   }
+
+  goToRegisterPage(){
+    this.router.navigate(['/register']);
+  }
+
 }

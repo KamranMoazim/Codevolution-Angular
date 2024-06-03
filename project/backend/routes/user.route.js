@@ -10,6 +10,7 @@ import {
     registrationUser,
     // socialAuth,
     updatePassword,
+    updateUserInfo,
     // updateProfilePicture,
     // updateUserInfo,
     // updateUserRole,
@@ -26,13 +27,13 @@ userRouter.post("/login", loginUser);
 // userRouter.post("/logout", isAutheticated, logoutUser);
 
 // userRouter.get("/me", addingTempUser, getUserInfo);
-userRouter.get("/me", addingTempUser, getMyProfileController);
+// userRouter.get("/me", addingTempUser, getMyProfileController);
 
-userRouter.get("/user/events", getEventsByUserIdController);
+// userRouter.get("/user/events", getEventsByUserIdController);
 
 // // userRouter.post("/social-auth", socialAuth);
 
-// userRouter.put("/update-user-info",isAutheticated, updateUserInfo);
+userRouter.put("/update-user-info", isAutheticated, updateUserInfo);
 
 // userRouter.put("/update-user-password", isAutheticated, updatePassword);
 

@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { faker } from '@faker-js/faker';
 import userModel from "../models/user.model.js";
 import eventModel from "../models/event.model.js";
@@ -26,8 +27,12 @@ export const generateFakeUsers = (count) => {
             name: faker.person.firstName() + " " + faker.person.lastName(),
             email: faker.internet.email(),
             // password: faker.internet.password(),
-            password: "Kamran12345",
+            // password: "$2a$10$4rOJtOniL/4bT7IMXWhWfO5s9fCs04P2msTMlLckf5pxt170P8Y5O",// "Kamran12345",
+            password: "Kamran12345",// "Kamran12345",
+            // password: await bcrypt.hash("Kamran12345", 10),
             role: i < adminCount ? "admin" : "user", // First 5% are admins, rest are users
+            avatar: faker.image.avatar(),
+            bio: faker.lorem.sentence()
         };
 
         users.push(user);
@@ -173,41 +178,41 @@ userModel.insertMany(adminUsers.concat(regularUsers))
         //     purchaseTicket(ticket);
         // }
 
-        for(const event of events) {
-            // console.log(event)
-            newEvents.push(event);
-        }
-
-        // let newTickets = [];
-        for (const ticket of tickets) {
-            ticket.event = events[Math.floor(Math.random() * events.length)]._id;
-            ticket.user = newUsers[Math.floor(Math.random() * newUsers.length)]._id;
-            ticket.price = events.find(event => event._id === ticket.event).ticketPrice;
-            newTickets.push(purchaseTicket(ticket));
-        }
-        return Promise.all(newTickets);
-    })
-    .then(tickets => {
-        console.log(`${tickets.length} tickets have been inserted into the database.`);
-        // return reviewModel.insertMany(reviews);
-        // for (const review of reviews) {
-        //     createEventReview(review);
+        // for(const event of events) {
+        //     // console.log(event)
+        //     newEvents.push(event);
         // }
 
-        console.log("==================================================================================")
-        console.log(newEvents[0])
-        console.log(newEvents.length)
-
-
-
-        // let newReviews = [];
-        for (const review of reviews) {
-            review.event = newEvents[Math.floor(Math.random() * newEvents.length)]._id;
-            review.user = newUsers[Math.floor(Math.random() * newUsers.length)]._id;
-            newReviews.push(createEventReview(review));
-        }
-        return Promise.all(newReviews);
+        // // let newTickets = [];
+        // for (const ticket of tickets) {
+        //     ticket.event = events[Math.floor(Math.random() * events.length)]._id;
+        //     ticket.user = newUsers[Math.floor(Math.random() * newUsers.length)]._id;
+        //     ticket.price = events.find(event => event._id === ticket.event).ticketPrice;
+        //     newTickets.push(purchaseTicket(ticket));
+        // }
+        // return Promise.all(newTickets);
     })
+    // .then(tickets => {
+    //     console.log(`${tickets.length} tickets have been inserted into the database.`);
+    //     // return reviewModel.insertMany(reviews);
+    //     // for (const review of reviews) {
+    //     //     createEventReview(review);
+    //     // }
+
+    //     console.log("==================================================================================")
+    //     console.log(newEvents[0])
+    //     console.log(newEvents.length)
+
+
+
+    //     // let newReviews = [];
+    //     for (const review of reviews) {
+    //         review.event = newEvents[Math.floor(Math.random() * newEvents.length)]._id;
+    //         review.user = newUsers[Math.floor(Math.random() * newUsers.length)]._id;
+    //         newReviews.push(createEventReview(review));
+    //     }
+    //     return Promise.all(newReviews);
+    // })
     .then(reviews => console.log(`${reviews.length} reviews have been inserted into the database.`))
     .catch(err => {
         console.error(err);

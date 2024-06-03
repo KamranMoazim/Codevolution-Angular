@@ -1,7 +1,7 @@
 import express from "express";
 import {
     createEventController, getAllEventsController, updateEventController, getEventController, 
-    getEventsByUserIdController, getPersonsWhoBoughtTicketController, getTopEventsController
+    getEventsByUserIdController, getPersonsWhoBoughtTicketController, getTopEventsOfOrgController
     ,test,
     searchEventsController, fetchEventsController
 } from "../controllers/event.controller.js";
@@ -19,9 +19,9 @@ eventRouter.get("/event/analytics/event/:id", addingTempUser, getEventsByUserIdC
 
 
 // eventRouter.get("/event/search", searchEventsController);
-eventRouter.get("/event/top", getTopEventsController);
-eventRouter.get("/event/admin-posted-events", getTopEventsController);
-eventRouter.get("/event/my-events", getTopEventsController);
+eventRouter.get("/event/top", getTopEventsOfOrgController);
+eventRouter.get("/event/admin-posted-events", getTopEventsOfOrgController);
+eventRouter.get("/event/my-events", getTopEventsOfOrgController);
 
 eventRouter.get("/event/:id/persons", getPersonsWhoBoughtTicketController);
 eventRouter.get("/event/:id", getEventController);

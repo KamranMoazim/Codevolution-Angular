@@ -446,9 +446,15 @@ export const searchEvents = async (query) => {
 
 
 // get all events
-export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 'date', sortOrder = 'asc', filters = {} } = {}) => {
+export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 'date', sortOrder = 'desc', filters = {} } = {}) => {
 
     const matchStage = {};
+
+    if (filters.isOrganizer) {
+        matchStage.organizer = mongoose.Types.ObjectId.createFromHexString(filters.organizer);
+    } else if (filters.isUser) {
+        matchStage.organizer = { $ne: mongoose.Types.ObjectId.createFromHexString(filters.organizer) };
+    }
 
     if (search) {
         matchStage.$or = [
@@ -511,9 +517,9 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
                 averageRating: { $avg: '$reviews.rating' }
             }
         },
-
     ];
     // Add the rating filter
+    // avg rating of the event should be greater than or equal to the min rating and less than or equal to the max rating
     if (filters.reviews) {
         aggregationPipeline.push({
             $match: {
@@ -535,7 +541,27 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 15, sortBy = 
     aggregationPipeline.push(
         { $sort: { [sortBy]: sortOrderValue } },
         { $skip: (page - 1) * limit },
-        { $limit: limit }
+        { $limit: limit },
+        {
+            $project : {
+                _id: 1,
+                name: 1,
+                description: 1,
+                date: 1,
+                startTime: 1,
+                endTime: 1,
+                location: 1,
+                organizer: 1,
+                capacity: 1,
+                category: 1,
+                // tickets: 1,
+                // reviews: 1,
+                ticketPrice: 1,
+                status: 1,
+                media: 1,
+                averageRating: 1
+            }
+        }
     );
 
     const events = await eventModel.aggregate(aggregationPipeline);

@@ -180,7 +180,7 @@ export const getPersonsWhoBoughtTicketController = CatchAsyncError(
 
 
 // get top events to show on home page
-export const getTopEventsController = CatchAsyncError(
+export const getTopEventsOfOrgController = CatchAsyncError(
     async (req, res, next) => {
         try {
             const events = await getTopEvents();
@@ -238,6 +238,11 @@ export const fetchEventsController = CatchAsyncError(
     async (req, res, next) => {
         try {
             const {
+
+                isUser = false,
+                isOrganizer = false,
+                organizer,
+
                 search = '',
                 page = 1,
                 limit = 15,

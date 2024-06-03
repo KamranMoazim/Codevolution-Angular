@@ -2,7 +2,7 @@
 
 
   <h2>Registeration Form</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registerForm">
     <mat-form-field class="full-width-input">
       <mat-label>Name</mat-label>
       <input type="text" matInput [formControl]="name" placeholder="Kamran Moazim">
@@ -44,7 +44,9 @@
       }
     </div>
 
+
   </form>
-  <button type="submit" mat-raised-button color="primary">Register</button>
+  <a (click)="goToLoginPage()">Already have an account?</a>
+  <button (click)="onSubmit()" type="submit" mat-raised-button color="primary">Register</button>
 
 </div>
