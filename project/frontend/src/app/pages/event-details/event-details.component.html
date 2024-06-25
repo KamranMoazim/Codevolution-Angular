@@ -1,31 +1,10 @@
+<div class="chart-container">
+  <canvas  id="MyChart" >{{ chart }}</canvas>
+</div>
+
 <div fxLayout="row wrap" fxLayoutAlign="space-around">
 
   <div fxFlex="80%">
-
-    <!-- <mat-card class="event-details-card">
-      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between center">
-        <mat-card-title>{{ event.title }}</mat-card-title>
-        <mat-card-subtitle>
-          {{ event.category }} - {{ event.location }}
-        </mat-card-subtitle>
-        <mat-card-actions>
-          <button mat-button *ngIf="isAdmin()" (click)="editEvent()">Edit</button>
-          <button mat-button (click)="buyTicket()">Buy Ticket</button>
-        </mat-card-actions>
-      </mat-card-header>
-      <img mat-card-image [src]="event.media[0]" alt="Event image">
-      <mat-card-content>
-        <div fxLayout="row wrap" fxLayoutAlign="space-around" style="margin: 10px;">
-          <p><strong>Date:</strong> {{ event.date | date }}</p>
-          <p><strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}</p>
-          <p><strong>Organizer:</strong> {{ event.organizer.name }}</p>
-          <p><strong>Capacity:</strong> {{ event.capacity }}</p>
-          <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
-        </div>
-
-        <p>{{ event.description }}</p>
-      </mat-card-content>
-    </mat-card> -->
 
     <mat-card class="event-details-card">
       <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
@@ -51,13 +30,6 @@
             <img [src]="image" alt="Event image {{ i + 1 }}" class="event-image">
           </div>
         </div>
-        <!-- <div fxLayout="row wrap" fxLayoutAlign="space-around" style="margin: 10px;">
-          <p><strong>Date:</strong> {{ event.date | date }}</p>
-          <p><strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}</p>
-          <p><strong>Organizer:</strong> {{ event.organizer.name }}</p>
-          <p><strong>Capacity:</strong> {{ event.capacity }}</p>
-          <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
-        </div> -->
         <div fxLayout="column" fxLayoutGap="10px" style="margin: 10px;">
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
             <mat-icon>event</mat-icon>
