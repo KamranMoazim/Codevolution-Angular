@@ -17,7 +17,7 @@ export class AllEventsComponent implements OnInit {
 
   public events: Event[] = [
     {
-      id: "1",
+      _id: "1",
       title: 'Event Name 1',
       description: 'Event Description 1',
       date: new Date(),
@@ -39,7 +39,7 @@ export class AllEventsComponent implements OnInit {
       // image: 'https://material.angular.io/assets/img/examples/shiba2.jpg'
     },
     {
-      id: "2",
+      _id: "2",
       title: 'Event Name 2',
       description: 'Event Description 2',
       date: new Date(),
@@ -61,7 +61,7 @@ export class AllEventsComponent implements OnInit {
       // image: ''
     },
     {
-      id: "3",
+      _id: "3",
       title: 'Event Name 3',
       description: 'Event Description 3',
       date: new Date(),
@@ -83,7 +83,7 @@ export class AllEventsComponent implements OnInit {
       // image: ''
     },
     {
-      id: "4",
+      _id: "4",
       title: 'Event Name 4',
       description: 'Event Description 4',
       date: new Date(),
@@ -105,7 +105,7 @@ export class AllEventsComponent implements OnInit {
       // image: ''
     },
     {
-      id: "5",
+      _id: "5",
       title: 'Event Name 5',
       description: 'Event Description 5',
       date: new Date(),

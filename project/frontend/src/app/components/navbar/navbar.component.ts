@@ -8,6 +8,8 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
+  userRole = 0;
+
   adminRoutes = [
     { path: '/admin/dashboard', title: 'Dashboard' },
     { path: '/admin/events', title: 'Events' },
@@ -27,16 +29,18 @@ export class NavbarComponent implements OnInit {
   constructor(private _authServer:AuthService) {}
 
   ngOnInit() {
+    this.userRole = this._authServer.getUserRole();
   }
 
   logout() {
     this._authServer.logoutUser();
+    this.userRole = this._authServer.getUserRole();
   }
 
-  getUserRole(){
-    let k = this._authServer.getUserRole()
-    console.log(k)
-    return k
-  }
+  // getUserRole(){
+  //   let k = this._authServer.getUserRole()
+  //   console.log(k)
+  //   return k
+  // }
 
 }

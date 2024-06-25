@@ -31,7 +31,7 @@
       </a>
 
 
-      @if (getUserRole() == 1){ <!-- 1 means simple USER - got to Role enum -->
+      @if (userRole == 1){ <!-- 1 means simple USER - got to Role enum -->
 
         <a mat-list-item routerLink="/profile" >
           <span class="entry">
@@ -56,7 +56,7 @@
 
       }
 
-      @if (getUserRole() == 2){ <!-- 2 means simple ADMIN - got to Role enum -->
+      @if (userRole == 2){ <!-- 2 means simple ADMIN - got to Role enum -->
 
         <a mat-list-item routerLink="/admin" >
           <span class="entry">
@@ -82,7 +82,7 @@
       }
 
 
-      @if (!getUserRole()) {
+      @if (!userRole) {
 
         <a mat-list-item routerLink="/register" >
           <span class="entry">

@@ -6,7 +6,7 @@ import { User } from "./User";
 
 export class Event {
   constructor(
-    public id?: string,
+    public _id?: string,
     public title?: string,
     public description?: string,
     public date?: Date,

@@ -14,11 +14,12 @@ import Chart from 'chart.js/auto';
 })
 export class EventDetailsComponent implements OnInit {
 
-  public chart: any;
+  public ratingBarChart: any;
+  public ticketsLineChart: any;
 
   public topEvents: Event[] = [
     {
-      id: "1",
+      _id: "1",
       title: 'Event Name 1',
       description: 'Event Description 1',
       date: new Date(),
@@ -40,7 +41,7 @@ export class EventDetailsComponent implements OnInit {
       // image: 'https://material.angular.io/assets/img/examples/shiba2.jpg'
     },
     {
-      id: "2",
+      _id: "2",
       title: 'Event Name 2',
       description: 'Event Description 2',
       date: new Date(),
@@ -62,7 +63,7 @@ export class EventDetailsComponent implements OnInit {
       // image: ''
     },
     {
-      id: "3",
+      _id: "3",
       title: 'Event Name 3',
       description: 'Event Description 3',
       date: new Date(),
@@ -84,7 +85,7 @@ export class EventDetailsComponent implements OnInit {
       // image: ''
     },
     {
-      id: "4",
+      _id: "4",
       title: 'Event Name 4',
       description: 'Event Description 4',
       date: new Date(),
@@ -106,7 +107,7 @@ export class EventDetailsComponent implements OnInit {
       // image: ''
     },
     {
-      id: "5",
+      _id: "5",
       title: 'Event Name 5',
       description: 'Event Description 5',
       date: new Date(),
@@ -157,7 +158,7 @@ export class EventDetailsComponent implements OnInit {
 
 
   event:Event = {
-    id: "1",
+    _id: "1",
     capacity: 100,
     date: new Date(),
     description: "Event Description",
@@ -227,7 +228,7 @@ export class EventDetailsComponent implements OnInit {
   editEvent(): void {
     // Implement edit event functionality
     // alert('Edit event clicked!');
-    this.router.navigate(['/admin/events/', this.event.id]);
+    this.router.navigate(['/admin/events/', this.event._id]);
   }
 
   getStars(rating: number): string[] {
@@ -264,7 +265,8 @@ export class EventDetailsComponent implements OnInit {
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
-    this.createChart();
+    this.createRatingBarChart();
+    this.createTicketsLineChart();
   }
   onClick(rating:number) {
     console.log(rating)
@@ -285,33 +287,59 @@ export class EventDetailsComponent implements OnInit {
 
 
 
-  createChart(){
+  createRatingBarChart(){
 
-    this.chart = new Chart("MyChart", {
+    this.ratingBarChart = new Chart("RatingBarChart", {
       type: 'bar', //this denotes tha type of chart
-
-      data: {// values on X-Axis
-        labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13',
-								 '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ],
-	       datasets: [
-          {
-            label: "Sales",
-            data: ['467','576', '572', '79', '92',
-								 '574', '573', '576'],
-            backgroundColor: 'blue'
-          },
-          {
-            label: "Profit",
-            data: ['542', '542', '536', '327', '17',
-									 '0.00', '538', '541'],
-            backgroundColor: 'limegreen'
-          }
-        ]
+      data:{
+        labels: ['*', '**', '***', '****', '*****'],
+        datasets: [{
+          label: 'Event Ratings',
+          data: [65, 40, 80, 81, 56],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)'
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)'
+          ],
+          borderWidth: 1
+        }]
       },
       options: {
-        aspectRatio:2.5
+        aspectRatio:1.5,
       }
 
     });
   }
+
+  createTicketsLineChart(){
+
+    this.ticketsLineChart = new Chart("TicketsLineChart", {
+      type: 'line', //this denotes tha type of chart
+      data:{
+        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        datasets: [{
+          label: 'Tickets Bought Per Month in Last 6 Months',
+          data: [65, 59, 80, 81, 56, 55],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }]
+      },
+      options: {
+        aspectRatio:1.5,
+      }
+
+    });
+  }
+
+
 }

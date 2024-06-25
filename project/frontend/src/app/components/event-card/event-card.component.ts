@@ -21,6 +21,7 @@ export class EventCardComponent {
   constructor(private router: Router) { }
 
   showDetails(): void {
-    this.router.navigate(['/events/' + this.event.id]);
+    console.log(this.event)
+    this.router.navigate(['/events/' + this.event._id]);
   }
 }
