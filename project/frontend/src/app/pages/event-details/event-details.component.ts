@@ -16,6 +16,7 @@ export class EventDetailsComponent implements OnInit {
 
   public ratingBarChart: any;
   public ticketsLineChart: any;
+  // public uniqueUsersPieChart: any;
 
   public topEvents: Event[] = [
     {
@@ -340,6 +341,32 @@ export class EventDetailsComponent implements OnInit {
 
     });
   }
+
+
+  // createShiftsPieChart(){
+
+  //   this.shiftsPieChart = new Chart("ShiftsPieChart", {
+  //     type: 'pie', //this denotes tha type of chart
+  //     data:{
+  //       labels: ["Morning", "Afternoon", "Evening", "Night"],
+  //       datasets: [{
+  //         label: 'All Events Shifts',
+  //         data: [300, 50, 100, 150],
+  //         backgroundColor: [
+  //           'rgb(255, 99, 132)',
+  //           'rgb(54, 162, 235)',
+  //           'rgb(255, 205, 86)',
+  //           'rgb(75, 192, 192)'
+  //         ],
+  //         hoverOffset: 4
+  //       }],
+  //     },
+  //     options: {
+  //       aspectRatio:1.5,
+  //     }
+
+  //   });
+  // }
 
 
 }

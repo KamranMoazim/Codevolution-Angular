@@ -10,6 +10,7 @@ export class AdminComponent {
 
   public ticketsLineChart: any;
   public allEventUniqueCategoriesPieChart: any;
+  public shiftsPieChart: any;
 
   avgRating: any = [
     { _id: 'event1', averageRating: 4.5 },
@@ -42,6 +43,7 @@ export class AdminComponent {
 
     this.createTicketsLineChart();
     this.createAllEventUniqueCategoriesPieChart();
+    this.createShiftsPieChart();
   }
 
 
@@ -52,10 +54,10 @@ export class AdminComponent {
     this.ticketsLineChart = new Chart("TicketsLineChart", {
       type: 'line', //this denotes tha type of chart
       data:{
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [{
-          label: 'Tickets Bought Per Month in Last 6 Months',
-          data: [65, 59, 80, 81, 56, 55],
+          label: 'Number of Events created in Last 12 Months',
+          data: [65, 59, 80, 81, 56, 55, 40, 30, 20, 10, 5, 2],
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1
@@ -96,5 +98,35 @@ export class AdminComponent {
 
     });
   }
+
+
+
+  createShiftsPieChart(){
+
+    this.shiftsPieChart = new Chart("ShiftsPieChart", {
+      type: 'pie', //this denotes tha type of chart
+      data:{
+        labels: ["Morning", "Afternoon", "Evening", "Night"],
+        datasets: [{
+          label: 'All Events Shifts',
+          data: [300, 50, 100, 150],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)'
+          ],
+          hoverOffset: 4
+        }],
+      },
+      options: {
+        aspectRatio:1.5,
+      }
+
+    });
+  }
+
+
+
 
 }
