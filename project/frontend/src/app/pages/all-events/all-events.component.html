@@ -24,23 +24,41 @@
 
 
 
-
+<!--
 <div fxLayout="row wrap" fxLayoutAlign="space-around center" >
 
   <div *ngFor="let event of events">
     <app-event-card [event]="event"></app-event-card>
   </div>
 
-  <mat-paginator #paginator
-    class="demo-paginator"
-    (page)="handlePageEvent($event)"
-    [length]="length"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-    [showFirstLastButtons]="showFirstLastButtons"
-    [hidePageSize]="hidePageSize"
-    [pageIndex]="pageIndex"
-    aria-label="Select page"
-    >
-  </mat-paginator>
 </div>
+
+<mat-paginator #paginator
+  fxLayout="row wrap" fxLayoutAlign="space-around center"
+  (page)="handlePageEvent($event)"
+  [length]="length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+  [showFirstLastButtons]="showFirstLastButtons"
+  [hidePageSize]="hidePageSize"
+  [pageIndex]="pageIndex"
+  aria-label="Select page"
+  >
+</mat-paginator> -->
+
+
+
+
+<ng-template #itemTemplate let-item>
+  <app-event-card [event]="item"></app-event-card>
+</ng-template>
+
+<app-generic-pagination
+  [items]="events"
+  [template]="itemTemplate"
+  [pageSizeOptions]="[5, 10, 20]"
+  [pageSize]="pageSize"
+  [length]="length"
+  (pageChange)="handlePageChange($event)"
+>
+</app-generic-pagination>

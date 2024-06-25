@@ -196,6 +196,8 @@ export class AllEventsComponent implements OnInit {
     this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
       console.log(data)
       this.events = data.data.events;
+      this.length = data.data.totalPages;
+      this.pageIndex = data.data.page;
     })
   }
 
@@ -267,18 +269,23 @@ export class AllEventsComponent implements OnInit {
     let allEventsRequest = new AllEventsRequest();
 
     if(this.searchValue) allEventsRequest.search = this.searchValue;
-    if(this.pageEvent) {
-      allEventsRequest.page = this.pageEvent.pageIndex;
-    } else {
-      allEventsRequest.page = 1;
-      console.log("page:", allEventsRequest.page)
-    }
-    if(this.pageEvent) {
-      allEventsRequest.limit = this.pageEvent.pageSize;
-    } else {
-      allEventsRequest.limit = 5;
-      console.log("limit:", allEventsRequest.limit)
-    }
+
+    // if(this.pageEvent) {
+    //   allEventsRequest.page = this.pageEvent.pageIndex;
+    // } else {
+    //   allEventsRequest.page = 1;
+    //   console.log("page:", allEventsRequest.page)
+    // }
+    // if(this.pageEvent) {
+    //   allEventsRequest.limit = this.pageEvent.pageSize;
+    // } else {
+    //   allEventsRequest.limit = 5;
+    //   console.log("limit:", allEventsRequest.limit)
+    // }
+
+    allEventsRequest.page = this.pageIndex;
+    allEventsRequest.limit = this.pageSize;
+
     if(this.minPrice) allEventsRequest.minPrice = this.minPrice;
     if(this.maxPrice) allEventsRequest.maxPrice = this.maxPrice;
     if(this.selectedStatus) allEventsRequest.status = this.selectedStatus;
@@ -291,5 +298,14 @@ export class AllEventsComponent implements OnInit {
 
 
     return allEventsRequest;
+  }
+
+
+  public handlePageChange(event: any): void {
+    console.log(event)
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.search();
+    // this.fetchItems(this.pageIndex, this.pageSize);
   }
 }

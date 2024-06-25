@@ -1,17 +1,17 @@
 
-<div>
-  <mat-paginator
-  [length]="length"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
-  [pageIndex]="pageIndex"
-  [showFirstLastButtons]="showFirstLastButtons"
-  (page)="handlePageEvent($event)">
-  </mat-paginator>
-
+<div  fxLayout="row wrap" fxLayoutAlign="space-around center">
   <ng-container *ngFor="let item of items">
     <!-- {{ item | json }} -->
     <!-- <ng-content [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: item }"></ng-content> -->
     <ng-container *ngTemplateOutlet="template; context: { $implicit: item }"></ng-container>
   </ng-container>
 </div>
+<mat-paginator
+  fxLayout="row wrap" fxLayoutAlign="space-around center" style="margin-top: 10px;"
+  [length]="length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="pageIndex"
+  [showFirstLastButtons]="showFirstLastButtons"
+  (page)="handlePageEvent($event)">
+</mat-paginator>
