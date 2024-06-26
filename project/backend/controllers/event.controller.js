@@ -285,11 +285,11 @@ export const fetchEventsController = CatchAsyncError(
             }
 
             if (startTime !== undefined) {
-                filters.startTime = startTime;
+                filters.startTime = Number(startTime);
             }
 
             if (endTime !== undefined) {
-                filters.endTime = endTime;
+                filters.endTime = Number(endTime);
             }
 
             if (minReviews !== undefined && maxReviews !== undefined) {

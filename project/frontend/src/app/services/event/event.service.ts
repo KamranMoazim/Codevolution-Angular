@@ -68,13 +68,13 @@ export class EventService {
       params['endTime'] = allEventsRequest.endTime;
     }
 
-    if (allEventsRequest.minReviews) {
-      params['minReviews'] = allEventsRequest.minReviews;
-    }
+    // if (allEventsRequest.minReviews) {
+    //   params['minReviews'] = allEventsRequest.minReviews;
+    // }
 
-    if (allEventsRequest.maxReviews) {
-      params['maxReviews'] = allEventsRequest.maxReviews;
-    }
+    // if (allEventsRequest.maxReviews) {
+    //   params['maxReviews'] = allEventsRequest.maxReviews;
+    // }
 
     console.log(params)
 

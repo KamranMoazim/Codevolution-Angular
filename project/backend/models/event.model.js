@@ -17,11 +17,13 @@ const eventSchema = new mongoose.Schema(
             required: [true, "Please enter event date"],
         },
         startTime: {
-            type: String,
+            // type: String,
+            type: Number,
             required: [true, "Please enter event start time"],
         },
         endTime: {
-            type: String,
+            // type: String,
+            type: Number,
             required: [true, "Please enter event end time"],
         },
         location: {

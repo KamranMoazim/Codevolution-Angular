@@ -58,10 +58,12 @@ export class AllEventsRequest {
     // },
     public startDate?: string,
     public endDate?: string,
-    public startTime?: string,
-    public endTime?: string,
-    public minReviews?: number,
-    public maxReviews?: number,
+    // public startTime?: string,
+    // public endTime?: string,
+    public startTime?: number,
+    public endTime?: number,
+    // public minReviews?: number,
+    // public maxReviews?: number,
   ) {}
 }
 

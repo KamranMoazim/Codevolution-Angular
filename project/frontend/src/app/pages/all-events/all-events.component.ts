@@ -55,7 +55,7 @@ export class AllEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
-      // console.log(data)
+      console.log(data)
       this.events = data.data.events;
       this.length = data.data.totalPages;
       this.pageIndex = data.data.page;
@@ -74,6 +74,7 @@ export class AllEventsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Filters applied:', this.dateRange.value);
+        console.log('Result applied:', result);
 
         this.selectedStatus = result.selectedStatus;
         this.dateRange = result.dateRange;
@@ -95,7 +96,7 @@ export class AllEventsComponent implements OnInit {
 
 
     this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
-      // console.log(data)
+      console.log(data)
       this.events = data.data.events;
       this.length = data.data.totalPages;
       this.pageIndex = data.data.page;
@@ -122,8 +123,8 @@ export class AllEventsComponent implements OnInit {
     if(this.selectedStatus) allEventsRequest.status = this.selectedStatus;
     if(this.startDate) allEventsRequest.startDate = this.startDate;
     if(this.endDate) allEventsRequest.endDate = this.endDate;
-    if(this.startTime) allEventsRequest.startTime = this.startTime;
-    if(this.endTime) allEventsRequest.endTime = this.endTime;
+    // if(this.startTime) allEventsRequest.startTime = this.startTime;
+    // if(this.endTime) allEventsRequest.endTime = this.endTime;
 
     console.log(allEventsRequest)
 

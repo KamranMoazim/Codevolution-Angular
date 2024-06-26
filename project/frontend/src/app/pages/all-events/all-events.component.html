@@ -23,32 +23,6 @@
 
 
 
-
-<!--
-<div fxLayout="row wrap" fxLayoutAlign="space-around center" >
-
-  <div *ngFor="let event of events">
-    <app-event-card [event]="event"></app-event-card>
-  </div>
-
-</div>
-
-<mat-paginator #paginator
-  fxLayout="row wrap" fxLayoutAlign="space-around center"
-  (page)="handlePageEvent($event)"
-  [length]="length"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-  [showFirstLastButtons]="showFirstLastButtons"
-  [hidePageSize]="hidePageSize"
-  [pageIndex]="pageIndex"
-  aria-label="Select page"
-  >
-</mat-paginator> -->
-
-
-
-
 <ng-template #itemTemplate let-item>
   <app-event-card [event]="item"></app-event-card>
 </ng-template>

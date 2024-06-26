@@ -12,9 +12,10 @@
 
     <h4>Price Range</h4>
     <mat-slider style="width: 100%;" min="100" max="2000" step="50" tickInterval="500">
-      <input value="300" matSliderStartThumb [(ngModel)]="minPrice">
-      <input value="400" matSliderEndThumb [(ngModel)]="maxPrice">
+      <input value="{{minPrice}}" matSliderStartThumb [(ngModel)]="minPrice">
+      <input value="{{maxPrice}}" matSliderEndThumb [(ngModel)]="maxPrice">
     </mat-slider>
+    <p>Selected Price Range: {{ minPrice }} - {{ maxPrice }}</p>
 
     <!-- <div fxLayout="row" fxLayoutGap="20px">
       <div class="12hr-example" fxFlex="45%">
@@ -35,7 +36,7 @@
         <h4>Start time:</h4>
         <mat-form-field>
           <mat-label>Start Time</mat-label>
-          <mat-select [(value)]="startTime">
+          <mat-select [(value)]="startTime" (selectionChange)="onStartTimeChange()">
             <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -46,7 +47,7 @@
         <mat-form-field>
           <mat-label>End Time</mat-label>
           <mat-select [(value)]="endTime">
-            <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
+            <mat-option *ngFor="let time of endTimes" [value]="time">{{ time }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
