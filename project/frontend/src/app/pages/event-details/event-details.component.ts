@@ -49,7 +49,7 @@ export class EventDetailsComponent implements OnInit {
 
 
   event:Event = {
-    _id: "1",
+    _id: "665d8d5d57e7bf74c95f3b08",
     capacity: 100,
     date: new Date(),
     description: "Event Description",

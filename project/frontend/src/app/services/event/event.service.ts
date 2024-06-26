@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { AllEventsRequest, AllEventsResponse } from '../../models/Event';
+import { AllEventsRequest, AllEventsResponse, SingleEventDetailssResponse } from '../../models/Event';
 
 @Injectable({
   providedIn: 'root'
@@ -79,26 +79,13 @@ export class EventService {
     console.log(params)
 
     return this.httpClient.get<AllEventsResponse>(this._url + "/event", {
-      // params: {
-        // search: allEventsRequest.search,
-        // page: allEventsRequest.page,
-        // limit: allEventsRequest.limit,
-        // sortBy: allEventsRequest.sortBy,
-        // sortOrder: allEventsRequest.sortOrder,
-        // minPrice: allEventsRequest.minPrice,
-        // maxPrice: allEventsRequest.maxPrice,
-        // status: allEventsRequest.status,
-        // // date: allEventsRequest.date,
-        // startDate: allEventsRequest.startDate,
-        // endDate: allEventsRequest.endDate,
-        // startTime: allEventsRequest.startTime,
-        // endTime: allEventsRequest.endTime,
-        // // location: allEventsRequest.location,
-        // minReviews: allEventsRequest.minReviews,
-        // maxReviews: allEventsRequest.maxReviews,
-      // }
       params
     }).pipe(catchError(this.errorHandler));
+  }
+
+
+  getEventDetails(eventId:string) : Observable<SingleEventDetailssResponse> {
+    return this.httpClient.get<SingleEventDetailssResponse>(this._url + "/event/" + eventId).pipe(catchError(this.errorHandler));
   }
 
 

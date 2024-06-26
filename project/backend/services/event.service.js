@@ -47,7 +47,7 @@ export const getEventById = async (eventId) => {
         {
             $project: {
                 _id: 1,
-                name: 1,
+                title: 1,
                 description: 1,
                 date: 1,
                 startTime: 1,

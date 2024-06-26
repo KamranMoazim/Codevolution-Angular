@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as AWS from 'aws-sdk';
+import { EventService } from '../../services/event/event.service';
 
 @Component({
   selector: 'app-create-update-event',
@@ -21,11 +22,11 @@ export class CreateUpdateEventComponent {
   localImageUrls: string[] = []; // Store the uploaded image URLs locally
 
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private eventService:EventService) {
     AWS.config.update({
-      accessKeyId: 'YOUR_ACCESS_KEY_ID',
-      secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
-      region: 'YOUR_AWS_REGION'
+      accessKeyId: 'AKIA3FLD6J5JOC55LSVW',
+      secretAccessKey: '5dRglE95OgPxyjmqYlOLftE/d11c4f/C6PfTpczA',
+      region: 'us-east-1'
     });
     this.s3 = new AWS.S3();
   }
@@ -38,7 +39,7 @@ export class CreateUpdateEventComponent {
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       location: ['', Validators.required],
-      capacity: [null, Validators.required, Validators.min(100)],
+      capacity: [null, [Validators.required, Validators.min(100)]],
       category: ['', Validators.required],
       ticketPrice: [null, Validators.required],
       status: ['', Validators.required],
@@ -55,8 +56,16 @@ export class CreateUpdateEventComponent {
     this.eventId = this.route.snapshot.paramMap.get('id');
     if (this.eventId) {
       this.isEditMode = true;
-      // Fetch the event details by ID and set the form values
+
+      // Fetch the event data from the server
+      this.eventService.getEventDetails(this.eventId).subscribe(data => {
+        console.log(data)
+        this.eventForm.patchValue(data.data.event);
+
+        this.images = data.data.event.media.map(url => ({ url }));
+      });
     }
+    console.log(this.eventId)
   }
 
 
@@ -101,7 +110,7 @@ export class CreateUpdateEventComponent {
     this.images.forEach((image, index) => {
       if (image.file) {
         const params = {
-          Bucket: 'YOUR_BUCKET_NAME',
+          Bucket: 'edusculpt-bucket-prod',
           Key: `uploads/${image.file.name}`,
           Body: image.file,
           ACL: 'public-read'

@@ -81,3 +81,17 @@ export class AllEventsResponse extends BaseResponse {
     super(success, message);
   }
 }
+
+
+
+export class SingleEventDetailssResponse extends BaseResponse {
+  constructor(
+    public success: boolean,
+    public message: string,
+    public data: {
+      event: Event
+    }
+  ) {
+    super(success, message);
+  }
+}

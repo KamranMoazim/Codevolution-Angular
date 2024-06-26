@@ -139,6 +139,7 @@ export const getEventController = CatchAsyncError(
             // const eventReviews = await getReviewsByEventId(req.params.id);
             return res.status(200).json({
                 success: true,
+                message: "Event fetched successfully",
                 data:{
                         event,
                         // ticketsAvailable,

@@ -302,6 +302,7 @@ export const getAllOrganizationsController = CatchAsyncError(
 
             res.status(200).json({
                 success: true,
+                message: "All organizations",
                 data: await getAllOrganizationsService(search, pageNo, pageSize)
             });
         } catch (error) {

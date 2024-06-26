@@ -1,48 +1,3 @@
-<!-- <form class="wrapper">
-  <mat-form-field class="example-full-width">
-    <mat-label>Company (disabled)</mat-label>
-    <input matInput disabled value="Google">
-  </mat-form-field>
-
-  <table class="example-full-width" cellspacing="0"><tr>
-    <td><mat-form-field class="example-full-width">
-      <mat-label>First name</mat-label>
-      <input matInput>
-    </mat-form-field></td>
-    <td><mat-form-field class="example-full-width">
-      <mat-label>Long Last Name That Will Be Truncated</mat-label>
-      <input matInput>
-    </mat-form-field></td>
-  </tr></table>
-
-  <p>
-    <mat-form-field class="example-full-width">
-      <mat-label>Address</mat-label>
-      <textarea matInput placeholder="Ex. 100 Main St">1600 Amphitheatre Pkwy</textarea>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <mat-label>Address 2</mat-label>
-      <textarea matInput></textarea>
-    </mat-form-field>
-  </p>
-
-  <table class="example-full-width" cellspacing="0"><tr>
-    <td><mat-form-field class="example-full-width">
-      <mat-label>City</mat-label>
-      <input matInput placeholder="Ex. San Francisco">
-    </mat-form-field></td>
-    <td><mat-form-field class="example-full-width">
-      <mat-label>State</mat-label>
-      <input matInput placeholder="Ex. California">
-    </mat-form-field></td>
-    <td><mat-form-field class="example-full-width">
-      <mat-label>Postal Code</mat-label>
-      <input matInput #postalCode maxlength="5" placeholder="Ex. 94105" value="94043">
-      <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-    </mat-form-field></td>
-  </tr></table>
-</form> -->
-
 
 
 <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
@@ -106,7 +61,6 @@
     <mat-label>Ticket Price</mat-label>
     <input matInput type="number" placeholder="0" formControlName="ticketPrice">
     <span matTextPrefix>$&nbsp;</span>
-    <span matTextSuffix>.00</span>
   </mat-form-field>
 
   <mat-form-field>
@@ -118,14 +72,14 @@
   </mat-form-field>
 </div>
 
-<mat-card>
+<!-- <mat-card>
   <mat-card-title style="margin: 10px;">Upload Event Images</mat-card-title>
   <mat-card-content>
     <input type="file" (change)="onFileSelected($event)" multiple>
     <div *ngIf="images.length > 0">
       <mat-list>
         <mat-list-item *ngFor="let image of images; let i = index">
-          <img [src]="image.preview || image.url" alt="Image preview" width="100%">
+          <img [src]="image.preview || image.url" alt="Image preview" width="100px" height="100px">
           <button mat-button color="warn" (click)="removeImage(i)">Remove</button>
         </mat-list-item>
       </mat-list>
@@ -135,7 +89,26 @@
   <mat-card-actions>
     <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="images.length === 0">Upload Images</button>
   </mat-card-actions>
+</mat-card> -->
+<mat-card>
+  <mat-card-title style="margin: 10px;">Upload Event Images</mat-card-title>
+  <mat-card-content>
+    <input type="file" (change)="onFileSelected($event)" multiple>
+    <div *ngIf="images.length > 0">
+      <mat-list>
+        <mat-list-item *ngFor="let image of images; let i = index" fxLayout="row" fxLayoutAlign="start center">
+          <img [src]="image.preview || image.url" alt="Image preview" width="200px" height="200px" (click)="removeImage(i)">
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <p *ngIf="images.length >= 5" class="text-danger">You can only upload up to 5 images.</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="images.length === 0">Upload Images</button>
+  </mat-card-actions>
 </mat-card>
+
+
 
 
 
