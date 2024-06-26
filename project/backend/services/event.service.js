@@ -552,7 +552,8 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         {
             $project : {
                 _id: 1,
-                name: 1,
+                // name: 1,
+                title: 1,
                 description: 1,
                 date: 1,
                 startTime: 1,

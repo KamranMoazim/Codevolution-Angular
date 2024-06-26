@@ -27,14 +27,13 @@ export const getAllUsersService = async (res) => {
 
 export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
 
-    console.log(search, pageNo, pageSize)
+    // console.log(search, pageNo, pageSize)
 
-    // const users = await userModel.find({ role: "admin" }).sort({ createdAt: -1 });
     const stages = [
-        // {
-        //     // $match: { role: "admin" }
-        //     $match: { role: "admin", name: { $regex: search, $options: "i" } }
-        // },
+        {
+            // $match: { role: "admin" }
+            $match: { role: "admin", name: { $regex: search, $options: "i" } }
+        },
         {
             $lookup: {
                 from: "events",
@@ -108,7 +107,7 @@ export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
 
     const total = await userModel.aggregate(totalCountStage);
 
-    // console.log(total)
+    // console.log("total", total[0].total)
 
 
     return {
