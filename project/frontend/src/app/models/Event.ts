@@ -95,3 +95,35 @@ export class SingleEventDetailssResponse extends BaseResponse {
     super(success, message);
   }
 }
+
+
+
+export class CreateOrUpdateEventRequest {
+  constructor(
+    public title: string,
+    public description: string,
+    public date: Date,
+    public startTime: number,
+    public endTime: number,
+    public location: string,
+    public capacity: number,
+    public category: string,
+    public ticketPrice: number,
+    public status: string,
+    public media: string[],
+    public _id?: string,
+  ) {}
+}
+
+
+export class CreateOrUpdateEventResponse extends BaseResponse {
+  constructor(
+    public success: boolean,
+    public message: string,
+    public data: {
+      event: Event
+    }
+  ) {
+    super(success, message);
+  }
+}

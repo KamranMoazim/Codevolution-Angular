@@ -19,7 +19,7 @@ export class CreateUpdateEventComponent {
 
   images: { file?: File, preview?: string, url?: string }[] = [];
   s3: AWS.S3;
-  localImageUrls: string[] = []; // Store the uploaded image URLs locally
+  // localImageUrls: string[] = []; // Store the uploaded image URLs locally
 
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private eventService:EventService) {
@@ -39,7 +39,7 @@ export class CreateUpdateEventComponent {
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       location: ['', Validators.required],
-      capacity: [null, [Validators.required, Validators.min(100)]],
+      capacity: [null, [Validators.required, Validators.min(20)]],
       category: ['', Validators.required],
       ticketPrice: [null, Validators.required],
       status: ['', Validators.required],
@@ -77,6 +77,8 @@ export class CreateUpdateEventComponent {
     if (this.eventForm.valid) {
       console.log(this.eventForm.value);
       // Submit the event form data
+      let allImagesUrls = this.images.map(image => image.url);
+      console.log(allImagesUrls)
     }
   }
 
@@ -101,8 +103,8 @@ export class CreateUpdateEventComponent {
     const removedImage = this.images.splice(index, 1)[0];
     if (removedImage.url) {
       // Remove the URL from local storage if the image has already been uploaded
-      this.localImageUrls = this.localImageUrls.filter(url => url !== removedImage.url);
-      this.saveImageUrls(this.localImageUrls);
+      // this.localImageUrls = this.localImageUrls.filter(url => url !== removedImage.url);
+      // this.saveImageUrls(this.localImageUrls);
     }
   }
 
@@ -122,24 +124,14 @@ export class CreateUpdateEventComponent {
           } else {
             console.log('Successfully uploaded image:', data);
             this.images[index].url = data.Location;
-            this.localImageUrls.push(data.Location);
-            this.saveImageUrls(this.localImageUrls);
-            delete this.images[index].file;
-            delete this.images[index].preview;
+            // this.localImageUrls.push(data.Location);
+            // this.saveImageUrls(this.localImageUrls);
+            // delete this.images[index].file;
+            // delete this.images[index].preview;
           }
         });
       }
     });
-  }
-
-  getSavedImageUrls(): string[] {
-    // Retrieve saved URLs from local storage or other storage mechanism
-    return JSON.parse(localStorage.getItem('savedImageUrls') || '[]');
-  }
-
-  saveImageUrls(urls: string[]) {
-    // Save URLs to local storage or other storage mechanism
-    localStorage.setItem('savedImageUrls', JSON.stringify(urls));
   }
 
 }

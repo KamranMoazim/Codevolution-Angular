@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { AllEventsRequest, AllEventsResponse, SingleEventDetailssResponse } from '../../models/Event';
+import { AllEventsRequest, AllEventsResponse, CreateOrUpdateEventRequest, CreateOrUpdateEventResponse, SingleEventDetailssResponse } from '../../models/Event';
 
 @Injectable({
   providedIn: 'root'
@@ -86,6 +86,15 @@ export class EventService {
 
   getEventDetails(eventId:string) : Observable<SingleEventDetailssResponse> {
     return this.httpClient.get<SingleEventDetailssResponse>(this._url + "/event/" + eventId).pipe(catchError(this.errorHandler));
+  }
+
+
+  createEvent(eventData: CreateOrUpdateEventRequest) : Observable<CreateOrUpdateEventResponse> {
+    return this.httpClient.post<CreateOrUpdateEventResponse>(this._url + "/event", eventData).pipe(catchError(this.errorHandler));
+  }
+
+  updateEvent(eventId: string, eventData: CreateOrUpdateEventRequest) : Observable<CreateOrUpdateEventResponse> {
+    return this.httpClient.put<CreateOrUpdateEventResponse>(this._url + "/event/" + eventId, eventData).pipe(catchError(this.errorHandler));
   }
 
 
