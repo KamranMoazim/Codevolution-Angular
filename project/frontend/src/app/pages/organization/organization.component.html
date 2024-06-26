@@ -15,7 +15,7 @@
 
 
 <!-- <div fxLayout="row wrap" fxLayoutAlign="space-around center"*ngIf="organizations$ | async as organizations; else loading"> -->
-<div fxLayout="row wrap" fxLayoutAlign="space-around center">
+<!-- <div fxLayout="row wrap" fxLayoutAlign="space-around center">
     <app-organization-card *ngFor="let organization of organizations" [organization]="organization"></app-organization-card>
 
     <mat-paginator #paginator
@@ -30,5 +30,22 @@
       [pageIndex]="pageIndex"
       aria-label="Select page">
   </mat-paginator>
-</div>
+</div> -->
 
+
+
+<ng-template #itemTemplate let-item>
+  <!-- <app-event-card [event]="item"></app-event-card> -->
+  <app-organization-card [organization]="item"></app-organization-card>
+</ng-template>
+
+<app-generic-pagination
+  [items]="organizations"
+  [template]="itemTemplate"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
+  [length]="length"
+  (pageChange)="handlePageChange($event)"
+>
+</app-generic-pagination>

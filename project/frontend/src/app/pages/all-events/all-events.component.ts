@@ -132,7 +132,7 @@ export class AllEventsComponent implements OnInit {
 
   length = 50;
   pageSize = 5;
-  pageIndex = 1;
+  pageIndex = 0;
   pageSizeOptions = [5, 10, 25];
   hidePageSize = false;
   showPageSizeOptions = true;
@@ -303,7 +303,7 @@ export class AllEventsComponent implements OnInit {
 
   public handlePageChange(event: any): void {
     console.log(event)
-    this.pageIndex = event.pageIndex;
+    this.pageIndex = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.search();
     // this.fetchItems(this.pageIndex, this.pageSize);

@@ -10,6 +10,7 @@ export class GenericPaginationComponent implements OnInit {
 
   @Input() items: any[] = [];
   @Input() pageSizeOptions: number[] = [5, 10, 20];
+  @Input() pageIndex = 0;
   @Input() pageSize = 5;
   @Input() length = 10;
   @Input() showFirstLastButtons = true;
@@ -18,7 +19,6 @@ export class GenericPaginationComponent implements OnInit {
   @Output() pageChange = new EventEmitter<any>(); // Add this line
 
   // paginatedItems: any[] = [];
-  pageIndex = 1;
 
   constructor() { }
 

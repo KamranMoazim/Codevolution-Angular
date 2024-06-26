@@ -23,13 +23,16 @@ export class OrganizationService {
       params['search'] = allOrgRequest.search;
     }
 
-    if (allOrgRequest.page) {
-      params['page'] = allOrgRequest.page;
-    }
+    // if (allOrgRequest.page < 0) {
+    //   params['page'] = allOrgRequest.page;
+    // }
 
-    if (allOrgRequest.limit) {
-      params['limit'] = allOrgRequest.limit;
-    }
+    params['page'] = allOrgRequest.page;
+    params['limit'] = allOrgRequest.limit;
+
+    // if (allOrgRequest.limit) {
+    //   params['limit'] = allOrgRequest.limit;
+    // }
 
     console.log(params)
 
