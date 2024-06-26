@@ -18,124 +18,14 @@ export class EventDetailsComponent implements OnInit {
   public ticketsLineChart: any;
   // public uniqueUsersPieChart: any;
 
-  public topEvents: Event[] = [
-    {
-      _id: "1",
-      title: 'Event Name 1',
-      description: 'Event Description 1',
-      date: new Date(),
-      startTime: '12:00',
-      endTime: '14:00',
-      location: 'Event Location 1',
-      organizer: {
-        id: "1",
-        email: "",
-        name: "Organizer Name",
-        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
-        bio: "",
-      } as User,
-      capacity: 100,
-      category: 'culture',
-      ticketPrice: 100,
-      status: 'Upcoming',
-      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
-      // image: 'https://material.angular.io/assets/img/examples/shiba2.jpg'
-    },
-    {
-      _id: "2",
-      title: 'Event Name 2',
-      description: 'Event Description 2',
-      date: new Date(),
-      startTime: '12:00',
-      endTime: '14:00',
-      location: 'Event Location 2',
-      organizer: {
-        id: "2",
-        email: "",
-        name: "Organizer Name",
-        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
-        bio: "",
-      } as User,
-      capacity: 100,
-      category: 'culture',
-      ticketPrice: 100,
-      status: 'Upcoming',
-      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
-      // image: ''
-    },
-    {
-      _id: "3",
-      title: 'Event Name 3',
-      description: 'Event Description 3',
-      date: new Date(),
-      startTime: '12:00',
-      endTime: '14:00',
-      location: 'Event Location 3',
-      organizer: {
-        id: "3",
-        email: "",
-        name: "Organizer Name",
-        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
-        bio: "",
-      } as User,
-      capacity: 100,
-      category: 'culture',
-      ticketPrice: 100,
-      status: 'Upcoming',
-      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
-      // image: ''
-    },
-    {
-      _id: "4",
-      title: 'Event Name 4',
-      description: 'Event Description 4',
-      date: new Date(),
-      startTime: '12:00',
-      endTime: '14:00',
-      location: 'Event Location 4',
-      organizer: {
-        id: "4",
-        email: "",
-        name: "Organizer Name",
-        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
-        bio: "",
-      } as User,
-      capacity: 100,
-      category: 'culture',
-      ticketPrice: 100,
-      status: 'Upcoming',
-      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
-      // image: ''
-    },
-    {
-      _id: "5",
-      title: 'Event Name 5',
-      description: 'Event Description 5',
-      date: new Date(),
-      startTime: '12:00',
-      endTime: '14:00',
-      location: 'Event Location 5',
-      organizer: {
-        id: "5",
-        email: "",
-        name: "Organizer Name",
-        avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg",
-        bio: "",
-      } as User,
-      capacity: 100,
-      category: 'culture',
-      ticketPrice: 100,
-      status: 'Upcoming',
-      media: ['https://material.angular.io/assets/img/examples/shiba2.jpg'],
-      // image: ''
-    }
-  ];
 
 
   length = 50;
-  pageSize = 10;
+  pageSize = 5;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25];
+  fxLayout = "column";
+  fxLayoutAlign = "start";
 
   hidePageSize = false;
   showPageSizeOptions = true;
@@ -183,6 +73,26 @@ export class EventDetailsComponent implements OnInit {
       {
         _id: "1",
         rating: 5,
+        comment: "Great Event",
+        user: {
+          email: "first@gmail.com",
+          name: "First User",
+          avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg"
+        } as User
+      } as Review,
+      {
+        _id: "2",
+        rating: 3.5,
+        comment: "Great Event",
+        user: {
+          email: "first@gmail.com",
+          name: "First User",
+          avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg"
+        } as User
+      } as Review,
+      {
+        _id: "2",
+        rating: 3.5,
         comment: "Great Event",
         user: {
           email: "first@gmail.com",
@@ -367,6 +277,13 @@ export class EventDetailsComponent implements OnInit {
 
   //   });
   // }
+
+  public handlePageChange(event: any): void {
+    console.log(event)
+    this.pageIndex = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    // this.search();
+  }
 
 
 }

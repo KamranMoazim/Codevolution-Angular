@@ -16,6 +16,10 @@ export class GenericPaginationComponent implements OnInit {
   @Input() showFirstLastButtons = true;
   @Input() template: TemplateRef<any>;
 
+  @Input() fxLayout = "row wrap";
+  @Input() fxLayoutAlign = "space-around center";
+
+
   @Output() pageChange = new EventEmitter<any>(); // Add this line
 
   // paginatedItems: any[] = [];

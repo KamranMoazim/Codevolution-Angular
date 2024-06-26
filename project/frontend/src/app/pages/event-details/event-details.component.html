@@ -1,20 +1,20 @@
 
 
-<div fxLayout="row wrap" fxLayoutAlign="space-around">
+<!-- <div fxLayout="row wrap" fxLayoutAlign="space-around">
 
   <div fxFlex="50%">
-<div class="chart-container">
-  <canvas  id="RatingBarChart" >{{ ratingBarChart }}</canvas>
-</div>
-</div>
+    <div class="chart-container">
+      <canvas  id="RatingBarChart" >{{ ratingBarChart }}</canvas>
+    </div>
+  </div>
 
-<div fxFlex="50%">
-<div class="chart-container">
-  <canvas  id="TicketsLineChart" >{{ ticketsLineChart }}</canvas>
-</div>
-</div>
+  <div fxFlex="50%">
+    <div class="chart-container">
+      <canvas  id="TicketsLineChart" >{{ ticketsLineChart }}</canvas>
+    </div>
+  </div>
 
-</div>
+</div> -->
 
 <div fxLayout="row wrap" fxLayoutAlign="space-around">
 
@@ -79,33 +79,38 @@
     <div style="margin: 10px;">
 
       <mat-card class="reviews-card" style="padding: 10px;">
-        <mat-card-title>Reviews</mat-card-title>
-        <div *ngFor="let review of event.reviews" class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
-          <img [src]="review.user.avatar" style="height: 50px; width: 50px; border-radius: 50%;" alt="User avatar">
-          <div>
-            <h4>{{ review.user.name }}</h4>
-            <p>
-              Rating:
-              <ng-container *ngFor="let star of getStars(review.rating)">
-                <mat-icon>{{ star }}</mat-icon>
-              </ng-container>
-              - {{ review.comment }}
-            </p>
-          </div>
-        </div>
 
-        <mat-paginator #paginator
-            class="demo-paginator"
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [disabled]="disabled"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-            [hidePageSize]="hidePageSize"
-            [pageIndex]="pageIndex"
-            aria-label="Select page">
-        </mat-paginator>
+        <mat-card-title>Reviews</mat-card-title>
+
+        <ng-template #itemTemplate let-item>
+          <div class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
+            <img [src]="item.user.avatar" style="height: 50px; width: 50px; border-radius: 50%;" alt="User avatar">
+            <div>
+              <h4>{{ item.user.name }}</h4>
+              <p>
+                <!-- Rating: -->
+                <ng-container *ngFor="let star of getStars(item.rating)">
+                  <mat-icon>{{ star }}</mat-icon>
+                </ng-container>
+                {{ item.comment }}
+
+              </p>
+            </div>
+          </div>
+        </ng-template>
+
+
+        <app-generic-pagination
+          [fxLayout]="fxLayout"
+          [fxLayoutAlign]="fxLayoutAlign"
+          [items]="event.reviews"
+          [template]="itemTemplate"
+          [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="pageSize"
+          [length]="length"
+          (pageChange)="handlePageChange($event)"
+        >
+        </app-generic-pagination>
 
       </mat-card>
 
@@ -144,19 +149,13 @@
 
 
 
-  <div fxFlex="20%">
+  <!-- <div fxFlex="20%">
 
     <button mat-raised-button color="primary">
       Top Events By the Organizer
     </button>
 
-    <!-- <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card>
-    <app-event-card></app-event-card> -->
-
     <app-event-card *ngFor="let event of topEvents" [event]="event"></app-event-card>
-  </div>
+  </div> -->
 </div>
 
