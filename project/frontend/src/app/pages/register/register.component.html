@@ -23,6 +23,13 @@
     </mat-form-field>
 
     <mat-form-field class="full-width-input">
+      <mat-label>User Type</mat-label>
+      <mat-select formControlName="role">
+        <mat-option *ngFor="let userType of userTypes" value="{{userType}}">{{userType | titlecase}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width-input">
       <mat-label>Password</mat-label>
       <input type="password" matInput [formControl]="password">
       @if (password.hasError('required')) {

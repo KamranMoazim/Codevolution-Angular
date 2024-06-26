@@ -22,7 +22,7 @@ export const createEventValidator = (req) => {
     //     throw new ErrorHandler("Start time or end time cannot be in past", 400);
     // }
     if(req.body.startTime >= req.body.endTime){
-        throw new ErrorHandler("Start time or end time cannot be in past", 400);
+        throw new ErrorHandler("Start time or end time cannot be same or in past", 400);
     }
 
     // capacity should be greater than 0
@@ -62,7 +62,7 @@ export const updateEventValidator = (req) => {
     //     throw new ErrorHandler("Start time or end time cannot be in past", 400);
     // }
     if(req.body.startTime < req.body.endTime){
-        throw new ErrorHandler("Start time or end time cannot be in past", 400);
+        throw new ErrorHandler("Start time or end time cannot be same or in past", 400);
     }
 
     // capacity should be greater than 0

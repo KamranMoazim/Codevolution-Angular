@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as AWS from 'aws-sdk';
 import { EventService } from '../../services/event/event.service';
 import { CreateOrUpdateEventRequest } from '../../models/Event';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-update-event',
@@ -23,7 +24,9 @@ export class CreateUpdateEventComponent {
   // localImageUrls: string[] = []; // Store the uploaded image URLs locally
 
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private eventService:EventService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private eventService:EventService,
+    private snackBar: MatSnackBar,
+  ) {
     AWS.config.update({
       accessKeyId: 'AKIA3FLD6J5JOC55LSVW',
       secretAccessKey: '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',
@@ -55,31 +58,99 @@ export class CreateUpdateEventComponent {
     // }
 
     this.eventId = this.route.snapshot.paramMap.get('id');
-    if (this.eventId) {
+    if (this.eventId !== "new") {
       this.isEditMode = true;
 
       // Fetch the event data from the server
-      this.eventService.getEventDetails(this.eventId).subscribe(data => {
-        console.log(data)
-        this.eventForm.patchValue(data.data.event);
+      this.eventService.getEventDetails(this.eventId)
+      .subscribe({
+        next: response => {
+          console.log(response);
+          this.eventForm.patchValue(response.data.event);
+          this.eventForm.value.startTime = this.convertTo24HourFormat(response.data.event.startTime)
+          this.eventForm.value.endTime = this.convertTo24HourFormat(response.data.event.endTime)
+          // this.eventForm.value.date = new Date(response.data.event.date)
+          // this.eventForm.value.capacity = response.data.event.capacity
+          // this.eventForm.value.ticketPrice = response.data.event.ticketPrice
+          // this.eventForm.value.status = response.data.event.status
+          // this.eventForm.value.category = response.data.event.category
+          // this.eventForm.value.location = response.data.event.location
+          // this.eventForm.value.description = response.data.event.description
+          // this.eventForm.value.title = response.data.event.title
 
-        this.images = data.data.event.media.map(url => ({ url }));
+
+          // this.eventForm.patchValue(response.data.event);
+
+          this.images = response.data.event.media.map(url => ({ url }));
+        },
+        error: error => {
+          console.log(error);
+          this.showSnackBar(error);
+        }
       });
+
+      // this._authService.resgisterUser(registerRequest)
+      // .subscribe({
+      //   next: response => {
+      //     console.log(response);
+      //     this.showSnackBar(response.message);
+      //     this.goToLoginPage()
+      //   },
+      //   error: error => {
+      //     // console.log("error");
+      //     // console.log(error);
+      //     this.showSnackBar(error);
+      //   }
+      // });
     }
     console.log(this.eventId)
   }
 
 
+  convertTo24HourFormat(time: string): string {
+    const [timePart, modifier] = time.split(' ');
+    let [hours, minutes] = timePart.split(':').map(Number);
+
+    if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    const strHours = hours < 10 ? '0' + hours : hours.toString();
+    const strMinutes = minutes < 10 ? '0' + minutes : minutes.toString();
+
+    return `${strHours}:${strMinutes}`;
+  }
+
   get capacity() {
     return this.eventForm.get('capacity');
   }
+
+
+  showSnackBar(message: string) {
+    let snackBarRef = this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      // take user to login page
+    })
+  }
+
+
 
   onSubmit() {
     if (this.eventForm.valid) {
 
       let createOrUpdateEventRequest = new CreateOrUpdateEventRequest()
 
-      createOrUpdateEventRequest._id = this.eventId
+      // createOrUpdateEventRequest._id = this.eventId
+      if(this.eventId !== "new") {
+        createOrUpdateEventRequest._id = this.eventId
+      } else {
+        createOrUpdateEventRequest._id = null
+      }
       createOrUpdateEventRequest.title = this.eventForm.value.title
       createOrUpdateEventRequest.description = this.eventForm.value.description
       createOrUpdateEventRequest.date = this.eventForm.value.date
@@ -96,13 +167,27 @@ export class CreateUpdateEventComponent {
 
       console.log(createOrUpdateEventRequest)
 
-      this.eventService.createOrUpdateEvent(createOrUpdateEventRequest).subscribe(data => {
-        console.log(data)
-        if (data.success) {
-          alert(data.message);
-          this.router.navigate(['/events']);
-        } else {
-          alert(data.message);
+      this.eventService.createOrUpdateEvent(createOrUpdateEventRequest)
+      // .subscribe(data => {
+      //   console.log(data)
+      //   if (data.success) {
+      //     alert(data.message);
+      //     this.router.navigate(['/events']);
+      //   } else {
+      //     alert(data.message);
+      //   }
+      // });
+      .subscribe({
+        next: response => {
+          console.log(response);
+          this.eventForm.patchValue(response.data.event);
+          this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
+          // this.router.navigate(['/events']);
+          this.showSnackBar(response.message);
+        },
+        error: error => {
+          console.log(error);
+          this.showSnackBar(error);
         }
       });
 

@@ -34,6 +34,7 @@ export const createEventController = CatchAsyncError(
             console.log("req.body._id")
             console.log(req.body)
 
+            // if(req.body._id && req.body._id !== "new"){
             if(req.body._id){
                 const eventExists = await getEventById(req.body._id);
                 if(!eventExists){

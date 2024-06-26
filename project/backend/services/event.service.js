@@ -579,14 +579,14 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
 
     // console.log(matchStage)
     // console.log(filters)
-    // console.log(events)
+    console.log(totalEventsCount)
 
     // return events;
     return {
         events,
         page,
         // totalPages: Math.ceil(events.length / limit)
-        totalPages: totalEventsCount[0].total
+        totalPages: totalEventsCount.length != 0 ? totalEventsCount[0].total : 0
     }
 };
 

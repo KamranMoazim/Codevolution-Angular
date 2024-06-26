@@ -128,9 +128,6 @@ export class EventService {
     return this.httpClient.post<CreateOrUpdateEventResponse>(this._url + "/event", eventData).pipe(catchError(this.errorHandler));
   }
 
-  // updateEvent(eventId: string, eventData: CreateOrUpdateEventRequest) : Observable<CreateOrUpdateEventResponse> {
-  //   return this.httpClient.put<CreateOrUpdateEventResponse>(this._url + "/event/" + eventId, eventData).pipe(catchError(this.errorHandler));
-  // }
 
 
   errorHandler(error: HttpErrorResponse){
@@ -148,5 +145,7 @@ export class EventService {
     const strMins = mins < 10 ? '0' + mins : mins;
     return `${hours}:${strMins} ${ampm}`;
   }
+
+
 }
 

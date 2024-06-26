@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
 
   public registerForm:FormGroup = new FormGroup({});
+  userTypes = ['user', 'admin'];
 
   constructor(
     private snackBar: MatSnackBar,

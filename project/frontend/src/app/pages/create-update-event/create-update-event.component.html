@@ -26,12 +26,12 @@
   <div fxLayout="row" fxLayoutGap="10px">
     <mat-form-field>
       <mat-label>Start Time</mat-label>
-      <input type="time" matInput formControlName="startTime">
+      <input type="time" matInput value="{{eventForm.value.startTime}}" formControlName="startTime">
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>End Time</mat-label>
-      <input type="time" matInput formControlName="endTime">
+      <input type="time" matInput value="{{eventForm.value.endTime}}" formControlName="endTime">
     </mat-form-field>
   </div>
 

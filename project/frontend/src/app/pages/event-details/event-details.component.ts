@@ -4,8 +4,10 @@ import { Role } from '../../enums/role';
 import { User } from '../../models/User';
 import { Review } from '../../models/Review';
 import { PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Chart from 'chart.js/auto';
+import { EventService } from '../../services/event/event.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-event-details',
@@ -48,73 +50,9 @@ export class EventDetailsComponent implements OnInit {
   }
 
 
-  event:Event = {
-    _id: "665d8d5d57e7bf74c95f3b08",
-    capacity: 100,
-    date: new Date(),
-    description: "Event Description",
-    location: "Event Location",
-    category: "Event Category",
-    startTime: "10:00 AM",
-    endTime: "12:00 PM",
-    media: [
-      "https://material.angular.io/assets/img/examples/shiba1.jpg",
-      "https://material.angular.io/assets/img/examples/shiba2.jpg",
-      "https://material.angular.io/assets/img/examples/shiba1.jpg",
-      "https://material.angular.io/assets/img/examples/shiba2.jpg",
-      "https://material.angular.io/assets/img/examples/shiba1.jpg",
-    ],
-    organizer: {
-      email: "test@gmail.com",
-      name: "Test Organizer",
-      role: Role.ADMIN
-    } as User,
-    reviews: [
-      {
-        _id: "1",
-        rating: 5,
-        comment: "Great Event",
-        user: {
-          email: "first@gmail.com",
-          name: "First User",
-          avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg"
-        } as User
-      } as Review,
-      {
-        _id: "2",
-        rating: 3.5,
-        comment: "Great Event",
-        user: {
-          email: "first@gmail.com",
-          name: "First User",
-          avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg"
-        } as User
-      } as Review,
-      {
-        _id: "2",
-        rating: 3.5,
-        comment: "Great Event",
-        user: {
-          email: "first@gmail.com",
-          name: "First User",
-          avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg"
-        } as User
-      } as Review,
-      {
-        _id: "2",
-        rating: 3.5,
-        comment: "Great Event",
-        user: {
-          email: "first@gmail.com",
-          name: "First User",
-          avatar: "https://material.angular.io/assets/img/examples/shiba2.jpg"
-        } as User
-      } as Review
-    ],
-    status: "active",
-    ticketPrice: 10,
-    title: "Event Title"
-  }
+  event:Event = {}
+
+  eventId: string = null;
 
   currentLoggedInUser: User = {
     email: "testUser@gmail.com",
@@ -124,8 +62,43 @@ export class EventDetailsComponent implements OnInit {
 
   constructor(
     private router:Router,
+    private route: ActivatedRoute,
+    private eventService: EventService,
+    private snackBar: MatSnackBar,
   ) { }
 
+  ngOnInit() {
+    for (let index = 0; index < this.starCount; index++) {
+      this.ratingArr.push(index);
+    }
+    // this.createRatingBarChart();
+    // this.createTicketsLineChart();
+
+    this.eventId = this.route.snapshot.paramMap.get('id');
+
+    this.eventService.getEventDetails(this.eventId)
+      .subscribe({
+        next: response => {
+          console.log(response);
+          this.event = response.data.event;
+        },
+        error: error => {
+          console.log(error);
+          this.showSnackBar(error);
+        }
+      });
+  }
+
+
+  showSnackBar(message: string) {
+    let snackBarRef = this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      // take user to login page
+    })
+  }
 
   isAdmin(): boolean {
     return this.currentLoggedInUser.role === Role.ADMIN;
@@ -172,13 +145,7 @@ export class EventDetailsComponent implements OnInit {
     // Here you can send the review and comments to your backend or do any other processing.
   }
 
-  ngOnInit() {
-    for (let index = 0; index < this.starCount; index++) {
-      this.ratingArr.push(index);
-    }
-    this.createRatingBarChart();
-    this.createTicketsLineChart();
-  }
+
   onClick(rating:number) {
     console.log(rating)
     this.rating = rating;
