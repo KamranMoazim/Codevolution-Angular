@@ -199,6 +199,8 @@ export class AllEventsComponent implements OnInit {
       this.length = data.data.totalPages;
       this.pageIndex = data.data.page;
     })
+
+    console.log("Kamran is here")
   }
 
 
