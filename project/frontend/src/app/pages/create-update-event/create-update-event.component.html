@@ -1,6 +1,6 @@
 
 
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="eventForm">
 
   <h2>
     {{isEditMode ? 'Update' : 'Create'}} Event
@@ -97,5 +97,5 @@
   <!-- Assuming status and media fields are multiselect dropdowns or checkboxes -->
   <!-- Implement as per your requirement -->
 
-  <button mat-raised-button color="primary" type="submit" style="margin-top: 20px;">Submit</button>
+  <button mat-raised-button color="primary" type="submit" style="margin-top: 20px;" (click)="onSubmit()">Submit</button>
 </form>

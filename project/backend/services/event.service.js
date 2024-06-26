@@ -94,7 +94,8 @@ export const createEvent = async (event) => {
 
 // update event
 export const updateEvent = async (event) => {
-    const updateEvent = await eventModel.findOne({ _id: event.id })
+    // const updateEvent = await eventModel.findOne({ _id: mongoose.Types.ObjectId.createFromHexString(event._id) })
+    const updateEvent = await eventModel.findOne({ _id: event._id })
         .updateOne(event);
     return updateEvent;
 };

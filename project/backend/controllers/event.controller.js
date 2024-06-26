@@ -31,6 +31,28 @@ export const createEventController = CatchAsyncError(
             // ! apply validation on Event - CLEAN Architecture
             createEventValidator(req, next);
 
+            console.log("req.body._id")
+            console.log(req.body)
+
+            if(req.body._id){
+                const eventExists = await getEventById(req.body._id);
+                if(!eventExists){
+                    return next(new ErrorHandler("Event not found", 400));
+                }
+
+                const event = await updateEvent(req.body);
+            
+                return res.status(201).json({
+                    success: true,
+                    message: "Event updated successfully",
+                    data:{
+                        event
+                    },
+                });
+            }
+
+            
+
             const eventData = {
                 ...req.body,
                 organizer: req.user._id

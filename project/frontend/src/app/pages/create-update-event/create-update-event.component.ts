@@ -79,11 +79,14 @@ export class CreateUpdateEventComponent {
 
       let createOrUpdateEventRequest = new CreateOrUpdateEventRequest()
 
+      createOrUpdateEventRequest._id = this.eventId
       createOrUpdateEventRequest.title = this.eventForm.value.title
       createOrUpdateEventRequest.description = this.eventForm.value.description
       createOrUpdateEventRequest.date = this.eventForm.value.date
-      createOrUpdateEventRequest.startTime = this.eventForm.value.startTime
-      createOrUpdateEventRequest.endTime = this.eventForm.value.endTime
+      // createOrUpdateEventRequest.startTime = this.eventForm.value.startTime
+      // createOrUpdateEventRequest.endTime = this.eventForm.value.endTime
+      createOrUpdateEventRequest.startTime = this.timeToMinutes(this.eventForm.value.startTime)
+      createOrUpdateEventRequest.endTime = this.timeToMinutes(this.eventForm.value.endTime)
       createOrUpdateEventRequest.location = this.eventForm.value.location
       createOrUpdateEventRequest.capacity = this.eventForm.value.capacity
       createOrUpdateEventRequest.category = this.eventForm.value.category
@@ -161,5 +164,23 @@ export class CreateUpdateEventComponent {
       }
     });
   }
+
+
+  timeToMinutes(timeStr) {
+    // Split the time string into its components
+    let [hours, minutes] = timeStr.split(':').map(Number);
+
+    // Convert 12 AM and 12 PM to 0 and 12 respectively
+    // if (period === 'AM' && hours === 12) {
+    //     hours = 0;
+    // } else if (period === 'PM' && hours !== 12) {
+    //     hours += 12;
+    // }
+
+    // Calculate the total number of minutes past midnight
+    let totalMinutes = (hours * 60) + minutes;
+
+    return totalMinutes;
+}
 
 }
