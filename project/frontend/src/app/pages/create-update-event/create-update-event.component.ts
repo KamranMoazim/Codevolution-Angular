@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as AWS from 'aws-sdk';
 import { EventService } from '../../services/event/event.service';
+import { CreateOrUpdateEventRequest } from '../../models/Event';
 
 @Component({
   selector: 'app-create-update-event',
@@ -75,10 +76,37 @@ export class CreateUpdateEventComponent {
 
   onSubmit() {
     if (this.eventForm.valid) {
-      console.log(this.eventForm.value);
-      // Submit the event form data
-      let allImagesUrls = this.images.map(image => image.url);
-      console.log(allImagesUrls)
+
+      let createOrUpdateEventRequest = new CreateOrUpdateEventRequest()
+
+      createOrUpdateEventRequest.title = this.eventForm.value.title
+      createOrUpdateEventRequest.description = this.eventForm.value.description
+      createOrUpdateEventRequest.date = this.eventForm.value.date
+      createOrUpdateEventRequest.startTime = this.eventForm.value.startTime
+      createOrUpdateEventRequest.endTime = this.eventForm.value.endTime
+      createOrUpdateEventRequest.location = this.eventForm.value.location
+      createOrUpdateEventRequest.capacity = this.eventForm.value.capacity
+      createOrUpdateEventRequest.category = this.eventForm.value.category
+      createOrUpdateEventRequest.ticketPrice = this.eventForm.value.ticketPrice
+      createOrUpdateEventRequest.status = this.eventForm.value.status
+      createOrUpdateEventRequest.media = this.images.map(image => image.url);
+
+      console.log(createOrUpdateEventRequest)
+
+      this.eventService.createOrUpdateEvent(createOrUpdateEventRequest).subscribe(data => {
+        console.log(data)
+        if (data.success) {
+          alert(data.message);
+          this.router.navigate(['/events']);
+        } else {
+          alert(data.message);
+        }
+      });
+
+      // console.log(this.eventForm.value);
+      // // Submit the event form data
+      // let allImagesUrls = this.images.map(image => image.url);
+      // console.log(allImagesUrls)
     }
   }
 

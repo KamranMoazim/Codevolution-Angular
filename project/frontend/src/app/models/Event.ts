@@ -100,18 +100,18 @@ export class SingleEventDetailssResponse extends BaseResponse {
 
 export class CreateOrUpdateEventRequest {
   constructor(
-    public title: string,
-    public description: string,
-    public date: Date,
-    public startTime: number,
-    public endTime: number,
-    public location: string,
-    public capacity: number,
-    public category: string,
-    public ticketPrice: number,
-    public status: string,
-    public media: string[],
     public _id?: string,
+    public title?: string,
+    public description?: string,
+    public date?: Date,
+    public startTime?: number,
+    public endTime?: number,
+    public location?: string,
+    public capacity?: number,
+    public category?: string,
+    public ticketPrice?: number,
+    public status?: string,
+    public media?: string[],
   ) {}
 }
 
