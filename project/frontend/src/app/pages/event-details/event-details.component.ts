@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Event } from '../../models/Event';
 import { Role } from '../../enums/role';
 import { User } from '../../models/User';
-import { Review } from '../../models/Review';
+import { CreateReviewRequest, Review } from '../../models/Review';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import Chart from 'chart.js/auto';
 import { EventService } from '../../services/event/event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReviewService } from '../../services/review/review.service';
 
 @Component({
   selector: 'app-event-details',
@@ -63,8 +64,9 @@ export class EventDetailsComponent implements OnInit {
   constructor(
     private router:Router,
     private route: ActivatedRoute,
-    private eventService: EventService,
     private snackBar: MatSnackBar,
+    private eventService: EventService,
+    private reviewService: ReviewService,
   ) { }
 
   ngOnInit() {
@@ -143,6 +145,23 @@ export class EventDetailsComponent implements OnInit {
     console.log('Rating:', this.rating);
     console.log('Comments:', this.comments);
     // Here you can send the review and comments to your backend or do any other processing.
+
+    const reviewData = new CreateReviewRequest()
+    reviewData.comment = this.comments;
+    reviewData.rating = this.rating;
+    reviewData.eventId = this.eventId;
+
+   this.reviewService.addReview(reviewData)
+   .subscribe({
+      next: response => {
+        console.log(response);
+        this.showSnackBar(response.message);
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
   }
 
 

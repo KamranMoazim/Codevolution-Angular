@@ -177,6 +177,7 @@ export class CreateUpdateEventComponent {
 
   removeImage(index: number) {
     const removedImage = this.images.splice(index, 1)[0];
+    this.showSnackBar('Image removed.');
     if (removedImage.url) {
       // Remove the URL from local storage if the image has already been uploaded
       // this.localImageUrls = this.localImageUrls.filter(url => url !== removedImage.url);
@@ -185,6 +186,7 @@ export class CreateUpdateEventComponent {
   }
 
   uploadImages() {
+    this.showSnackBar('Uploading images...');
     this.images.forEach((image, index) => {
       if (image.file) {
         const params = {
@@ -197,9 +199,11 @@ export class CreateUpdateEventComponent {
         this.s3.upload(params, (err: any, data: any) => {
           if (err) {
             console.error('Error uploading image:', err);
+            this.showSnackBar('Failed to upload images. Please try again.');
           } else {
             console.log('Successfully uploaded image:', data);
             this.images[index].url = data.Location;
+            this.showSnackBar(`Image ${index + 1} uploaded successfully.`);
             // this.localImageUrls.push(data.Location);
             // this.saveImageUrls(this.localImageUrls);
             // delete this.images[index].file;

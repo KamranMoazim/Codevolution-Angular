@@ -18,6 +18,8 @@ export const createReview = CatchAsyncError(
             // ! apply validation on Review - CLEAN Architecture
             createReviewValidator(req, next);
 
+            console.log(req.body)
+
             const event = await getEventById(req.body.eventId);
 
             if(!event){
@@ -25,20 +27,29 @@ export const createReview = CatchAsyncError(
             }
 
             // check if user has buyed ticket for this event
-            const isTicketBuyed = event.tickets.find(
-                ticket => ticket.userId.toString() === req.body.userId.toString()
-            );
+            // const isTicketBuyed = event.tickets.find(
+            //     ticket => ticket.userId.toString() === req.body.userId.toString()
+            // );
 
-            if(!isTicketBuyed){
-                return next(new ErrorHandler("You have not buyed ticket for this event", 400));
-            }
+            // if(!isTicketBuyed){
+            //     return next(new ErrorHandler("You have not buyed ticket for this event", 400));
+            // }
 
             // check if user has already reviewed this event
-            const isAlreadyReviewed = await getReviewByUserId(req.body.userId);
+            // const isAlreadyReviewed = await getReviewByUserId(req.body.userId);
 
-            if(isAlreadyReviewed){
-                return next(new ErrorHandler("You have already reviewed this event", 400));
+            // if(isAlreadyReviewed){
+            //     return next(new ErrorHandler("You have already reviewed this event", 400));
+            // }
+
+            const reviewData = {
+                ...req.body,
+                // event: req.body.eventId,
+                event,
+                user: req.user
             }
+
+            console.log(reviewData)
 
             const review = await createEventReview(req.body);
             
@@ -69,13 +80,23 @@ export const getReviews = CatchAsyncError(
                 return next(new ErrorHandler("Event not found", 400));
             }
 
-            const reviews = await getReviewsByEventId(req.query.id)
+            const {page, limit, rating} = req.query;
+
+            const options = {
+                eventId: req.params.id,
+                page: page || 1,
+                limit: limit || 5,
+                rating: rating || 0
+            }
+
+            // const reviews = await getReviewsByEventId(req.query.id)
+            const reviews = await getReviewsByEventId(options)
 
             return res.status(201).json({
                 success: true,
                 message: "Reviews get successfully",
                 data:{
-                    reviews
+                    ...reviews
                 },
             });
 

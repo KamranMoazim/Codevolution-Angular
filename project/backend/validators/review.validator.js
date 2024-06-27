@@ -11,4 +11,9 @@ export const createReviewValidator = (req, next) => {
     if(req.body.rating < 1 || req.body.rating > 5){
         throw new ErrorHandler("Rating should be between 1 to 5", 400);
     }
+
+    // comment cannot be empty
+    if(req.body.comment.length == 0){
+        throw new ErrorHandler("Comment cannot be empty", 400);
+    }
 }

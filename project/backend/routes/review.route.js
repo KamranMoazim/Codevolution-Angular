@@ -1,9 +1,10 @@
 import express from "express";
 import { createReview, getReviews } from "../controllers/review.controller.js";
+import { addingTempUser } from "../middlewares/temp.js";
 // import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 const reviewRouter = express.Router();
 
-reviewRouter.post("/review/event", createReview);
-reviewRouter.post("/review/event/:id", getReviews);
+reviewRouter.get("/review/event/:id", getReviews);
+reviewRouter.post("/review/event/", addingTempUser, createReview);
 
 export default reviewRouter;
