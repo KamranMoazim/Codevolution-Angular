@@ -6,7 +6,8 @@ import {
     eachStarCountAnalytics,
     numberOfEventsCreatedInLast12MonthsByUserAnalytics,
     allEventsByUserUniqueCategoriesByCountAnalytics,
-    mostEventTimeOfDayAnalytics
+    // mostEventTimeOfDayAnalytics
+    totalRevenueAnalytics
 } from '../services/analytics.service.js';
 
 
@@ -110,17 +111,34 @@ export const allEventsByUserUniqueCategoriesByCountAnalyticsController = CatchAs
 );
 
 
-export const mostEventTimeOfDayController = CatchAsyncError(
+// export const mostEventTimeOfDayController = CatchAsyncError(
+//     async (req, res, next) => {
+//         try {
+            
+//             const analysis = await mostEventTimeOfDayAnalytics(req.user._id);
+            
+//             return res.status(200).json({
+//                 success: true,
+//                 data:{
+//                     analysis
+//                 },
+//             });
+//         } catch (error) {
+//             return next(new ErrorHandler(error.message, 400));
+//         }
+//     }
+// );
+
+
+export const totalRevenueAnalyticsController = CatchAsyncError(
     async (req, res, next) => {
         try {
             
-            const analysis = await mostEventTimeOfDayAnalytics(req.user._id);
+            const analysis = await totalRevenueAnalytics(req.user._id);
             
             return res.status(200).json({
                 success: true,
-                data:{
-                    analysis
-                },
+                data:analysis
             });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));

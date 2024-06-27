@@ -296,3 +296,27 @@ export const mostEventTimeOfDayAnalytics = async (userId) => {
             datasets: allData,
         };
 }
+
+
+
+export const totalRevenueAnalytics = async (userId) => {
+    
+    // get all events created by the user
+    const events = await eventModel.find({ organizer: userId });
+
+    // get all tickets bought for the events
+    const tickets = await ticketModel.find({ event: events.map((event) => event._id) });
+
+    // get all reviews for the events
+    const reviews = await reviewModel.find({ event: events.map((event) => event._id) }).countDocuments();
+
+    // calculate the total revenue from all tickets bought
+    const totalRevenue = tickets.reduce((acc, ticket) => acc + ticket.price, 0);
+
+    return {
+        totalRevenue: totalRevenue,
+        totalEvents: events.length,
+        totalTickets: tickets.length,
+        totalReviews: reviews,
+    };
+}

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { BaseResponse } from '../../models/BaseResponse';
-import { LineOrBarChartResponse } from '../../models/Analytics';
+import { LineOrBarChartResponse, TotalRevenueResponse } from '../../models/Analytics';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +45,12 @@ export class AnalyticsService {
     return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/categories/`).pipe(catchError(this.errorHandler));
   }
 
-  getAllEventsTimeOfTheDayAnalytics() : Observable<LineOrBarChartResponse>{
-    return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/times/`).pipe(catchError(this.errorHandler));
+  // getAllEventsTimeOfTheDayAnalytics() : Observable<LineOrBarChartResponse>{
+  //   return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/times/`).pipe(catchError(this.errorHandler));
+  // }
+
+  getTotalRevenueAnalytics() : Observable<TotalRevenueResponse>{
+    return this.httpClient.get<TotalRevenueResponse>(`${this._url}/analytics/events/total-revenue/`).pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error: HttpErrorResponse){

@@ -1,8 +1,11 @@
 
 
 <!-- analytics.component.html -->
-<mat-card class="total-revenue-card">
-  <h3>Total Revenue Generated: ${{ totalRevenue }}</h3>
+<mat-card class="total-revenue-card" fxLayout="row" fxLayoutAlign="space-around">
+  <h3>Total Revenue Generated: ${{ generalAnalytics.totalRevenue }}</h3>
+  <h3>Total Events: {{ generalAnalytics.totalEvents }}</h3>
+  <h3>Total Tickets Bought: {{ generalAnalytics.totalTickets }}</h3>
+  <h3>Total Reviews Received: {{ generalAnalytics.totalReviews }}</h3>
 </mat-card>
 
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutWrap>
@@ -69,10 +72,10 @@
 </div>
 
 
-<div fxLayout="row wrap" fxLayoutAlign="space-around">
+<!-- <div fxLayout="row wrap" fxLayoutAlign="space-around">
 
   <div class="chart-container">
     <canvas  id="ShiftsPieChart" >{{ shiftsPieChart }}</canvas>
   </div>
 
-</div>
+</div> -->

@@ -32,7 +32,19 @@ export class AdminComponent {
     { _id: 'Health', totalEvents: 12 }
   ];
 
-  totalRevenue = 32000; // Example hardcoded revenue
+  // totalRevenue = 32000; // Example hardcoded revenue
+
+  generalAnalytics: {
+    totalEvents: number,
+    totalTickets: number,
+    totalRevenue: number,
+    totalReviews: number
+  } = {
+    totalEvents: 10,
+    totalTickets: 100,
+    totalRevenue: 32000,
+    totalReviews: 20
+  };
 
   constructor(
     private analyticsService: AnalyticsService,
@@ -49,6 +61,22 @@ export class AdminComponent {
     this.createTicketsLineChart();
     this.createAllEventUniqueCategoriesPieChart();
     this.createShiftsPieChart();
+
+    this.analyticsService.getTotalRevenueAnalytics()
+    .subscribe({
+      next: response => {
+        console.log(response);
+
+        // this.totalRevenue = response.data.totalRevenue;
+        this.generalAnalytics = response.data;
+
+        // console.log(response.data.event.organizer.avatar);
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
   }
 
 
@@ -140,10 +168,10 @@ export class AdminComponent {
 
   createShiftsPieChart(){
 
-    this.analyticsService.getAllEventsTimeOfTheDayAnalytics()
-    .subscribe({
-      next: response => {
-        console.log(response);
+    // this.analyticsService.getAllEventsTimeOfTheDayAnalytics()
+    // .subscribe({
+    //   next: response => {
+    //     console.log(response);
 
         // this.shiftsPieChart = new Chart("ShiftsPieChart", {
         //   type: 'pie', //this denotes tha type of chart
@@ -168,34 +196,34 @@ export class AdminComponent {
         // });
 
         // console.log(response.data.event.organizer.avatar);
-      },
-      error: error => {
-        console.log(error);
-        this.showSnackBar(error);
-      }
-    });
+    //   },
+    //   error: error => {
+    //     console.log(error);
+    //     this.showSnackBar(error);
+    //   }
+    // });
 
-    this.shiftsPieChart = new Chart("ShiftsPieChart", {
-      type: 'pie', //this denotes tha type of chart
-      data:{
-        labels: ["Morning", "Afternoon", "Evening", "Night"],
-        datasets: [{
-          label: 'All Events Shifts',
-          data: [300, 50, 100, 150],
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)'
-          ],
-          hoverOffset: 4
-        }],
-      },
-      options: {
-        aspectRatio:1.5,
-      }
+    // this.shiftsPieChart = new Chart("ShiftsPieChart", {
+    //   type: 'pie', //this denotes tha type of chart
+    //   data:{
+    //     labels: ["Morning", "Afternoon", "Evening", "Night"],
+    //     datasets: [{
+    //       label: 'All Events Shifts',
+    //       data: [300, 50, 100, 150],
+    //       backgroundColor: [
+    //         'rgb(255, 99, 132)',
+    //         'rgb(54, 162, 235)',
+    //         'rgb(255, 205, 86)',
+    //         'rgb(75, 192, 192)'
+    //       ],
+    //       hoverOffset: 4
+    //     }],
+    //   },
+    //   options: {
+    //     aspectRatio:1.5,
+    //   }
 
-    });
+    // });
   }
 
 

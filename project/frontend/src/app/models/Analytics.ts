@@ -19,3 +19,19 @@ export class LineOrBarChartResponse extends BaseResponse {
     super(success, message);
   }
 }
+
+
+export class TotalRevenueResponse extends BaseResponse {
+  constructor(
+    public success: boolean,
+    public message: string,
+    public data: {
+      totalRevenue: number,
+      totalEvents: number,
+      totalTickets: number,
+      totalReviews: number,
+    },
+  ) {
+    super(success, message);
+  }
+}

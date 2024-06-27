@@ -5,7 +5,8 @@ import {
     eachStarCountAnalyticsController, 
     numberOfEventsCreatedInLast12MonthsByUserController,
     allEventsByUserUniqueCategoriesByCountAnalyticsController,
-    mostEventTimeOfDayController
+    // mostEventTimeOfDayController,
+    totalRevenueAnalyticsController
 } from "../controllers/analytics.controller.js";
 // import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 const analyticsRouter = express.Router();
@@ -16,6 +17,7 @@ analyticsRouter.get("/analytics/event/:id/tickets/", addingTempUser, getLast30Da
 analyticsRouter.get("/analytics/event/:id/ratings/", addingTempUser, eachStarCountAnalyticsController);
 analyticsRouter.get("/analytics/events/event-count/", addingTempUser, numberOfEventsCreatedInLast12MonthsByUserController);
 analyticsRouter.get("/analytics/events/categories/", addingTempUser, allEventsByUserUniqueCategoriesByCountAnalyticsController);
-analyticsRouter.get("/analytics/events/times/", addingTempUser, mostEventTimeOfDayController);
+// analyticsRouter.get("/analytics/events/times/", addingTempUser, mostEventTimeOfDayController);
+analyticsRouter.get("/analytics/events/total-revenue/", addingTempUser, totalRevenueAnalyticsController);
 
 export default analyticsRouter;
