@@ -56,11 +56,30 @@ export class AdminComponent {
 
   createTicketsLineChart(){
 
-    this.analyticsService.getLast30DaysTicketBoughtAnalytics("eventId")
+    this.analyticsService.getLast12MonthsEventCreationCountAnalytics()
     .subscribe({
       next: response => {
         console.log(response);
 
+        this.ticketsLineChart = new Chart("TicketsLineChart", {
+          type: 'line', //this denotes tha type of chart
+          data:{
+            // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            labels: response.data.analysis.labels,
+            datasets: [{
+              label: 'Number of Events created in Last 12 Months',
+              // data: [65, 59, 80, 81, 56, 55, 40, 30, 20, 10, 5, 2],
+              data: response.data.analysis.datasets,
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            aspectRatio:1.5,
+          }
+
+        });
 
         // console.log(response.data.event.organizer.avatar);
       },
@@ -70,57 +89,91 @@ export class AdminComponent {
       }
     });
 
-    this.ticketsLineChart = new Chart("TicketsLineChart", {
-      type: 'line', //this denotes tha type of chart
-      data:{
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [{
-          label: 'Number of Events created in Last 12 Months',
-          data: [65, 59, 80, 81, 56, 55, 40, 30, 20, 10, 5, 2],
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
-        }]
-      },
-      options: {
-        aspectRatio:1.5,
-      }
 
-    });
   }
 
 
   createAllEventUniqueCategoriesPieChart(){
 
-    this.allEventUniqueCategoriesPieChart = new Chart("AllEventUniqueCategoriesPieChart", {
-      type: 'pie', //this denotes tha type of chart
-      data:{
-        labels: [
-          'Red',
-          'Blue',
-          'Yellow'
-        ],
-        datasets: [{
-          label: 'My First Dataset',
-          data: [300, 50, 100],
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
-          ],
-          hoverOffset: 4
-        }],
-      },
-      options: {
-        aspectRatio:1.5,
-      }
+    this.analyticsService.getUniqueCategoriesWithEventCountAnalytics()
+    .subscribe({
+      next: response => {
+        console.log(response);
 
+        this.allEventUniqueCategoriesPieChart = new Chart("AllEventUniqueCategoriesPieChart", {
+          type: 'pie', //this denotes tha type of chart
+          data:{
+            // labels: [
+            //   'Red',
+            //   'Blue',
+            //   'Yellow'
+            // ],
+            labels: response.data.analysis.labels,
+            datasets: [{
+              label: 'My First Dataset',
+              // data: [300, 50, 100],
+              data: response.data.analysis.datasets,
+              backgroundColor: [
+                ...response.data.analysis.labels.map(() => {
+                  return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+                })
+              ],
+              hoverOffset: 4
+            }],
+          },
+          options: {
+            aspectRatio:1.5,
+          }
+
+        });
+
+        // console.log(response.data.event.organizer.avatar);
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
     });
   }
 
 
 
   createShiftsPieChart(){
+
+    this.analyticsService.getAllEventsTimeOfTheDayAnalytics()
+    .subscribe({
+      next: response => {
+        console.log(response);
+
+        // this.shiftsPieChart = new Chart("ShiftsPieChart", {
+        //   type: 'pie', //this denotes tha type of chart
+        //   data:{
+        //     labels: response.data.analysis.labels,
+        //     datasets: [{
+        //       label: 'All Events Shifts',
+        //       data: response.data.analysis.datasets,
+        //       backgroundColor: [
+        //         'rgb(255, 99, 132)',
+        //         'rgb(54, 162, 235)',
+        //         'rgb(255, 205, 86)',
+        //         'rgb(75, 192, 192)'
+        //       ],
+        //       hoverOffset: 4
+        //     }],
+        //   },
+        //   options: {
+        //     aspectRatio:1.5,
+        //   }
+
+        // });
+
+        // console.log(response.data.event.organizer.avatar);
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
 
     this.shiftsPieChart = new Chart("ShiftsPieChart", {
       type: 'pie', //this denotes tha type of chart

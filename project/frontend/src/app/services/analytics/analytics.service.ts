@@ -34,6 +34,21 @@ export class AnalyticsService {
     return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/event/${eventId}/ratings/`).pipe(catchError(this.errorHandler));
   }
 
+
+
+
+  getLast12MonthsEventCreationCountAnalytics() : Observable<LineOrBarChartResponse>{
+    return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/event-count/`).pipe(catchError(this.errorHandler));
+  }
+
+  getUniqueCategoriesWithEventCountAnalytics() : Observable<LineOrBarChartResponse>{
+    return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/categories/`).pipe(catchError(this.errorHandler));
+  }
+
+  getAllEventsTimeOfTheDayAnalytics() : Observable<LineOrBarChartResponse>{
+    return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/times/`).pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error: HttpErrorResponse){
     // console.log(error)
     // return throwError(() => error.message || "Server Error");
