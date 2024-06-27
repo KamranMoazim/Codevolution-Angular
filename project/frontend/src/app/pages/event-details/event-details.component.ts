@@ -81,8 +81,12 @@ export class EventDetailsComponent implements OnInit {
     this.eventService.getEventDetails(this.eventId)
       .subscribe({
         next: response => {
-          console.log(response);
+          // console.log(response);
           this.event = response.data.event;
+
+          this.getEventReviews()
+
+          // console.log(response.data.event.organizer.avatar);
         },
         error: error => {
           console.log(error);
@@ -151,11 +155,33 @@ export class EventDetailsComponent implements OnInit {
     reviewData.rating = this.rating;
     reviewData.eventId = this.eventId;
 
-   this.reviewService.addReview(reviewData)
-   .subscribe({
+    this.reviewService.addReview(reviewData)
+    .subscribe({
       next: response => {
         console.log(response);
         this.showSnackBar(response.message);
+
+        this.comments = '';
+        this.rating = 1;
+
+        this.getEventReviews()
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
+  }
+
+
+  getEventReviews() {
+    this.reviewService.getAllReviews(this.eventId, this.pageIndex+1, this.pageSize)
+    .subscribe({
+      next: response => {
+        console.log(response);
+        // this.showSnackBar(response.message);
+        this.event.reviews = response.data.reviews;
+        this.length = response.data.total;
       },
       error: error => {
         console.log(error);

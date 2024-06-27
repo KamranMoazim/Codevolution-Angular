@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { CreateReviewRequest, CreateReviewResponse } from '../../models/Review';
+import { AllReviewsResponse, CreateReviewRequest, CreateReviewResponse } from '../../models/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,13 @@ export class ReviewService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getAllReviews(eventId: string, page: number, limit: number, rating?:number){
-    return this.httpClient.get(`${this._url}/review/event/${eventId}/reviews?page=${page}&limit=${limit}&rating=${rating}`)
+  getAllReviews(eventId: string, page: number, limit: number, rating?:number) : Observable<AllReviewsResponse>{
+    console.log(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}`)
+    if (rating === undefined) {
+      return this.httpClient.get<AllReviewsResponse>(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}`)
+    }
+    return this.httpClient.get<AllReviewsResponse>(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}&rating=${rating}`)
+    // /review/event/:id
   }
 
   // CreateReviewRequest

@@ -1,6 +1,7 @@
 // import { redis } from "../utils/redis";
 import reviewModel from "../models/review.model.js";
 import eventModel from "../models/event.model.js";
+import mongoose from "mongoose";
 
 
 // get review by id
@@ -33,7 +34,9 @@ export const getReviewsByEventId = async (options) => {
 
     if (rating) {
         matchStage.rating = rating;
+        console.log(matchStage.rating)
     }
+    console.log(rating)
 
 
     // const reviews = await reviewModel.find({ event: mongoose.Types.ObjectId.createFromHexString(eventId) })
@@ -42,13 +45,10 @@ export const getReviewsByEventId = async (options) => {
     //     .skip((page - 1) * limit)
     //     .exec();
 
-    matchStage.event = eventId;
+    matchStage.event = mongoose.Types.ObjectId.createFromHexString(eventId);
 
     const reviewPipeline = [
         {
-            // $match: {
-            //     event: eventId
-            // }
             $match: matchStage
         },
         {
@@ -59,7 +59,9 @@ export const getReviewsByEventId = async (options) => {
     const countReviews = await reviewModel.aggregate(reviewPipeline);
 
     const newPipeline = [
-        ...reviewPipeline,
+        {
+            $match: matchStage
+        },
         {
             $lookup: {
                 from: "users",
@@ -76,7 +78,12 @@ export const getReviewsByEventId = async (options) => {
                 "user.password": 0,
                 "user.createdAt": 0,
                 "user.updatedAt": 0,
-                "user.__v": 0
+                "user.__v": 0,
+                "user.role": 0,
+                "user._id": 0,
+                "user.email": 0,
+                "user.followers": 0,
+                "user.tickets": 0,
             }
         },
         {
@@ -96,7 +103,7 @@ export const getReviewsByEventId = async (options) => {
 
     return {
         reviews,
-        total: countReviews.length ? countReviews[0]:0
+        total: countReviews.length ? countReviews[0].total : 0
     };
 };
 

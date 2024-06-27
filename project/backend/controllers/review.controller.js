@@ -44,14 +44,14 @@ export const createReview = CatchAsyncError(
 
             const reviewData = {
                 ...req.body,
-                // event: req.body.eventId,
-                event,
-                user: req.user
+                event: req.body.eventId,
+                // event,
+                user: req.user._id
             }
 
             console.log(reviewData)
 
-            const review = await createEventReview(req.body);
+            const review = await createEventReview(reviewData);
             
             return res.status(201).json({
                 success: true,
@@ -74,7 +74,10 @@ export const getReviews = CatchAsyncError(
     async (req, res, next) => {
         try {
 
-            const event = await getEventById(req.query.id);
+            console.log(req.query)
+            console.log(req.params)
+
+            const event = await getEventById(req.params.id);
 
             if(!event){
                 return next(new ErrorHandler("Event not found", 400));
@@ -88,6 +91,8 @@ export const getReviews = CatchAsyncError(
                 limit: limit || 5,
                 rating: rating || 0
             }
+
+            console.log(options)
 
             // const reviews = await getReviewsByEventId(req.query.id)
             const reviews = await getReviewsByEventId(options)

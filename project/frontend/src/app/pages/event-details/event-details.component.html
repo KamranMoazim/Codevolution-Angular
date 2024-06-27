@@ -85,6 +85,7 @@
         <ng-template #itemTemplate let-item>
           <div class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
             <img [src]="item.user.avatar" style="height: 50px; width: 50px; border-radius: 50%;" alt="User avatar">
+            <!-- {{item.user.avatar}} -->
             <div>
               <h4>{{ item.user.name }}</h4>
               <p>
@@ -93,7 +94,7 @@
                   <mat-icon>{{ star }}</mat-icon>
                 </ng-container>
                 {{ item.comment }}
-
+                <!-- {{item.user | json}} -->
               </p>
             </div>
           </div>
