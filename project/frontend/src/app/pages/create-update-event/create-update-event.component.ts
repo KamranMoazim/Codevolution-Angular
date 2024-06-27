@@ -67,19 +67,6 @@ export class CreateUpdateEventComponent {
         next: response => {
           console.log(response);
           this.eventForm.patchValue(response.data.event);
-          this.eventForm.value.startTime = this.convertTo24HourFormat(response.data.event.startTime)
-          this.eventForm.value.endTime = this.convertTo24HourFormat(response.data.event.endTime)
-          // this.eventForm.value.date = new Date(response.data.event.date)
-          // this.eventForm.value.capacity = response.data.event.capacity
-          // this.eventForm.value.ticketPrice = response.data.event.ticketPrice
-          // this.eventForm.value.status = response.data.event.status
-          // this.eventForm.value.category = response.data.event.category
-          // this.eventForm.value.location = response.data.event.location
-          // this.eventForm.value.description = response.data.event.description
-          // this.eventForm.value.title = response.data.event.title
-
-
-          // this.eventForm.patchValue(response.data.event);
 
           this.images = response.data.event.media.map(url => ({ url }));
         },
@@ -88,20 +75,6 @@ export class CreateUpdateEventComponent {
           this.showSnackBar(error);
         }
       });
-
-      // this._authService.resgisterUser(registerRequest)
-      // .subscribe({
-      //   next: response => {
-      //     console.log(response);
-      //     this.showSnackBar(response.message);
-      //     this.goToLoginPage()
-      //   },
-      //   error: error => {
-      //     // console.log("error");
-      //     // console.log(error);
-      //     this.showSnackBar(error);
-      //   }
-      // });
     }
     console.log(this.eventId)
   }
@@ -168,20 +141,11 @@ export class CreateUpdateEventComponent {
       console.log(createOrUpdateEventRequest)
 
       this.eventService.createOrUpdateEvent(createOrUpdateEventRequest)
-      // .subscribe(data => {
-      //   console.log(data)
-      //   if (data.success) {
-      //     alert(data.message);
-      //     this.router.navigate(['/events']);
-      //   } else {
-      //     alert(data.message);
-      //   }
-      // });
       .subscribe({
         next: response => {
           console.log(response);
           this.eventForm.patchValue(response.data.event);
-          this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
+          // this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
           // this.router.navigate(['/events']);
           this.showSnackBar(response.message);
         },
@@ -191,10 +155,6 @@ export class CreateUpdateEventComponent {
         }
       });
 
-      // console.log(this.eventForm.value);
-      // // Submit the event form data
-      // let allImagesUrls = this.images.map(image => image.url);
-      // console.log(allImagesUrls)
     }
   }
 

@@ -139,11 +139,16 @@ export class EventService {
   convertToAMPM(minutes: number): string {
     let hours = Math.floor(minutes / 60);
     let mins = minutes % 60;
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    const strMins = mins < 10 ? '0' + mins : mins;
-    return `${hours}:${strMins} ${ampm}`;
+    let newhours = `${hours}`;
+    // const ampm = hours >= 12 ? 'PM' : 'AM';
+    // hours = hours % 12;
+    // hours = hours ? hours : 12; // the hour '0' should be '12'
+    // const strMins = mins < 10 ? '0' + mins : mins;
+    // return `${hours}:${strMins} ${ampm}`;
+    if (hours < 10) {
+      newhours = '0' + hours;
+    }
+    return `${newhours}:${mins}`;
   }
 
 

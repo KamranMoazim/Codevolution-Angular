@@ -112,6 +112,6 @@ export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
 
     return {
         organizations:users,
-        total: total[0].total
+        total: total.length ? total[0].total : 0
     };
 };
