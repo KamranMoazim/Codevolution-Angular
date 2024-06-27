@@ -6,16 +6,16 @@
 </mat-card>
 
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutWrap>
-  <mat-card class="average-ratings-card" fxFlex="45%">
+  <!-- <mat-card class="average-ratings-card" fxFlex="45%">
     <h3>Average Ratings</h3>
     <mat-list>
       <mat-list-item *ngFor="let rating of avgRating">
         <h4 matLine><mat-icon matListIcon>star</mat-icon> Event Name: {{ rating._id }} - Average Rating: {{ rating.averageRating }}</h4>
       </mat-list-item>
     </mat-list>
-  </mat-card>
+  </mat-card> -->
 
-  <mat-card class="sentiment-analysis-card" fxFlex="45%">
+  <!-- <mat-card class="sentiment-analysis-card" fxFlex="45%">
     <h3>Sentiment Analysis</h3>
     <mat-accordion>
       <mat-expansion-panel *ngFor="let sentiment of sentiment">
@@ -37,16 +37,17 @@
         </mat-list>
       </mat-expansion-panel>
     </mat-accordion>
-  </mat-card>
+  </mat-card> -->
 
-  <mat-card class="popular-categories-card" fxFlex="100%">
+  <!-- <mat-card class="popular-categories-card" fxFlex="100%">
     <h3>Popular Categories</h3>
     <mat-list>
       <mat-list-item *ngFor="let category of categories">
         <h4 matLine><mat-icon matListIcon>category</mat-icon> Category: {{ category._id }} - Total Events: {{ category.totalEvents }}</h4>
       </mat-list-item>
     </mat-list>
-  </mat-card>
+  </mat-card> -->
+
 </div>
 
 
@@ -54,25 +55,24 @@
 <div fxLayout="row wrap" fxLayoutAlign="space-around">
 
   <div fxFlex="50%">
-    <div class="chart-container">
-      <canvas  id="AllEventUniqueCategoriesPieChart" >{{ allEventUniqueCategoriesPieChart }}</canvas>
-</div>
-</div>
+      <div class="chart-container">
+        <canvas  id="AllEventUniqueCategoriesPieChart" >{{ allEventUniqueCategoriesPieChart }}</canvas>
+    </div>
+  </div>
 
-<div fxFlex="50%">
-  <div class="chart-container">
-  <canvas  id="TicketsLineChart" >{{ ticketsLineChart }}</canvas>
-</div>
-</div>
+  <div fxFlex="50%">
+    <div class="chart-container">
+      <canvas  id="TicketsLineChart" >{{ ticketsLineChart }}</canvas>
+    </div>
+  </div>
 
 </div>
 
 
 <div fxLayout="row wrap" fxLayoutAlign="space-around">
 
-<div class="chart-container">
-  <canvas  id="ShiftsPieChart" >{{ shiftsPieChart }}</canvas>
-</div>
-
+  <div class="chart-container">
+    <canvas  id="ShiftsPieChart" >{{ shiftsPieChart }}</canvas>
+  </div>
 
 </div>

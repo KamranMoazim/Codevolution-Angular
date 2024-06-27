@@ -4,6 +4,7 @@ import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
 import { createReviewValidator } from '../validators/review.validator.js';
 import { createEventReview, getReviewByUserId, getReviewsByEventId } from '../services/review.service.js';
 import { getEventById } from "../services/event.service.js";
+import { checkIfUserHasTicket } from '../services/ticket.service.js';
 
 
 
@@ -30,17 +31,20 @@ export const createReview = CatchAsyncError(
             // const isTicketBuyed = event.tickets.find(
             //     ticket => ticket.userId.toString() === req.body.userId.toString()
             // );
+            const isTicketBuyed = await checkIfUserHasTicket(req.user._id, req.body.eventId);
 
-            // if(!isTicketBuyed){
-            //     return next(new ErrorHandler("You have not buyed ticket for this event", 400));
-            // }
+            // console.log(isTicketBuyed)
+
+            if(!isTicketBuyed){
+                return next(new ErrorHandler("You have not buyed ticket for this event", 400));
+            }
 
             // check if user has already reviewed this event
-            // const isAlreadyReviewed = await getReviewByUserId(req.body.userId);
+            const isAlreadyReviewed = await getReviewByUserId(req.user._id);
 
-            // if(isAlreadyReviewed){
-            //     return next(new ErrorHandler("You have already reviewed this event", 400));
-            // }
+            if(isAlreadyReviewed){
+                return next(new ErrorHandler("You have already reviewed this event", 400));
+            }
 
             const reviewData = {
                 ...req.body,

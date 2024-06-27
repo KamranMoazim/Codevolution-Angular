@@ -9,6 +9,7 @@ import Chart from 'chart.js/auto';
 import { EventService } from '../../services/event/event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReviewService } from '../../services/review/review.service';
+import { TicketService } from '../../services/ticket/ticket.service';
 
 @Component({
   selector: 'app-event-details',
@@ -67,6 +68,7 @@ export class EventDetailsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private eventService: EventService,
     private reviewService: ReviewService,
+    private ticketService: TicketService,
   ) { }
 
   ngOnInit() {
@@ -112,7 +114,19 @@ export class EventDetailsComponent implements OnInit {
 
   buyTicket(): void {
     // Implement buy ticket functionality
-    alert('Ticket purchased!');
+    // alert('Ticket purchased!');
+
+    this.ticketService.buyTicket(this.eventId)
+    .subscribe({
+      next: response => {
+        console.log(response);
+        this.showSnackBar(response.message);
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
   }
 
   editEvent(): void {

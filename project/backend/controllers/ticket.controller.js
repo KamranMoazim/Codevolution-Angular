@@ -2,7 +2,7 @@ import 'dotenv/config'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
 import { getEventById } from "../services/event.service.js";
-import { purchaseTicket } from '../services/ticket.service.js';
+import { checkIfUserHasTicket, purchaseTicket } from '../services/ticket.service.js';
 
 
 
@@ -30,9 +30,9 @@ export const buyEventTicket = CatchAsyncError(
             }
 
             // check if user has already buyed ticket for this event
-            const isTicketBuyed = event.tickets.find(
-                ticket => ticket.user.toString() === req.user._id.toString()
-            );
+            const isTicketBuyed = checkIfUserHasTicket(req.body.eventId, req.user._id)
+
+            console.log(isTicketBuyed)
 
             if(isTicketBuyed){
                 return next(new ErrorHandler("You have already buyed ticket for this event", 400));
