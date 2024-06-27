@@ -1,20 +1,25 @@
 
-
-<!-- <div fxLayout="row wrap" fxLayoutAlign="space-around">
+<div fxLayout="row wrap" fxLayoutAlign="space-around" *ngIf="showAnalytics">
 
   <div fxFlex="50%">
+    <h1>
+      Event Rating Distribution
+    </h1>
     <div class="chart-container">
       <canvas  id="RatingBarChart" >{{ ratingBarChart }}</canvas>
     </div>
   </div>
 
   <div fxFlex="50%">
+    <h1>
+      Tickets Sold Over Time
+    </h1>
     <div class="chart-container">
       <canvas  id="TicketsLineChart" >{{ ticketsLineChart }}</canvas>
     </div>
   </div>
 
-</div> -->
+</div>
 
 <div fxLayout="row wrap" fxLayoutAlign="space-around">
 
@@ -29,6 +34,9 @@
           </mat-card-subtitle>
         </div>
         <mat-card-actions>
+          <button mat-raised-button style="margin-right: 5px;" *ngIf="isAdmin()" (click)="showAnalyticsSection()">
+            <mat-icon>analytics</mat-icon> Analytics
+          </button>
           <button mat-raised-button style="margin-right: 5px;" *ngIf="isAdmin()" (click)="editEvent()">
             <mat-icon>edit</mat-icon> Edit
           </button>

@@ -11,9 +11,9 @@ import reviewModel from "../models/review.model.js";
 export const getLast30DaysTicketsBoughtAnalytics = async (eventId) => {
     const event = await eventModel.findById(eventId);
 
-    if (!event) {
-        return null;
-    }
+    // if (!event) {
+    //     return null;
+    // }
 
     const tickets = await ticketModel.find({ event: eventId });
 
@@ -33,7 +33,44 @@ export const getLast30DaysTicketsBoughtAnalytics = async (eventId) => {
         };
     });
 
-    console.log(last30DaysTicketsBought)
+    // console.log(last30DaysTicketsBought)
 
-    return last30DaysTicketsBought;
+    const allLabels = last30DaysTicketsBought.map((data) => data.date).reverse();
+    const allData = last30DaysTicketsBought.map((data) => data.ticketsBoughtCount).reverse();
+
+    return {
+        labels: allLabels,
+        datasets: allData,
+    };
+}
+
+
+
+
+export const eachStarCountAnalytics = async (eventId) => {
+
+    // count how many 1 star, 2 star, 3 star, 4 star, 5 star reviews are there for the event
+    const reviews = await reviewModel.find({ event: eventId });
+
+    const eachStarCount = Array.from({ length: 5 }, (_, i) => {
+        const star = i + 1;
+        const ticketsCount = reviews.filter(
+            (review) => review.rating === star
+        ).length;
+
+        return {
+            star,
+            ticketsCount,
+        };
+    });
+
+    console.log(eachStarCount)
+
+    const allLabels = eachStarCount.map((data) => data.star);
+    const allData = eachStarCount.map((data) => data.ticketsCount);
+
+    return {
+        labels: allLabels,
+        datasets: allData,
+    };
 }

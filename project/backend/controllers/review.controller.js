@@ -19,7 +19,7 @@ export const createReview = CatchAsyncError(
             // ! apply validation on Review - CLEAN Architecture
             createReviewValidator(req, next);
 
-            console.log(req.body)
+            // console.log(req.body)
 
             const event = await getEventById(req.body.eventId);
 
@@ -28,9 +28,6 @@ export const createReview = CatchAsyncError(
             }
 
             // check if user has buyed ticket for this event
-            // const isTicketBuyed = event.tickets.find(
-            //     ticket => ticket.userId.toString() === req.body.userId.toString()
-            // );
             const isTicketBuyed = await checkIfUserHasTicket(req.user._id, req.body.eventId);
 
             // console.log(isTicketBuyed)
@@ -78,8 +75,8 @@ export const getReviews = CatchAsyncError(
     async (req, res, next) => {
         try {
 
-            console.log(req.query)
-            console.log(req.params)
+            // console.log(req.query)
+            // console.log(req.params)
 
             const event = await getEventById(req.params.id);
 
@@ -96,7 +93,7 @@ export const getReviews = CatchAsyncError(
                 rating: rating || 0
             }
 
-            console.log(options)
+            // console.log(options)
 
             // const reviews = await getReviewsByEventId(req.query.id)
             const reviews = await getReviewsByEventId(options)

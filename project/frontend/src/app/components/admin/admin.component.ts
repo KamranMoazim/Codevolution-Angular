@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Chart } from 'chart.js';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin',
@@ -32,7 +34,10 @@ export class AdminComponent {
 
   totalRevenue = 32000; // Example hardcoded revenue
 
-  // constructor(private analyticsService: AnalyticsService) { }
+  constructor(
+    private analyticsService: AnalyticsService,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     // this.analyticsService.getAnalytics().subscribe(data => {
@@ -50,6 +55,20 @@ export class AdminComponent {
 
 
   createTicketsLineChart(){
+
+    this.analyticsService.getLast30DaysTicketBoughtAnalytics("eventId")
+    .subscribe({
+      next: response => {
+        console.log(response);
+
+
+        // console.log(response.data.event.organizer.avatar);
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
 
     this.ticketsLineChart = new Chart("TicketsLineChart", {
       type: 'line', //this denotes tha type of chart
@@ -128,5 +147,14 @@ export class AdminComponent {
 
 
 
+  showSnackBar(message: string) {
+    let snackBarRef = this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      // take user to login page
+    })
+  }
 
 }

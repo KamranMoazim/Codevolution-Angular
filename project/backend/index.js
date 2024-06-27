@@ -11,6 +11,7 @@ import eventRoutes from "./routes/event.route.js";
 import reviewRoutes from "./routes/review.route.js";
 import ticketRoutes from "./routes/ticket.route.js";
 import profileRoutes from "./routes/profile.route.js";
+import analyticsRoutes from "./routes/analytics.route.js";
 
 
 
@@ -42,6 +43,7 @@ app.use(
     reviewRoutes,
     ticketRoutes,
     profileRoutes,
+    analyticsRoutes,
 );
 
 // unknown route

@@ -16,9 +16,9 @@ export class ReviewService {
   getAllReviews(eventId: string, page: number, limit: number, rating?:number) : Observable<AllReviewsResponse>{
     console.log(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}`)
     if (rating === undefined) {
-      return this.httpClient.get<AllReviewsResponse>(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}`)
+      return this.httpClient.get<AllReviewsResponse>(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}`).pipe(catchError(this.errorHandler));
     }
-    return this.httpClient.get<AllReviewsResponse>(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}&rating=${rating}`)
+    return this.httpClient.get<AllReviewsResponse>(`${this._url}/review/event/${eventId}/?page=${page}&limit=${limit}&rating=${rating}`).pipe(catchError(this.errorHandler));
     // /review/event/:id
   }
 

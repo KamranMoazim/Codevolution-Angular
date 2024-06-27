@@ -34,9 +34,9 @@ export const getReviewsByEventId = async (options) => {
 
     if (rating) {
         matchStage.rating = rating;
-        console.log(matchStage.rating)
+        // console.log(matchStage.rating)
     }
-    console.log(rating)
+    // console.log(rating)
 
 
     // const reviews = await reviewModel.find({ event: mongoose.Types.ObjectId.createFromHexString(eventId) })

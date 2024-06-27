@@ -10,6 +10,7 @@ import { EventService } from '../../services/event/event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReviewService } from '../../services/review/review.service';
 import { TicketService } from '../../services/ticket/ticket.service';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 @Component({
   selector: 'app-event-details',
@@ -23,6 +24,7 @@ export class EventDetailsComponent implements OnInit {
   // public uniqueUsersPieChart: any;
 
 
+  showAnalytics = false;
 
   length = 50;
   pageSize = 5;
@@ -69,16 +71,18 @@ export class EventDetailsComponent implements OnInit {
     private eventService: EventService,
     private reviewService: ReviewService,
     private ticketService: TicketService,
+    private analyticsService: AnalyticsService,
   ) { }
 
   ngOnInit() {
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
-    // this.createRatingBarChart();
-    // this.createTicketsLineChart();
+
 
     this.eventId = this.route.snapshot.paramMap.get('id');
+
+
 
     this.eventService.getEventDetails(this.eventId)
       .subscribe({
@@ -219,6 +223,14 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
+  showAnalyticsSection() {
+    this.showAnalytics = !this.showAnalytics;
+
+    if (this.showAnalytics) {
+      this.createRatingBarChart();
+      this.createTicketsLineChart();
+    }
+  }
 
 
 
@@ -226,56 +238,93 @@ export class EventDetailsComponent implements OnInit {
 
   createRatingBarChart(){
 
-    this.ratingBarChart = new Chart("RatingBarChart", {
-      type: 'bar', //this denotes tha type of chart
-      data:{
-        labels: ['*', '**', '***', '****', '*****'],
-        datasets: [{
-          label: 'Event Ratings',
-          data: [65, 40, 80, 81, 56],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)'
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        aspectRatio:1.5,
-      }
+    // getEachStarCountAnalytics
 
+
+    this.analyticsService.getEachStarCountAnalytics(this.eventId)
+    .subscribe({
+      next: response => {
+        console.log(response);
+
+        this.ratingBarChart = new Chart("RatingBarChart", {
+          type: 'bar', //this denotes tha type of chart
+          data:{
+            // labels: ['*', '**', '***', '****', '*****'],
+            labels: response.data.analysis.labels,
+            datasets: [{
+              label: 'Event Ratings',
+              // data: [65, 40, 80, 81, 56],
+              data: response.data.analysis.datasets,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)'
+              ],
+              borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            aspectRatio:1.5,
+          }
+
+        });
+
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
     });
+
+
+
   }
 
   createTicketsLineChart(){
 
-    this.ticketsLineChart = new Chart("TicketsLineChart", {
-      type: 'line', //this denotes tha type of chart
-      data:{
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-        datasets: [{
-          label: 'Tickets Bought Per Month in Last 6 Months',
-          data: [65, 59, 80, 81, 56, 55],
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
-        }]
-      },
-      options: {
-        aspectRatio:1.5,
-      }
+    this.analyticsService.getLast30DaysTicketBoughtAnalytics(this.eventId)
+    .subscribe({
+      next: response => {
+        console.log(response);
 
+
+        this.ticketsLineChart = new Chart("TicketsLineChart", {
+          type: 'line', //this denotes tha type of chart
+          data:{
+            // labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            labels: response.data.analysis.labels,
+            datasets: [{
+              label: 'Tickets Bought in Last 30 Days Before Event Date',
+              // data: [65, 59, 80, 81, 56, 55],
+              data: response.data.analysis.datasets,
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            aspectRatio:1.5,
+          }
+
+        });
+
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
     });
+
+
   }
 
 
