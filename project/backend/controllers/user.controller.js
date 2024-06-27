@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 // import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt.js";
 import { getAllOrganizationsService, getAllUsersService, getUserById } from "../services/user.service.js";
-import { getMyProfile } from '../services/profile.service.js';
+// import { getMyProfile } from '../services/profile.service.js';
 
 
 
@@ -189,11 +189,11 @@ export const getUserInfo = CatchAsyncError(
 
 // getting my profile
 export const getMyProfileController = CatchAsyncError(async (req, res, next) => {
-    const profile = await getMyProfile(req.user._id);
+    // const profile = await getMyProfile(req.user._id);
     res.status(200).json({
         success: true,
         data:{
-            profile
+            profile: await userModel.findOne({ _id: req.user._id })
         }
     });
 });
@@ -272,6 +272,7 @@ export const updateUserInfo = CatchAsyncError(
                 return next(new ErrorHandler("User not found", 400));
             }
 
+            user.name = req.body.name || user.name;
             user.bio = req.body.bio || user.bio;
             user.avatar = req.body.avatar || user.avatar;
 

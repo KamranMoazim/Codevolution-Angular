@@ -36,6 +36,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { FilterDialogComponent } from './components/filter-dialog/filter-dialog.component';
 import { DatePipe } from '@angular/common';
 import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
+import { ImagesUploaderComponent } from './components/images-uploader/images-uploader.component';
 // import { AttendedEventsComponent } from './pages/attended-events/attended-events.component';
 
 
@@ -65,7 +66,8 @@ import { OrganizationCardComponent } from './components/organization-card/organi
     // AttendedEventsComponent
     AdminComponent,
     FilterDialogComponent,
-    OrganizationCardComponent
+    OrganizationCardComponent,
+    ImagesUploaderComponent
   ],
   imports: [
     BrowserModule,

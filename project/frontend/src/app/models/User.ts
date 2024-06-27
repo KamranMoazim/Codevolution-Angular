@@ -57,3 +57,26 @@ export class AllOrgResponse {
     }
   ) {}
 }
+
+
+export class UserProfileResponse {
+  constructor(
+    public data: User
+  ) {}
+}
+
+export class UpdateProfileRequest {
+  constructor(
+    public name: string,
+    public bio: string,
+    public avatar: string
+  ) {}
+}
+
+export class GetProfileResponse {
+  constructor(
+    public data: {
+      profile: User
+    }
+  ) {}
+}

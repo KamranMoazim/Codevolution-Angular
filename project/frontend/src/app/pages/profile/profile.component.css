@@ -1,0 +1,33 @@
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 2px solid #3f51b5;
+}
+
+/* mat-card {
+  max-width: 600px;
+  margin: auto;
+  padding-top: 20px;
+}
+
+mat-card-header {
+  background: #3f51b5;
+  color: white;
+}
+
+.full-width {
+  width: 100%;
+} */
+
+button {
+  margin: 20px;
+}

@@ -27,12 +27,12 @@ export class CreateUpdateEventComponent {
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private eventService:EventService,
     private snackBar: MatSnackBar,
   ) {
-    AWS.config.update({
-      accessKeyId: 'AKIA3FLD6J5JOC55LSVW',
-      secretAccessKey: '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',
-      region: 'us-east-1'
-    });
-    this.s3 = new AWS.S3();
+    // AWS.config.update({
+    //   accessKeyId: 'AKIA3FLD6J5JOC55LSVW',
+    //   secretAccessKey: '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',
+    //   region: 'us-east-1'
+    // });
+    // this.s3 = new AWS.S3();
   }
 
   ngOnInit() {
@@ -49,6 +49,8 @@ export class CreateUpdateEventComponent {
       status: ['', Validators.required],
       media: [null]
     });
+
+
 
     // Load existing image URLs from local storage or other sources
     // const savedUrls = this.getSavedImageUrls();
@@ -80,25 +82,13 @@ export class CreateUpdateEventComponent {
   }
 
 
-  convertTo24HourFormat(time: string): string {
-    const [timePart, modifier] = time.split(' ');
-    let [hours, minutes] = timePart.split(':').map(Number);
-
-    if (modifier === 'PM' && hours !== 12) {
-      hours += 12;
-    } else if (modifier === 'AM' && hours === 12) {
-      hours = 0;
-    }
-
-    const strHours = hours < 10 ? '0' + hours : hours.toString();
-    const strMinutes = minutes < 10 ? '0' + minutes : minutes.toString();
-
-    return `${strHours}:${strMinutes}`;
-  }
-
   get capacity() {
     return this.eventForm.get('capacity');
   }
+
+
+
+
 
 
   showSnackBar(message: string) {
@@ -159,60 +149,57 @@ export class CreateUpdateEventComponent {
   }
 
 
-  onFileSelected(event: any) {
-    const files = event.target.files;
-    if (files.length + this.images.length > 5) {
-      alert('You can only upload up to 5 images.');
-      return;
-    }
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.images.push({ file, preview: e.target.result });
-      };
-      reader.readAsDataURL(file);
-    }
+  onImagesChange(images: { file?: File, preview?: string, url?: string }[]) {
+    this.images = images;
+    // this.saveImageUrls();
   }
 
-  removeImage(index: number) {
-    const removedImage = this.images.splice(index, 1)[0];
-    this.showSnackBar('Image removed.');
-    if (removedImage.url) {
-      // Remove the URL from local storage if the image has already been uploaded
-      // this.localImageUrls = this.localImageUrls.filter(url => url !== removedImage.url);
-      // this.saveImageUrls(this.localImageUrls);
-    }
-  }
 
-  uploadImages() {
-    this.showSnackBar('Uploading images...');
-    this.images.forEach((image, index) => {
-      if (image.file) {
-        const params = {
-          Bucket: 'edusculpt-bucket-prod',
-          Key: `uploads/${image.file.name}`,
-          Body: image.file,
-          ACL: 'public-read'
-        };
+  // onFileSelected(event: any) {
+  //   const files = event.target.files;
+  //   if (files.length + this.images.length > 5) {
+  //     alert('You can only upload up to 5 images.');
+  //     return;
+  //   }
+  //   for (let i = 0; i < files.length; i++) {
+  //     const file = files[i];
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //       this.images.push({ file, preview: e.target.result });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
-        this.s3.upload(params, (err: any, data: any) => {
-          if (err) {
-            console.error('Error uploading image:', err);
-            this.showSnackBar('Failed to upload images. Please try again.');
-          } else {
-            console.log('Successfully uploaded image:', data);
-            this.images[index].url = data.Location;
-            this.showSnackBar(`Image ${index + 1} uploaded successfully.`);
-            // this.localImageUrls.push(data.Location);
-            // this.saveImageUrls(this.localImageUrls);
-            // delete this.images[index].file;
-            // delete this.images[index].preview;
-          }
-        });
-      }
-    });
-  }
+  // removeImage(index: number) {
+  //   const removedImage = this.images.splice(index, 1)[0];
+  //   this.showSnackBar('Image removed.');
+  // }
+
+  // uploadImages() {
+  //   this.showSnackBar('Uploading images...');
+  //   this.images.forEach((image, index) => {
+  //     if (image.file) {
+  //       const params = {
+  //         Bucket: 'edusculpt-bucket-prod',
+  //         Key: `uploads/${image.file.name}`,
+  //         Body: image.file,
+  //         ACL: 'public-read'
+  //       };
+
+  //       this.s3.upload(params, (err: any, data: any) => {
+  //         if (err) {
+  //           console.error('Error uploading image:', err);
+  //           this.showSnackBar('Failed to upload images. Please try again.');
+  //         } else {
+  //           console.log('Successfully uploaded image:', data);
+  //           this.images[index].url = data.Location;
+  //           this.showSnackBar(`Image ${index + 1} uploaded successfully.`);
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
 
 
   timeToMinutes(timeStr) {
@@ -230,6 +217,22 @@ export class CreateUpdateEventComponent {
     let totalMinutes = (hours * 60) + minutes;
 
     return totalMinutes;
+}
+
+convertTo24HourFormat(time: string): string {
+  const [timePart, modifier] = time.split(' ');
+  let [hours, minutes] = timePart.split(':').map(Number);
+
+  if (modifier === 'PM' && hours !== 12) {
+    hours += 12;
+  } else if (modifier === 'AM' && hours === 12) {
+    hours = 0;
+  }
+
+  const strHours = hours < 10 ? '0' + hours : hours.toString();
+  const strMinutes = minutes < 10 ? '0' + minutes : minutes.toString();
+
+  return `${strHours}:${strMinutes}`;
 }
 
 }

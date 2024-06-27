@@ -34,7 +34,8 @@ userRouter.post("/login", loginUser);
 
 // // userRouter.post("/social-auth", socialAuth);
 
-userRouter.put("/update-user-info", isAutheticated, updateUserInfo);
+userRouter.get("/user-info", addingTempUser, getMyProfileController);
+userRouter.put("/user-info", addingTempUser, updateUserInfo);
 
 userRouter.get("/get-organizations", getAllOrganizationsController);
 
