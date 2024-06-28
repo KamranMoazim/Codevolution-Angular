@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import eventModel from "../models/event.model.js";
 import ticketModel from "../models/ticket.model.js";
+import userModel from "../models/user.model.js";
 
 
 
@@ -75,6 +76,12 @@ export const getEventsByUserId = async (userId) => {
 // create event
 export const createEvent = async (event) => {
     const newEvent = await eventModel.create(event);
+
+    await userModel.updateOne(
+        { _id: mongoose.Types.ObjectId.createFromHexString(event.organizer) },
+        { $push: { events: newEvent._id } }
+    );
+
     return newEvent;
 };
 

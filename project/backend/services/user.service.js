@@ -6,15 +6,16 @@ export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
     // console.log(search, pageNo, pageSize)
 
     const stages = [
-        {
-            // $match: { role: "admin" }
+        search === "" ? {
+            $match: { role: "admin" }
+        } : {
             $match: { role: "admin", name: { $regex: search, $options: "i" } }
         },
         {
             $lookup: {
                 from: "events",
                 localField: "_id",
-                foreignField: "user",
+                foreignField: "organizer",
                 as: "events"
             }
         },
@@ -38,7 +39,7 @@ export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
                 // reviews: 1,
                 avatar: 1,
                 averageRating: { $avg: "$reviews.rating" },
-                totalEvents: { $size: "$events" }
+                totalEvents: { $size: "$events" },
             }
         },
         {
@@ -54,7 +55,9 @@ export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
 
 
     const totalCountStage = [
-        {
+        search === "" ? {
+            $match: { role: "admin" }
+        } : {
             $match: { role: "admin", name: { $regex: search, $options: "i" } }
         },
         {
