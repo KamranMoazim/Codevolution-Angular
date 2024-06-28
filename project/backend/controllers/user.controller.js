@@ -3,12 +3,8 @@ import userModel from "../models/user.model.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
 import jwt from "jsonwebtoken";
-// import ejs from "ejs";
-// import path from "path";
-// import sendMail from "../utils/sendMail";
 import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt.js";
-import { getAllOrganizationsService, getAllUsersService, getUserById } from "../services/user.service.js";
-// import { getMyProfile } from '../services/profile.service.js';
+import { getAllOrganizationsService } from "../services/user.service.js";
 
 
 
@@ -26,23 +22,6 @@ export const registrationUser = CatchAsyncError(
                 return next(new ErrorHandler("Email already exist", 400));
             }
 
-            // const user = {
-            //     name,
-            //     email,
-            //     password,
-            //     role
-            // };
-
-            // const activationToken = createActivationToken(user);
-
-            // const activationCode = activationToken.activationCode;
-
-            // const data = { user: { name: user.name }, activationCode };
-            // const html = await ejs.renderFile(
-            //     path.join(__dirname, "../mails/activation-mail.ejs"),
-            //     data
-            // );
-
             const user = await userModel.create({
                 name,
                 email,
@@ -53,12 +32,6 @@ export const registrationUser = CatchAsyncError(
             });
 
             try {
-                // await sendMail({
-                //     email: user.email,
-                //     subject: "Activate your account",
-                //     template: "activation-mail.ejs",
-                //     data,
-                // });
 
                 res.status(201).json({
                     success: true,
@@ -124,13 +97,6 @@ export const updateAccessToken = CatchAsyncError(
             if (!decoded) {
                 return next(new ErrorHandler(message, 400));
             }
-            // const session = await redis.get(decoded.id);
-
-            // if (!session) {
-            //     return next(
-            //         new ErrorHandler("Please login for access this resources!", 400)
-            //     );
-            // }
 
             // const user = JSON.parse(session);
             const user = {
@@ -168,25 +134,6 @@ export const updateAccessToken = CatchAsyncError(
 );
 
 
-
-// get user info
-export const getUserInfo = CatchAsyncError(
-    async (req, res, next) => {
-        try {
-            // const userId = req.user?._id;
-            // getUserById(userId, res);
-            res.status(200).json({
-                success: true,
-                data:{
-                    user: req.user
-                },
-            });
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
-        }
-    }
-);
-
 // getting my profile
 export const getMyProfileController = CatchAsyncError(async (req, res, next) => {
     // const profile = await getMyProfile(req.user._id);
@@ -202,69 +149,9 @@ export const getMyProfileController = CatchAsyncError(async (req, res, next) => 
 
 
 
-// update user password
-export const updatePassword = CatchAsyncError(
-    async (req, res, next) => {
-        try {
-            const { oldPassword, newPassword } = req.body;
-
-            if (!oldPassword || !newPassword) {
-                return next(new ErrorHandler("Please enter old and new password", 400));
-            }
-
-            const user = await userModel.findById(req.user?._id).select("+password");
-
-            if (user?.password === undefined) {
-                return next(new ErrorHandler("Invalid user", 400));
-            }
-
-            const isPasswordMatch = await user?.comparePassword(oldPassword);
-
-            if (!isPasswordMatch) {
-                return next(new ErrorHandler("Invalid old password", 400));
-            }
-
-            user.password = newPassword;
-
-            await user.save();
-
-            await redis.set(req.user?._id, JSON.stringify(user));
-
-            res.status(201).json({
-                success: true,
-                user,
-            });
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
-        }
-    }
-);
-
-
-
-
-
-// get all users --- only for admin
-export const getAllUsers = CatchAsyncError(
-    async (req, res, next) => {
-        try {
-            getAllUsersService(res);
-        } catch (error) {
-            return next(new ErrorHandler(error.message, 400));
-        }
-    }
-);
-
-
-
 export const updateUserInfo = CatchAsyncError(
     async (req, res, next) => {
         try {
-            // const user = await userModel.findByIdAndUpdate(req.user?._id, req.body, {
-            //     new: true,
-            //     runValidators: true,
-            //     useFindAndModify: false,
-            // });
 
             const user = await userModel.findById(req.user?._id);
 
@@ -296,10 +183,6 @@ export const getAllOrganizationsController = CatchAsyncError(
             const search = req.query.search || "";
             const pageNo = parseInt(req.query.page) || 1;
             const pageSize = parseInt(req.query.limit) || 5;
-
-            console.log(req.query)
-
-            // const users = 
 
             res.status(200).json({
                 success: true,

@@ -1,128 +1,166 @@
-
 import mongoose from "mongoose";
 import eventModel from "../models/event.model.js";
 import ticketModel from "../models/ticket.model.js";
-import userModel from "../models/user.model.js";
 import reviewModel from "../models/review.model.js";
+
 
 
 
 
 export const getLast30DaysTicketsBoughtAnalytics = async (eventId) => {
     const event = await eventModel.findById(eventId);
+    const endDate = new Date(event.date);
+    const startDate = new Date(event.date);
+    startDate.setDate(endDate.getDate() - 29);  // Last 30 days including event date
 
-    // if (!event) {
-    //     return null;
-    // }
+    const ticketsBoughtAnalytics = await ticketModel.aggregate([
+        {
+            $match: {
+                event: mongoose.Types.ObjectId.createFromHexString(eventId),
+                purchaseDate: { $gte: startDate, $lte: endDate }
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    $dateToString: { format: "%Y-%m-%d", date: "$purchaseDate" }
+                },
+                count: { $sum: 1 }
+            }
+        }
+    ]);
 
-    const tickets = await ticketModel.find({ event: eventId });
+    const analyticsMap = new Map(ticketsBoughtAnalytics.map(data => [data._id, data.count]));
 
-    // create an array of tickets bought count for each day in the last 30 days from event date
     const last30DaysTicketsBought = Array.from({ length: 30 }, (_, i) => {
         const date = new Date(event.date);
         date.setDate(date.getDate() - i);
-
-        const ticketsBoughtCount = tickets.filter(
-            (ticket) =>
-                ticket.purchaseDate.toDateString() === date.toDateString()
-        ).length;
-
+        const dateString = date.toISOString().split('T')[0];
         return {
-            date: date.toDateString(),
-            ticketsBoughtCount,
+            date: dateString,
+            ticketsBoughtCount: analyticsMap.get(dateString) || 0,
         };
-    });
+    }).reverse();
 
-    // console.log(last30DaysTicketsBought)
-
-    const allLabels = last30DaysTicketsBought.map((data) => data.date).reverse();
-    const allData = last30DaysTicketsBought.map((data) => data.ticketsBoughtCount).reverse();
+    const allLabels = last30DaysTicketsBought.map(data => data.date);
+    const allData = last30DaysTicketsBought.map(data => data.ticketsBoughtCount);
 
     return {
         labels: allLabels,
         datasets: allData,
     };
 }
+
+
 
 
 
 
 export const eachStarCountAnalytics = async (eventId) => {
+    const starCountAnalytics = await reviewModel.aggregate([
+        {
+            $match: { event: mongoose.Types.ObjectId.createFromHexString(eventId) }
+        },
+        {
+            $group: {
+                _id: "$rating",
+                count: { $sum: 1 }
+            }
+        },
+    ]);
 
-    // count how many 1 star, 2 star, 3 star, 4 star, 5 star reviews are there for the event
-    const reviews = await reviewModel.find({ event: eventId });
+    // Create a map for quick lookup
+    const analyticsMap = new Map(starCountAnalytics.map(data => [data._id, data.count]));
 
+    // Create an array with counts for each star from 1 to 5
     const eachStarCount = Array.from({ length: 5 }, (_, i) => {
         const star = i + 1;
-        const ticketsCount = reviews.filter(
-            (review) => review.rating === star
-        ).length;
-
         return {
             star,
-            ticketsCount,
+            ticketsCount: analyticsMap.get(star) || 0,
         };
     });
 
-    console.log(eachStarCount)
-
-    const allLabels = eachStarCount.map((data) => data.star);
-    const allData = eachStarCount.map((data) => data.ticketsCount);
+    const allLabels = eachStarCount.map(data => data.star);
+    const allData = eachStarCount.map(data => data.ticketsCount);
 
     return {
         labels: allLabels,
         datasets: allData,
     };
-}
+};
 
-// "Morning", "Afternoon", "Evening", "Night"
+
+
 export const ticketsBoughtByTimeOfDayAnalytics = async (eventId) => {
     const event = await eventModel.findById(eventId);
 
+    // Define the time ranges for each segment of the day
+    const timeRanges = [
+        { label: "Morning", start: 0, end: 6 },  // 12 AM - 6 AM
+        { label: "Afternoon", start: 6, end: 12 },  // 6 AM - 12 PM
+        { label: "Evening", start: 12, end: 18 },  // 12 PM - 6 PM
+        { label: "Night", start: 18, end: 24 }   // 6 PM - 12 AM
+    ];
 
-    const tickets = await ticketModel.find({ event: eventId });
-
-    // create an array of tickets bought count for each time of day in the event date
-    const ticketsBoughtByTimeOfDay = Array.from({ length: 4 }, (_, i) => {
-        const startTime = event.startTime;
-        const endTime = event.endTime;
-        const timeOfDay = i + 1;
-
-        const ticketsBoughtCount = tickets.filter(
-            (ticket) =>
-                ticket.purchaseDate >= startTime &&
-                ticket.purchaseDate <= endTime
-        ).length;
-
-        return {
-            timeOfDay,
-            ticketsBoughtCount,
-        };
-    });
-
-    console.log(ticketsBoughtByTimeOfDay)
-
-    const allLabels = ticketsBoughtByTimeOfDay.map((data) => {
-        if (data.timeOfDay === 1) {
-            return "Morning";
-        } else if (data.timeOfDay === 2) {
-            return "Afternoon";
-        } else if (data.timeOfDay === 3) {
-            return "Evening";
-        } else {
-            return "Night";
+    const ticketsBoughtAnalytics = await ticketModel.aggregate([
+        {
+            $match: {
+                event: mongoose.Types.ObjectId.createFromHexString(eventId),
+                purchaseDate: {
+                    $gte: new Date(event.startTime),
+                    $lte: new Date(event.endTime)
+                }
+            }
+        },
+        {
+            $project: {
+                purchaseHour: { $hour: "$purchaseDate" }
+            }
+        },
+        {
+            $bucket: {
+                groupBy: "$purchaseHour",
+                boundaries: [0, 6, 12, 18, 24],
+                default: "Other",
+                output: {
+                    count: { $sum: 1 }
+                }
+            }
         }
-    }
-    );
+    ]);
 
-    const allData = ticketsBoughtByTimeOfDay.map((data) => data.ticketsBoughtCount);
+    // Map results to labels and counts
+    const analyticsMap = new Map(ticketsBoughtAnalytics.map(data => [data._id, data.count]));
+
+    const ticketsBoughtByTimeOfDay = timeRanges.map(({ label, start }) => ({
+        timeOfDay: label,
+        ticketsBoughtCount: analyticsMap.get(start) || 0,
+    }));
+
+    const allLabels = ticketsBoughtByTimeOfDay.map(data => data.timeOfDay);
+    const allData = ticketsBoughtByTimeOfDay.map(data => data.ticketsBoughtCount);
 
     return {
         labels: allLabels,
         datasets: allData,
     };
+};
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,175 +186,121 @@ export const ticketsBoughtByTimeOfDayAnalytics = async (eventId) => {
 
 
 export const numberOfEventsCreatedInLast12MonthsByUserAnalytics = async (userId) => {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setMonth(endDate.getMonth() - 11); // Set to 12 months ago
 
-    const user = await userModel.findById(userId);
+    const eventsCreatedAnalytics = await eventModel.aggregate([
+        {
+            $match: {
+                organizer: mongoose.Types.ObjectId.createFromHexString(userId),
+                createdAt: { $gte: startDate, $lte: endDate }
+            }
+        },
+        {
+            $group: {
+                _id: { $month: "$createdAt" },
+                year: { $first: { $year: "$createdAt" } },
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $sort: { "year": -1, "_id": -1 }
+        }
+    ]);
 
-    // if (!user) {
-    //     return null;
-    // }
+    const currentMonth = endDate.getMonth() + 1;
+    const currentYear = endDate.getFullYear();
 
-    // get all events created by the user
-    const events = await eventModel.find({ organizer: userId });
-
-    // create an array of events created count for each month in the last 12 months
+    // Initialize an array with zero counts for each month
     const last12MonthsEventsCreated = Array.from({ length: 12 }, (_, i) => {
         const date = new Date();
         date.setMonth(date.getMonth() - i);
-
-        const eventsCreatedCount = events.filter(
-            (event) =>
-                new Date(event.createdAt).getMonth() === date.getMonth()
-        ).length;
-
         return {
             month: date.toLocaleString("default", { month: "long" }),
-            eventsCreatedCount,
+            year: date.getFullYear(),
+            eventsCreatedCount: 0
         };
     });
 
-    // console.log(last12MonthsEventsCreated)
+    // Create a map for quick lookup
+    const analyticsMap = new Map(eventsCreatedAnalytics.map(data => [`${data.year}-${data._id}`, data.count]));
 
-    const allLabels = last12MonthsEventsCreated.map((data) => data.month).reverse();
-    const allData = last12MonthsEventsCreated.map((data) => data.eventsCreatedCount).reverse();
+    // Populate the counts from the analyticsMap
+    last12MonthsEventsCreated.forEach((data, index) => {
+        const month = (currentMonth - index - 1 + 12) % 12 + 1;
+        const year = currentYear - Math.floor((currentMonth - index - 1) / 12);
+        data.eventsCreatedCount = analyticsMap.get(`${year}-${month}`) || 0;
+    });
+
+    const allLabels = last12MonthsEventsCreated.map(data => data.month).reverse();
+    const allData = last12MonthsEventsCreated.map(data => data.eventsCreatedCount).reverse();
 
     return {
         labels: allLabels,
         datasets: allData,
     };
-
-}
-
-
-
+};
 
 
 export const allEventsByUserUniqueCategoriesByCountAnalytics = async (userId) => {
+    const eventsCategoryCount = await eventModel.aggregate([
+        {
+            $match: {
+                organizer: mongoose.Types.ObjectId.createFromHexString(userId)
+            }
+        },
+        {
+            $group: {
+                _id: "$category",
+                count: { $sum: 1 }
+            }
+        }
+    ]);
 
-    // const user = await userModel.findById(userId);
-
-    // if (!user) {
-    //     return null;
-    // }
-
-    // get all events created by the user
-    const events = await eventModel.find({ organizer: userId });
-
-    // get all events unique categories and count of events in each category
-    const eventsCategoryCount = events.reduce((acc, event) => {
-        acc[event.category] = (acc[event.category] || 0) + 1;
-        return acc;
-    }, {});
-
-    // console.log(eventsCategoryCount)
-
-    const allLabels = Object.keys(eventsCategoryCount);
-    const allData = Object.values(eventsCategoryCount);
+    const allLabels = eventsCategoryCount.map(data => data._id);
+    const allData = eventsCategoryCount.map(data => data.count);
 
     return {
         labels: allLabels,
         datasets: allData,
     };
-
-}
-
+};
 
 
-
-
-// "Morning", "Afternoon", "Evening", "Night"
-export const mostEventTimeOfDayAnalytics = async (userId) => {
-
-        // get all events created by the user
-        const events = await eventModel.find({ organizer: userId });
-
-        // console.log(events)
-
-        // totalMinutes = 24 * 60 = 1440
-        // 300-539 = Morning, 540-779 = Afternoon, 780-1019 = Evening, 1020-1439 0-259 = Night
-    
-        // create an array of events created count for each time of day in the event date, just see the start time of the event
-        const eventsTimeOfDay = Array.from({ length: 4 }, (_, i) => {
-            const timeOfDay = i + 1;
-    
-            const eventsCount = events.filter(
-                (event) => {
-                    const startTime = event.startTime;
-                    // const endTime = event.endTime;
-
-                    console.log(startTime)
-                    console.log(timeOfDay)
-    
-                    // if (timeOfDay === 1) {
-                    //     return startTime >= 300;
-                    // } else if (timeOfDay === 2) {
-                    //     return startTime >= 540;
-                    // } else if (timeOfDay === 3) {
-                    //     return startTime >= 780;
-                    // } else {
-                    //     return startTime >= 1020 || startTime >= 0;
-                    // }
-
-                    if (timeOfDay === 1) {
-                        return startTime >= 300;
-                    } else if (timeOfDay === 2) {
-                        return startTime >= 540;
-                    } else if (timeOfDay === 3) {
-                        return startTime >= 780;
-                    } else {
-                        return startTime >= 1020 || startTime >= 0;
-                    }
-                }
-            ).length;
-    
-            return {
-                timeOfDay,
-                eventsCount,
-            };
-        });
-
-        console.log(eventsTimeOfDay)
-
-        const allLabels = eventsTimeOfDay.map((data) => {
-            if (data.timeOfDay === 1) {
-                return "Morning";
-            } else if (data.timeOfDay === 2) {
-                return "Afternoon";
-            } else if (data.timeOfDay === 3) {
-                return "Evening";
-            } else {
-                return "Night";
-            }
-        }
-        );
-
-        const allData = eventsTimeOfDay.map((data) => data.eventsCount);
-
-        return {
-            labels: allLabels,
-            datasets: allData,
-        };
-}
 
 
 
 export const totalRevenueAnalytics = async (userId) => {
-    
-    // get all events created by the user
-    const events = await eventModel.find({ organizer: userId });
+    const userIdObj = mongoose.Types.ObjectId.createFromHexString(userId);
 
-    // get all tickets bought for the events
-    const tickets = await ticketModel.find({ event: events.map((event) => event._id) });
+    // Aggregate events organized by the user
+    const events = await eventModel.find({ organizer: userIdObj }).select('_id');
+    const eventIds = events.map(event => event._id);
 
-    // get all reviews for the events
-    const reviews = await reviewModel.find({ event: events.map((event) => event._id) }).countDocuments();
+    // Aggregate total revenue and ticket count for the events
+    const ticketsAggregation = await ticketModel.aggregate([
+        {
+            $match: { event: { $in: eventIds } }
+        },
+        {
+            $group: {
+                _id: null,
+                totalRevenue: { $sum: "$price" },
+                totalTickets: { $sum: 1 }
+            }
+        }
+    ]);
 
-    // calculate the total revenue from all tickets bought
-    const totalRevenue = tickets.reduce((acc, ticket) => acc + ticket.price, 0);
+    const { totalRevenue = 0, totalTickets = 0 } = ticketsAggregation[0] || {};
+
+    // Count total reviews for the events
+    const totalReviews = await reviewModel.countDocuments({ event: { $in: eventIds } });
 
     return {
-        totalRevenue: totalRevenue,
+        totalRevenue,
         totalEvents: events.length,
-        totalTickets: tickets.length,
-        totalReviews: reviews,
+        totalTickets,
+        totalReviews
     };
-}
+};

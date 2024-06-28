@@ -8,10 +8,12 @@ import userModel from "../models/user.model.js";
 export const purchaseTicket = async (ticketData) => {
     const ticket = await ticketModel.create(ticketData);
 
-    // update event tickets array
+    // update event tickets array also update event numberOfTicketsSold
     await eventModel.findByIdAndUpdate(ticketData.event, {
-        $addToSet: { tickets: ticket._id }
+        $addToSet: { tickets: ticket._id },
+        $inc: { numberOfTicketsSold: 1 }
     });
+
 
     // update user tickets array
     await userModel.findByIdAndUpdate(ticketData.user, {
@@ -25,18 +27,4 @@ export const purchaseTicket = async (ticketData) => {
 export const checkIfUserHasTicket = async (userId, eventId) => {
     const ticket = await ticketModel.findOne({ user: userId, event: eventId });
     return ticket;
-};
-
-// cancel ticket
-export const cancelTicket = async (ticketId) => {
-    const ticket = await ticketModel.findById(ticketId);
-    ticket.status = "canceled";
-    await ticket.save();
-    return ticket;
-};
-
-// get all tickets user has purchased
-export const getTicketsByUserId = async (userId) => {
-    const tickets = await ticketModel.find({ user: userId });
-    return tickets;
 };

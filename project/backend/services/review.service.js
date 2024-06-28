@@ -1,7 +1,7 @@
-// import { redis } from "../utils/redis";
+
+import mongoose from "mongoose";
 import reviewModel from "../models/review.model.js";
 import eventModel from "../models/event.model.js";
-import mongoose from "mongoose";
 
 
 // get review by id
@@ -27,23 +27,13 @@ export const createEventReview = async (reviewData) => {
 // get all reviews of an event
 export const getReviewsByEventId = async (options) => {
     const { eventId, page, limit, rating } = options;
-    // const reviews = await reviewModel.find({ event: eventId })
-    //     .sort({ createdAt: -1 });
 
     const matchStage = {};
 
     if (rating) {
         matchStage.rating = rating;
-        // console.log(matchStage.rating)
     }
-    // console.log(rating)
 
-
-    // const reviews = await reviewModel.find({ event: mongoose.Types.ObjectId.createFromHexString(eventId) })
-    //     .sort({ createdAt: -1 })
-    //     .limit(limit * 1)
-    //     .skip((page - 1) * limit)
-    //     .exec();
 
     matchStage.event = mongoose.Types.ObjectId.createFromHexString(eventId);
 
@@ -55,8 +45,6 @@ export const getReviewsByEventId = async (options) => {
             $count: 'total'
         }
     ];
-
-    const countReviews = await reviewModel.aggregate(reviewPipeline);
 
     const newPipeline = [
         {
@@ -100,6 +88,8 @@ export const getReviewsByEventId = async (options) => {
     ];
 
     const reviews = await reviewModel.aggregate(newPipeline);
+
+    const countReviews = await reviewModel.aggregate(reviewPipeline);
 
     return {
         reviews,

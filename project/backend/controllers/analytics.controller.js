@@ -72,8 +72,6 @@ export const eachStarCountAnalyticsController = CatchAsyncError(
 export const numberOfEventsCreatedInLast12MonthsByUserController = CatchAsyncError(
     async (req, res, next) => {
         try {
-
-            console.log(req.user._id)
             
             const analysis = await numberOfEventsCreatedInLast12MonthsByUserAnalytics(req.user._id);
             
@@ -93,8 +91,6 @@ export const numberOfEventsCreatedInLast12MonthsByUserController = CatchAsyncErr
 export const allEventsByUserUniqueCategoriesByCountAnalyticsController = CatchAsyncError(
     async (req, res, next) => {
         try {
-
-            console.log(req.user._id)
             
             const analysis = await allEventsByUserUniqueCategoriesByCountAnalytics(req.user._id);
             
@@ -110,24 +106,6 @@ export const allEventsByUserUniqueCategoriesByCountAnalyticsController = CatchAs
     }
 );
 
-
-// export const mostEventTimeOfDayController = CatchAsyncError(
-//     async (req, res, next) => {
-//         try {
-            
-//             const analysis = await mostEventTimeOfDayAnalytics(req.user._id);
-            
-//             return res.status(200).json({
-//                 success: true,
-//                 data:{
-//                     analysis
-//                 },
-//             });
-//         } catch (error) {
-//             return next(new ErrorHandler(error.message, 400));
-//         }
-//     }
-// );
 
 
 export const totalRevenueAnalyticsController = CatchAsyncError(

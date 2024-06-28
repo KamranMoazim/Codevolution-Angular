@@ -63,7 +63,11 @@ const eventSchema = new mongoose.Schema(
         // sould be list of image urls
         media: [{
             type: String,
-        }]
+        }],
+        numberOfTicketsSold: {
+            type: Number,
+            default: 0,
+        },
     },
     { timestamps: true }
 );

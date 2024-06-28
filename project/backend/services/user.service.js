@@ -1,28 +1,4 @@
-// import { redis } from "../utils/redis";
 import userModel from "../models/user.model.js";
-
-// get user by id
-export const getUserById = async (id, res) => {
-    // const userJson = await redis.get(id);
-
-    if (userJson) {
-        const user = JSON.parse(userJson);
-        res.status(200).json({
-            success: true,
-            user,
-        });
-    }
-};
-
-// Get All users
-export const getAllUsersService = async (res) => {
-    const users = await userModel.find().sort({ createdAt: -1 });
-
-    res.status(201).json({
-        success: true,
-        users,
-    });
-};
 
 
 export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
@@ -79,24 +55,7 @@ export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
 
     const totalCountStage = [
         {
-            // $match: { role: "admin" }
             $match: { role: "admin", name: { $regex: search, $options: "i" } }
-        },
-        {
-            $lookup: {
-                from: "events",
-                localField: "_id",
-                foreignField: "user",
-                as: "events"
-            }
-        },
-        {
-            $lookup: {
-                from: "reviews",
-                localField: "_id",
-                foreignField: "user",
-                as: "reviews"
-            }
         },
         {
             $count: "total"
@@ -106,9 +65,6 @@ export const getAllOrganizationsService = async (search, pageNo, pageSize) => {
     const users = await userModel.aggregate(stages);
 
     const total = await userModel.aggregate(totalCountStage);
-
-    // console.log("total", total[0].total)
-
 
     return {
         organizations:users,
