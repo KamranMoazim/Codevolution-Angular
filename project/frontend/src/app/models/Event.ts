@@ -67,6 +67,7 @@ export class AllEventsRequest {
     // public maxReviews?: number,
 
     public isOrganizer?: boolean,
+    public organizer?: string,
     public isUser?: boolean,
 
   ) {}

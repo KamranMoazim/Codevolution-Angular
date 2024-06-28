@@ -71,6 +71,10 @@ export class EventService {
 
     if (allEventsRequest.isOrganizer) {
       params['isOrganizer'] = allEventsRequest.isOrganizer;
+    } else {
+      params['isOrganizer'] = allEventsRequest.isOrganizer;
+      params['organizer'] = allEventsRequest.organizer;
+
     }
 
     if (allEventsRequest.isUser) {

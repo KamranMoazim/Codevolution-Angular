@@ -54,7 +54,7 @@ export class ProfileComponent {
   }
 
   loadProfile(): void {
-    this.userService.getProfile()
+    this.userService.getMyProfile()
     .subscribe({
       next: response => {
         console.log(response);

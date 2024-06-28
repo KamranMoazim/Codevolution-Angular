@@ -14,11 +14,15 @@ export class UserService {
   constructor(private httpClient:HttpClient) { }
 
 
-  getProfile() :Observable<GetProfileResponse>  {
+  getMyProfile() :Observable<GetProfileResponse>  {
     // return this.httpClient.get<GetProfileResponse>(this._url + "/user-info/", {
     //   withCredentials: true,
     // }).pipe(catchError(this.errorHandler));
     return this.httpClient.get<GetProfileResponse>(this._url + "/user-info/").pipe(catchError(this.errorHandler));
+  }
+
+  getUserProfile(organizerId:string) :Observable<GetProfileResponse>  {
+    return this.httpClient.get<GetProfileResponse>(this._url + "/user-profile/" + organizerId).pipe(catchError(this.errorHandler));
   }
 
   updateProfile(data: UpdateProfileRequest) : Observable<BaseResponse> {

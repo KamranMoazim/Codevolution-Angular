@@ -3,7 +3,7 @@ import { Role } from "../enums/role";
 
 export class User {
 
-  public id?: string = '';
+  public _id?: string = '';
   public role: Role;
   public followers?: User[] = [];
   public avatar?: string = '';

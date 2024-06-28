@@ -63,11 +63,23 @@ export class AuthService {
   logoutUser(): void {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
+
+    // clear all cookies
+    this.clearAllCookies();
   }
 
   errorHandler(error: HttpErrorResponse){
     // console.log(error)
     // return throwError(() => error.message || "Server Error");
     return throwError(() => error.error.message || "Server Error");
+  }
+
+  private clearAllCookies(): void {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const eqPos = cookie.indexOf('=');
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+    }
   }
 }

@@ -17,6 +17,7 @@ export class AllEventsComponent implements OnInit {
 
   @Input() isUser: boolean = false;
   @Input() isOrganizer: boolean = false;
+  @Input() organizer:string = ""
 
   public events: Event[] = []
   searchValue = '';
@@ -95,7 +96,7 @@ export class AllEventsComponent implements OnInit {
 
 
     this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
-      // console.log(data)
+      console.log(data)
       this.events = data.data.events;
       this.length = data.data.totalPages;
       this.pageIndex = data.data.page;
@@ -116,7 +117,12 @@ export class AllEventsComponent implements OnInit {
     if(this.selectedStatus) allEventsRequest.status = this.selectedStatus;
     if(this.startDate) allEventsRequest.startDate = this.startDate;
     if(this.endDate) allEventsRequest.endDate = this.endDate;
-    if(this.isOrganizer) allEventsRequest.isOrganizer = this.isOrganizer;
+    if(this.isOrganizer) {
+      allEventsRequest.isOrganizer = this.isOrganizer;
+    } else {
+      allEventsRequest.isOrganizer = false;
+      allEventsRequest.organizer = this.organizer;
+    }
     if(this.isUser) allEventsRequest.isUser = this.isUser;
     // if(this.startTime) allEventsRequest.startTime = this.startTime;
     // if(this.endTime) allEventsRequest.endTime = this.endTime;

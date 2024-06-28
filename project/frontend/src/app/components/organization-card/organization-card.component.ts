@@ -7,7 +7,7 @@ import { Organization } from '../../models/User';
   templateUrl: './organization-card.component.html',
   styleUrl: './organization-card.component.css'
 })
-export class OrganizationCardComponent {
+export class OrganizationCardComponent  {
 
   // @Input() event: Event;
   @Input() organization:Organization;
@@ -17,7 +17,8 @@ export class OrganizationCardComponent {
 
   showOrganizationDetails() {
     console.log('Organization details');
-    this.router.navigate(['/organizations/'+this.organization.id]);
+    console.log(this.organization);
+    this.router.navigate(['/organizations/'+this.organization._id]);
   }
 
 }

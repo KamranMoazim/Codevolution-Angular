@@ -146,6 +146,16 @@ export const getMyProfileController = CatchAsyncError(async (req, res, next) => 
     });
 });
 
+export const getUserProfileController = CatchAsyncError(async (req, res, next) => {
+    // const profile = await getMyProfile(req.user._id);
+    res.status(200).json({
+        success: true,
+        data:{
+            profile: await userModel.findOne({ _id: req.params.id })
+        }
+    });
+});
+
 
 
 

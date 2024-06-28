@@ -183,8 +183,13 @@ export const fetchEventsController = CatchAsyncError(
                 if (!req.user || !req.user._id) {
                     return next(new ErrorHandler("You are not authorized to perform this action", 401));
                 }
-                filters.organizer = req.user._id;
-                filters.user = req.user._id;
+                filters.organizer = req.user._id; // means organizer is searching for his events
+                filters.user = req.user._id; // means user is searching for events he has bought tickets for
+            }
+
+            // means someone is searching for events of a particular organizer
+            if(!isOrganizer){
+                filters.organizer = organizer;
             }
 
             if (minPrice !== undefined && maxPrice !== undefined) {

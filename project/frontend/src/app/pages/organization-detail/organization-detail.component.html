@@ -1,4 +1,10 @@
 
-<h2>Name of Org here</h2>
+<h2>
+  <a [routerLink]="['/organizations']">Organizations</a>
+  <span> / {{ organization.name }}</span>
+</h2>
 
-<app-all-events></app-all-events>
+<app-all-events
+  [isOrganizer]="false"
+  [organizer]="organizationId"
+></app-all-events>
