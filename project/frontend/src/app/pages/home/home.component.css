@@ -57,7 +57,7 @@
 
 
 .text-title {
-  font-size: 3em;
+  font-size: 3rem;
   font-weight: bold;
   margin: 0;
   line-height: 1.6;
@@ -65,3 +65,15 @@
 }
 
 
+
+/* Optional: additional styling for text and image on mobile */
+@media (max-width: 600px) {
+  .text-title {
+    font-size: 0.9rem; /* Slightly smaller font size for mobile */
+  }
+
+  .section-image {
+    margin-top: 20px; /* More space between text and image */
+    max-width: 100%;
+  }
+}
