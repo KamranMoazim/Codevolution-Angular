@@ -87,42 +87,43 @@ export const loginUser = CatchAsyncError(
 export const updateAccessToken = CatchAsyncError(
     async (req, res, next) => {
         try {
-            const refresh_token = req.cookies.refresh_token;
-            const decoded = jwt.verify(
-                refresh_token,
-                process.env.REFRESH_TOKEN
-            );
+            // const refresh_token = req.cookies.refresh_token;
+            // const decoded = jwt.verify(
+            //     refresh_token,
+            //     process.env.REFRESH_TOKEN
+            // );
 
-            const message = "Could not refresh token";
-            if (!decoded) {
-                return next(new ErrorHandler(message, 400));
-            }
+            // const message = "Could not refresh token";
+            // if (!decoded) {
+            //     return next(new ErrorHandler(message, 400));
+            // }
 
             // const user = JSON.parse(session);
-            const user = {
-                _id: decoded.id
-            }
+            // const user = {
+            //     _id: decoded.id
+            // }
 
             const accessToken = jwt.sign(
-                { id: user._id },
+                { id: req.user._id },
                 process.env.ACCESS_TOKEN,
                 {
-                    expiresIn: "5m",
-                }
-            );
-
-            const refreshToken = jwt.sign(
-                { id: user._id },
-                process.env.REFRESH_TOKEN,
-                {
+                    // expiresIn: "5m",
                     expiresIn: "3d",
                 }
             );
 
+            // const refreshToken = jwt.sign(
+            //     { id: user._id },
+            //     process.env.REFRESH_TOKEN,
+            //     {
+            //         expiresIn: "3d",
+            //     }
+            // );
+
             // req.user = user;
 
             res.cookie("access_token", accessToken, accessTokenOptions);
-            res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+            // res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
             // await redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7days
 

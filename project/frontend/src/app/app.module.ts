@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -37,6 +37,7 @@ import { FilterDialogComponent } from './components/filter-dialog/filter-dialog.
 import { DatePipe } from '@angular/common';
 import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
 import { ImagesUploaderComponent } from './components/images-uploader/images-uploader.component';
+import { CredentialsInterceptor } from './interceptors/credential.interceptor';
 // import { AttendedEventsComponent } from './pages/attended-events/attended-events.component';
 
 
@@ -84,7 +85,12 @@ import { ImagesUploaderComponent } from './components/images-uploader/images-upl
   ],
   providers: [
     provideAnimationsAsync(),
-    DatePipe
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CredentialsInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GetProfileResponse, UpdateProfileRequest } from '../../models/User';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -15,13 +15,14 @@ export class UserService {
 
 
   getProfile() :Observable<GetProfileResponse>  {
-    return this.httpClient.get<GetProfileResponse>(this._url + "/user-info/", {
-      withCredentials: true,
-    }).pipe(catchError(this.errorHandler));
+    // return this.httpClient.get<GetProfileResponse>(this._url + "/user-info/", {
+    //   withCredentials: true,
+    // }).pipe(catchError(this.errorHandler));
+    return this.httpClient.get<GetProfileResponse>(this._url + "/user-info/").pipe(catchError(this.errorHandler));
   }
 
   updateProfile(data: UpdateProfileRequest) : Observable<BaseResponse> {
-    return this.httpClient.put<BaseResponse>(this._url + "/user-info/", data, { withCredentials: true }).pipe(catchError(this.errorHandler));
+    return this.httpClient.put<BaseResponse>(this._url + "/user-info/", data).pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error: HttpErrorResponse){

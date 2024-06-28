@@ -15,8 +15,12 @@ export const isAutheticated = CatchAsyncError(
         
         // const access_token = req.cookies.access_token;
         // console.log(req.headers.cookie)
-        const access_token = req.headers.cookie.split("=")[1];
-        console.log(access_token)
+        // const access_token = req.headers.cookie.split("=")[1];
+
+        // cookies can contain multiple key-value pairs
+        // so we need to split the cookie string by ";" and then by "="
+        const access_token = req.headers.cookie.split(";").find(c => c.trim().startsWith("access_token=")).split("=")[1];
+        // console.log(access_token)
 
 
         if (!access_token) {
@@ -27,8 +31,8 @@ export const isAutheticated = CatchAsyncError(
 
         const decoded = jwt.decode(access_token);
 
-        console.log("decoded")
-        console.log(decoded)
+        // console.log("decoded")
+        // console.log(decoded)
         
         if (!decoded) {
             return next(new ErrorHandler("access token is not valid", 400));
