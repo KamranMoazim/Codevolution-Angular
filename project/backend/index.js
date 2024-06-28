@@ -16,7 +16,11 @@ import analyticsRoutes from "./routes/analytics.route.js";
 
 const app = express();
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+    origin: true,
+    credentials: true,
+    // include: ['http://localhost:4200']
+}))
 
 // Connect to MongoDB
 const dbUrl = process.env.MONGODB_URL || '';

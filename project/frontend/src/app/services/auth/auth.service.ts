@@ -42,13 +42,13 @@ export class AuthService {
 
   resgisterUser(registerRequest: RegisterRequest): Observable<RegisterResponse>{
     // return this.httpClient.post(this._url, {}).pipe(catchError(this.errorHandler));
-    return this.httpClient.post<RegisterResponse>(this._url + "/register", registerRequest)
+    return this.httpClient.post<RegisterResponse>(this._url + "/register", registerRequest, { withCredentials: true })
                           .pipe(catchError(this.errorHandler));
   }
 
   // create a login method that will login user and save data to local storage
   loginUser(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(this._url + "/login", loginRequest)
+    return this.httpClient.post<LoginResponse>(this._url + "/login", loginRequest, { withCredentials: true })
                           .pipe(
                             catchError(this.errorHandler),
                             tap((response: LoginResponse) => {

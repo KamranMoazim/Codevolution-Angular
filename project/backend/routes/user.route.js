@@ -14,7 +14,8 @@ userRouter.post("/register", registrationUser);
 
 userRouter.post("/login", loginUser);
 
-userRouter.get("/user-info", addingTempUser, getMyProfileController);
+// userRouter.get("/user-info", addingTempUser, getMyProfileController);
+userRouter.get("/user-info", isAutheticated, getMyProfileController);
 userRouter.put("/user-info", addingTempUser, updateUserInfo);
 
 userRouter.get("/get-organizations", getAllOrganizationsController);

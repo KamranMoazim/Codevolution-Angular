@@ -12,12 +12,15 @@ const refreshTokenExpire = parseInt(
 
 // options for cookies
 export const accessTokenOptions = {
-    expires: new Date(Date.now() + accessTokenExpire * 60  * 60 * 1000),
-    maxAge: accessTokenExpire * 60 * 60 * 1000,
+    expires: new Date(Date.now() + accessTokenExpire * 24 * 60  * 60 * 1000),
+    maxAge: accessTokenExpire * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "none",
-    // secure:true,
     secure:false,
+    // sameSite: "none",
+    // priority: "high",
+    // domain: process.env.DOMAIN || "localhost",
+    // path: "/"
+    // secure:true,
 };
 
 export const refreshTokenOptions = {
@@ -25,18 +28,24 @@ export const refreshTokenOptions = {
     maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: "none",
+    domain: process.env.DOMAIN || "localhost",
+    path: "/"
     // secure: true,
-    secure: false,
+    // secure: false,
 };
 
 
 export const sendToken = (user, statusCode, res) => {
     const accessToken = user.SignAccessToken();
-    const refreshToken = user.SignRefreshToken();
+    // const refreshToken = user.SignRefreshToken();
 
     res.cookie("access_token", accessToken, accessTokenOptions);
-    res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+    // res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
+    // set cookie in response
+
+
+    console.log("User")
     console.log(user)
 
     res.status(statusCode).json({
