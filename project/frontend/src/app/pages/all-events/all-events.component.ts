@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
+// import { PageEvent } from '@angular/material/paginator';
 import { FilterDialogComponent } from '../../components/filter-dialog/filter-dialog.component';
 import { EventService } from '../../services/event/event.service';
 import { AllEventsRequest, Event } from '../../models/Event';
@@ -15,6 +15,8 @@ import { User } from '../../models/User';
 })
 export class AllEventsComponent implements OnInit {
 
+  @Input() isUser: boolean = false;
+  @Input() isOrganizer: boolean = false;
 
   public events: Event[] = []
   searchValue = '';
@@ -27,7 +29,7 @@ export class AllEventsComponent implements OnInit {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
 
-  pageEvent: PageEvent;
+  // pageEvent: PageEvent;
 
 
   selectedStatus: string = '';
@@ -54,15 +56,12 @@ export class AllEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
-      console.log(data)
-      this.events = data.data.events;
-      this.length = data.data.totalPages;
-      this.pageIndex = data.data.page;
-    })
 
-    console.log("Kamran is here")
+    this.search();
+
+    // console.log("Kamran is here")
   }
+
 
 
   openFilterDialog(): void {
@@ -73,8 +72,8 @@ export class AllEventsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Filters applied:', this.dateRange.value);
-        console.log('Result applied:', result);
+        // console.log('Filters applied:', this.dateRange.value);
+        // console.log('Result applied:', result);
 
         this.selectedStatus = result.selectedStatus;
         this.dateRange = result.dateRange;
@@ -91,24 +90,18 @@ export class AllEventsComponent implements OnInit {
 
 
   search(): void {
-    console.log('searchValue:', this.searchValue);
-    console.log('pageEvent:', this.pageEvent);
+    // console.log('searchValue:', this.searchValue);
+    // console.log('pageEvent:', this.pageEvent);
 
 
     this.eventService.getEvents(this.getQueryParams()).subscribe(data => {
-      console.log(data)
+      // console.log(data)
       this.events = data.data.events;
       this.length = data.data.totalPages;
       this.pageIndex = data.data.page;
     })
   }
 
-
-  formatDate(date: Date): string {
-    let k = this.datePipe.transform(date, 'dd/MM/yyyy');
-    // console.log(k)
-    return k
-  }
 
   private getQueryParams(): AllEventsRequest {
     let allEventsRequest = new AllEventsRequest();
@@ -123,10 +116,12 @@ export class AllEventsComponent implements OnInit {
     if(this.selectedStatus) allEventsRequest.status = this.selectedStatus;
     if(this.startDate) allEventsRequest.startDate = this.startDate;
     if(this.endDate) allEventsRequest.endDate = this.endDate;
+    if(this.isOrganizer) allEventsRequest.isOrganizer = this.isOrganizer;
+    if(this.isUser) allEventsRequest.isUser = this.isUser;
     // if(this.startTime) allEventsRequest.startTime = this.startTime;
     // if(this.endTime) allEventsRequest.endTime = this.endTime;
 
-    console.log(allEventsRequest)
+    // console.log(allEventsRequest)
 
 
     return allEventsRequest;
@@ -134,9 +129,16 @@ export class AllEventsComponent implements OnInit {
 
 
   public handlePageChange(event: any): void {
-    console.log(event)
+    // console.log(event)
     this.pageIndex = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.search();
+  }
+
+
+  formatDate(date: Date): string {
+    let k = this.datePipe.transform(date, 'dd/MM/yyyy');
+    // console.log(k)
+    return k
   }
 }

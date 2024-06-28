@@ -32,9 +32,7 @@ export const buyEventTicket = CatchAsyncError(
             // check if user has already buyed ticket for this event
             const isTicketBuyed = checkIfUserHasTicket(req.body.eventId, req.user._id)
 
-            console.log(isTicketBuyed)
-
-            if(isTicketBuyed){
+            if(isTicketBuyed !== null){
                 return next(new ErrorHandler("You have already buyed ticket for this event", 400));
             }
 

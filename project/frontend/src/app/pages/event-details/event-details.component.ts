@@ -87,7 +87,7 @@ export class EventDetailsComponent implements OnInit {
     this.eventService.getEventDetails(this.eventId)
       .subscribe({
         next: response => {
-          // console.log(response);
+          console.log(response);
           this.event = response.data.event;
 
           this.getEventReviews()
@@ -123,7 +123,7 @@ export class EventDetailsComponent implements OnInit {
     this.ticketService.buyTicket(this.eventId)
     .subscribe({
       next: response => {
-        console.log(response);
+        // console.log(response);
         this.showSnackBar(response.message);
       },
       error: error => {
@@ -176,7 +176,7 @@ export class EventDetailsComponent implements OnInit {
     this.reviewService.addReview(reviewData)
     .subscribe({
       next: response => {
-        console.log(response);
+        // console.log(response);
         this.showSnackBar(response.message);
 
         this.comments = '';
@@ -196,7 +196,7 @@ export class EventDetailsComponent implements OnInit {
     this.reviewService.getAllReviews(this.eventId, this.pageIndex+1, this.pageSize)
     .subscribe({
       next: response => {
-        console.log(response);
+        // console.log(response);
         // this.showSnackBar(response.message);
         this.event.reviews = response.data.reviews;
         this.length = response.data.total;

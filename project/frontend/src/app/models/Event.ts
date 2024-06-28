@@ -20,6 +20,7 @@ export class Event {
     public status?: string,
     public media?: string[],
     public reviews?: Review[],
+    public numberOfTicketsSold?: number,
     // public image?: string,
   ) {}
 }
@@ -64,6 +65,10 @@ export class AllEventsRequest {
     public endTime?: number,
     // public minReviews?: number,
     // public maxReviews?: number,
+
+    public isOrganizer?: boolean,
+    public isUser?: boolean,
+
   ) {}
 }
 

@@ -44,11 +44,12 @@ export const getEventById = async (eventId) => {
                 organizer: 1,
                 capacity: 1,
                 category: 1,
-                // tickets: 1,
-                // reviews: 1,
+                tickets: 1,
+                reviews: 1,
                 ticketPrice: 1,
                 status: 1,
-                media: 1
+                media: 1,
+                numberOfTicketsSold: 1,
             }
         }
     ]);
@@ -156,11 +157,13 @@ export const getPersonsWhoBoughtTicket = async (eventId) => {
 export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 'date', sortOrder = 'desc', filters = {} } = {}) => {
 
     const matchStage = {};
+    let userAttendedEvents = [];
 
     if (filters.isOrganizer) {
         matchStage.organizer = mongoose.Types.ObjectId.createFromHexString(filters.organizer);
     } else if (filters.isUser) {
-        matchStage.organizer = { $ne: mongoose.Types.ObjectId.createFromHexString(filters.organizer) };
+        userAttendedEvents = await ticketModel.find({ user: mongoose.Types.ObjectId.createFromHexString(filters.user) });
+        matchStage._id = { $in: userAttendedEvents.map(ticket => ticket.event) };
     }
 
     if (search) {
@@ -200,14 +203,14 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
 
     const aggregationPipeline = [
         { $match: matchStage },
-        {
-            $lookup: {
-                from: 'reviews', // Name of the reviews collection
-                localField: '_id',
-                foreignField: 'event',
-                as: 'reviews',
-            },
-        },
+        // {
+        //     $lookup: {
+        //         from: 'reviews', // Name of the reviews collection
+        //         localField: '_id',
+        //         foreignField: 'event',
+        //         as: 'reviews',
+        //     },
+        // },
         {
             $lookup: {
                 from: 'users', // return User of the organizer
@@ -219,21 +222,21 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         {
             $unwind: '$organizer',
         },
-        {
-            $addFields: {
-                averageRating: { $avg: '$reviews.rating' }
-            }
-        },
+        // {
+        //     $addFields: {
+        //         averageRating: { $avg: '$reviews.rating' }
+        //     }
+        // },
     ];
     // Add the rating filter
     // avg rating of the event should be greater than or equal to the min rating and less than or equal to the max rating
-    if (filters.reviews) {
-        aggregationPipeline.push({
-            $match: {
-                averageRating: { $gte: filters.reviews.min, $lte: filters.reviews.max }
-            }
-        });
-    }
+    // if (filters.reviews) {
+    //     aggregationPipeline.push({
+    //         $match: {
+    //             averageRating: { $gte: filters.reviews.min, $lte: filters.reviews.max }
+    //         }
+    //     });
+    // }
 
 
     const tempPipeline = [

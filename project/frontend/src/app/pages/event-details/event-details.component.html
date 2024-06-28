@@ -70,6 +70,10 @@
             <p><strong>Capacity:</strong> {{ event.capacity }}</p>
           </div>
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+            <mat-icon>how_to_reg</mat-icon>
+            <p><strong>Tickets Unsold:</strong> {{ event.capacity-event.numberOfTicketsSold }}</p>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
             <mat-icon>attach_money</mat-icon>
             <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
           </div>

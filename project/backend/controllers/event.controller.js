@@ -150,6 +150,7 @@ export const fetchEventsController = CatchAsyncError(
             const {
 
                 isUser = false,
+                user,
                 isOrganizer = false,
                 organizer,
 
@@ -171,7 +172,20 @@ export const fetchEventsController = CatchAsyncError(
 
             console.log(req.query)
 
-            const filters = {};
+
+
+            const filters = {
+                isUser,
+                isOrganizer
+            };
+
+            if (isOrganizer || isUser) {
+                if (!req.user || !req.user._id) {
+                    return next(new ErrorHandler("You are not authorized to perform this action", 401));
+                }
+                filters.organizer = req.user._id;
+                filters.user = req.user._id;
+            }
 
             if (minPrice !== undefined && maxPrice !== undefined) {
                 filters.ticketPrice = { min: Number(minPrice), max: Number(maxPrice) };

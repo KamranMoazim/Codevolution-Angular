@@ -17,7 +17,7 @@ export class EventService {
     // return this.httpClient.get<AllEventsResponse>(this._url + "/events")
     //           .pipe(catchError(this.errorHandler));
 
-    console.log(allEventsRequest)
+    // console.log(allEventsRequest)
 
     let params = {}
 
@@ -67,6 +67,14 @@ export class EventService {
 
     if (allEventsRequest.endTime) {
       params['endTime'] = allEventsRequest.endTime;
+    }
+
+    if (allEventsRequest.isOrganizer) {
+      params['isOrganizer'] = allEventsRequest.isOrganizer;
+    }
+
+    if (allEventsRequest.isUser) {
+      params['isUser'] = allEventsRequest.isUser;
     }
 
     // if (allEventsRequest.minReviews) {

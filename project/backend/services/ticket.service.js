@@ -26,5 +26,6 @@ export const purchaseTicket = async (ticketData) => {
 // check if user has already bought ticket for event
 export const checkIfUserHasTicket = async (userId, eventId) => {
     const ticket = await ticketModel.findOne({ user: userId, event: eventId });
+    // console.log(ticket)
     return ticket;
 };

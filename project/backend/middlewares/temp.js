@@ -20,7 +20,8 @@ export const addingTempUser = CatchAsyncError(
         // }
 
         req.user = {
-            "_id": "667c32d4779612f796daa13f",
+            // "_id": "667c32d4779612f796daa13f",
+            "_id": "667ea302362db621b68ecdb7",
             "name": "kamran",
             "email": "kamrannaseer7654@gmail.com",
             "password": "$2a$10$g9ihCVPgLUbCXnVCs7lHKeQytg.Mb9BTLnICmKgxQpcNu6lx4.pFy",

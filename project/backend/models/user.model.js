@@ -52,10 +52,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please enter your bio"],
         },
-        followers: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        }],
+        // followers: [{
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "User",
+        // }],
         tickets: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Ticket",
