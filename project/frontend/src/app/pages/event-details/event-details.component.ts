@@ -11,6 +11,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReviewService } from '../../services/review/review.service';
 import { TicketService } from '../../services/ticket/ticket.service';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
+import { UserService } from '../../services/users/user.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-event-details',
@@ -40,12 +42,12 @@ export class EventDetailsComponent implements OnInit {
 
   pageEvent: PageEvent;
 
-  handlePageEvent(e: PageEvent) {
-    this.pageEvent = e;
-    this.length = e.length;
-    this.pageSize = e.pageSize;
-    this.pageIndex = e.pageIndex;
-  }
+  // handlePageEvent(e: PageEvent) {
+  //   this.pageEvent = e;
+  //   this.length = e.length;
+  //   this.pageSize = e.pageSize;
+  //   this.pageIndex = e.pageIndex;
+  // }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     if (setPageSizeOptionsInput) {
@@ -55,9 +57,8 @@ export class EventDetailsComponent implements OnInit {
 
 
   event:Event = {}
-
   eventId: string = null;
-
+  isUserLoggedIn: boolean = false;
   amAuthorizedAdmin: boolean = false;
 
   // currentLoggedInUser: User = {
@@ -74,6 +75,8 @@ export class EventDetailsComponent implements OnInit {
     private reviewService: ReviewService,
     private ticketService: TicketService,
     private analyticsService: AnalyticsService,
+    // private userService: UserService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -84,7 +87,7 @@ export class EventDetailsComponent implements OnInit {
 
     this.eventId = this.route.snapshot.paramMap.get('id');
 
-
+    this.isUserLoggedIn = this.authService.isUserLoggedIn();
 
     this.eventService.getEventDetails(this.eventId)
       .subscribe({
@@ -138,6 +141,11 @@ export class EventDetailsComponent implements OnInit {
     // Implement buy ticket functionality
     // alert('Ticket purchased!');
 
+    if (!this.isUserLoggedIn) {
+      this.showSnackBar('Please login to buy ticket');
+      return;
+    }
+
     this.ticketService.buyTicket(this.eventId)
     .subscribe({
       next: response => {
@@ -182,6 +190,12 @@ export class EventDetailsComponent implements OnInit {
   rating: number = 3;
 
   submitReview() {
+
+    if (!this.isUserLoggedIn) {
+      this.showSnackBar('Please login to review this event');
+      return;
+    }
+
     console.log('Rating:', this.rating);
     console.log('Comments:', this.comments);
     // Here you can send the review and comments to your backend or do any other processing.

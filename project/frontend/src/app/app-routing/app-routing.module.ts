@@ -123,7 +123,7 @@ const routes: Routes = [
     component: UserAttendEventsComponent,
     canActivate: [hasRoleGuard],
     data: {
-      roles: [ Role.USER ]
+      roles: [ Role.USER, Role.ADMIN ]
     }
   },
 

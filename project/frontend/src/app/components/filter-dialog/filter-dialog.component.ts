@@ -26,10 +26,10 @@ export class FilterDialogComponent {
     private fb: FormBuilder
   ) {
     this.dateRange = this.fb.group({
-      start: [data.start],
-      end: [data.end],
+      // start: [data.start],
+      // end: [data.end],
     });
-    this.selectedStatus = data.selectedStatus;
+    // this.selectedStatus = data.selectedStatus;
     this.times = this.generateTimes();
   }
 

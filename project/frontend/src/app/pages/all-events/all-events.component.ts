@@ -68,7 +68,8 @@ export class AllEventsComponent implements OnInit {
   openFilterDialog(): void {
     const dialogRef = this.dialog.open(FilterDialogComponent, {
       maxWidth: '100vw',
-      data: { selectedStatus: '', start: null, end: null }
+      // data: { selectedStatus: '', start: null, end: null }
+      data: { }
     });
 
     dialogRef.afterClosed().subscribe(result => {

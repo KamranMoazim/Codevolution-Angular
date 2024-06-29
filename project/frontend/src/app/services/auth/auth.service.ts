@@ -68,6 +68,10 @@ export class AuthService {
     this.clearAllCookies();
   }
 
+  isUserLoggedIn(): boolean {
+    return !!localStorage.getItem('accessToken');
+  }
+
   errorHandler(error: HttpErrorResponse){
     // console.log(error)
     // return throwError(() => error.message || "Server Error");
