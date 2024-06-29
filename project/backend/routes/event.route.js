@@ -13,8 +13,10 @@ const eventRouter = express.Router();
 
 
 eventRouter.get("/event/:id", getEventController);
-eventRouter.get("/event", addingTempUser, fetchEventsController);
-eventRouter.post("/event", addingTempUser, createEventController);
+// eventRouter.get("/event", addingTempUser, fetchEventsController);
+// eventRouter.post("/event", addingTempUser, createEventController);
+eventRouter.get("/event", isAutheticated, fetchEventsController);
+eventRouter.post("/event", isAutheticated, createEventController);
 
 
 

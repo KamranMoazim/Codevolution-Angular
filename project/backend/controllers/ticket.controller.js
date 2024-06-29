@@ -30,7 +30,11 @@ export const buyEventTicket = CatchAsyncError(
             }
 
             // check if user has already buyed ticket for this event
-            const isTicketBuyed = checkIfUserHasTicket(req.body.eventId, req.user._id)
+            // const isTicketBuyed = await checkIfUserHasTicket(req.body.eventId, req.user._id)
+            const isTicketBuyed = await checkIfUserHasTicket(req.user._id, req.body.eventId)
+
+
+            // console.log(isTicketBuyed)
 
             if(isTicketBuyed !== null){
                 return next(new ErrorHandler("You have already buyed ticket for this event", 400));
@@ -44,7 +48,6 @@ export const buyEventTicket = CatchAsyncError(
 
             const boughtTicket = await purchaseTicket(ticketData);
 
-            // console.log(boughtTicket)
 
             return res.status(201).json({
                 success: true,

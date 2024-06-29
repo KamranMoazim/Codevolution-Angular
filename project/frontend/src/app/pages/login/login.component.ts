@@ -41,7 +41,7 @@ export class LoginComponent {
       next: response => {
         console.log(response);
         this.showSnackBar(response.message);
-        this.router.navigate(['/']);
+        this.router.navigate(['/profile']);
       },
       error: error => {
         // console.log("error");

@@ -163,19 +163,28 @@ export const getPersonsWhoBoughtTicket = async (eventId) => {
 // get all events
 export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 'date', sortOrder = 'desc', filters = {} } = {}) => {
 
-    // console.log(filters)
+    
 
     const matchStage = {};
-    let userAttendedEvents = [];
+    // let userAttendedEvents = [];
 
-    if (filters.isOrganizer == true) {
-        matchStage.organizer = mongoose.Types.ObjectId.createFromHexString(filters.organizer);
+    if (filters.isOrganizer) {
+        // matchStage.organizer = mongoose.Types.ObjectId.createFromHexString(filters.organizer);
+        matchStage.organizer = filters.organizer;
     } else if (filters.isUser) {
-        userAttendedEvents = await ticketModel.find({ user: mongoose.Types.ObjectId.createFromHexString(filters.user) });
-        matchStage._id = { $in: userAttendedEvents.map(ticket => ticket.event) };
-    } else if (!filters.isOrganizer) {
-        matchStage.organizer = mongoose.Types.ObjectId.createFromHexString(filters.organizer);
+        // console.log("first")
+        // console.log((filters.user))
+        let userAttendedEvents = await ticketModel.find({ user: filters.user });
+        // console.log(userAttendedEvents)
+        // matchStage._id = { $in: userAttendedEvents.map(ticket => mongoose.Types.ObjectId.createFromHexString(ticket.event)) };
+        matchStage._id = { $in: userAttendedEvents.map(ticket => (ticket.event)) };
+    } else if (filters.organizer !== undefined && filters.organizer !== '') {
+        // matchStage.organizer = mongoose.Types.ObjectId.createFromHexString(filters.organizer);
+        matchStage.organizer = filters.organizer;
     }
+
+    // console.log("matchStage")
+    // console.log(matchStage)
 
     if (search) {
         matchStage.$or = [

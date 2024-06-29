@@ -4,7 +4,7 @@ import { Role } from "../enums/role";
 export class User {
 
   public _id?: string = '';
-  public role: Role;
+  public role: Role | string = Role.USER;
   public followers?: User[] = [];
   public avatar?: string = '';
   public bio?: string = '';

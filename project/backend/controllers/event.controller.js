@@ -147,11 +147,10 @@ export const getPersonsWhoBoughtTicketController = CatchAsyncError(
 export const fetchEventsController = CatchAsyncError(
     async (req, res, next) => {
         try {
-            const {
+            let {
 
-                isUser = false,
-                user,
-                isOrganizer = false,
+                isUser = 'false',
+                isOrganizer = 'false',
                 organizer,
 
                 search = '',
@@ -172,7 +171,8 @@ export const fetchEventsController = CatchAsyncError(
 
             console.log(req.query)
 
-
+            isUser = isUser === 'true' ? true : false;
+            isOrganizer = isOrganizer === 'true' ? true : false;
 
             const filters = {
                 isUser,
@@ -188,7 +188,7 @@ export const fetchEventsController = CatchAsyncError(
             }
 
             // means someone is searching for events of a particular organizer
-            if(!isOrganizer){
+            if(organizer !== undefined && organizer !== ""){
                 filters.organizer = organizer;
             }
 

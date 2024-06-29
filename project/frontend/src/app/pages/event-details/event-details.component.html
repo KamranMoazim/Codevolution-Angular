@@ -26,18 +26,18 @@
   <div fxFlex="80%">
 
     <mat-card class="event-details-card">
-      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
+      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayout.xs="column" fxLayoutAlign.xs="space-around center">
         <div>
           <mat-card-title>{{ event.title }}</mat-card-title>
           <mat-card-subtitle>
             {{ event.category }} - {{ event.location }}
           </mat-card-subtitle>
         </div>
-        <mat-card-actions>
-          <button mat-raised-button style="margin-right: 5px;" *ngIf="isAdmin()" (click)="showAnalyticsSection()">
+        <mat-card-actions fxLayout.xs="column" fxLayoutAlign.xs="space-around center">
+          <button mat-raised-button style="margin-right: 5px; margin-bottom: 5px; " *ngIf="isAdmin()" (click)="showAnalyticsSection()">
             <mat-icon>analytics</mat-icon> Analytics
           </button>
-          <button mat-raised-button style="margin-right: 5px;" *ngIf="isAdmin()" (click)="editEvent()">
+          <button mat-raised-button style="margin-right: 5px; margin-bottom: 5px;" *ngIf="isAdmin()" (click)="editEvent()">
             <mat-icon>edit</mat-icon> Edit
           </button>
           <button mat-raised-button color="primary" (click)="buyTicket()">
@@ -95,7 +95,7 @@
         <mat-card-title>Reviews</mat-card-title>
 
         <ng-template #itemTemplate let-item>
-          <div class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
+          <div class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column" fxLayoutAlign.xs="space-around start" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
             <img [src]="item.user.avatar" style="height: 50px; width: 50px; border-radius: 50%;" alt="User avatar">
             <!-- {{item.user.avatar}} -->
             <div>
@@ -129,7 +129,7 @@
 
       <mat-card style="margin: 20px 0px;">
         <mat-card-content>
-          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" fxLayout.xs="column" fxLayoutAlign.xs="space-around center">
 
             <div fxLayout="row">
               <button mat-icon-button

@@ -1,39 +1,4 @@
-<!-- <div>
-<mat-card fxLayout="column wrap" fxLayoutAlign="center center" >
-  <mat-card-header>
-    <mat-card-title>Edit User Information</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form (ngSubmit)="onSubmit()">
-      <mat-form-field class="full-width">
-        <mat-label>Name</mat-label>
-        <input matInput [(ngModel)]="user.name" name="name">
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <mat-label>Bio</mat-label>
-        <textarea matInput [(ngModel)]="user.bio" name="bio"></textarea>
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="user.email" disabled name="email" type="email">
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <mat-label>Role</mat-label>
-        <input matInput [(ngModel)]="user.role" disabled name="role">
-      </mat-form-field>
-      <button mat-raised-button color="primary" type="submit">Save</button>
-    </form>
-  </mat-card-content>
-  <app-images-uploader
-    [numberOfImages]="1"
-    [images]="images"
-    (imagesChange)="onImagesChange($event)"
-  ></app-images-uploader>
-</mat-card>
-</div>
- -->
-
- <div>
+<div>
   <mat-card fxLayout="column " fxLayoutAlign="center center" >
     <div class="image-container">
       <img src="{{user.avatar}}" alt="User Image" class="profile-image">

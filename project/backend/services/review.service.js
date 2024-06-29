@@ -5,8 +5,8 @@ import eventModel from "../models/event.model.js";
 
 
 // get review by id
-export const getReviewByUserId = async (userId) => {
-    const review = await reviewModel.findOne({ user: userId });
+export const getReviewByUserIdAndEventId = async (userId, eventId) => {
+    const review = await reviewModel.findOne({ user: userId, event: eventId});
     return review;
 };
 

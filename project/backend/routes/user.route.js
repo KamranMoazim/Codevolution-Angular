@@ -18,7 +18,8 @@ userRouter.post("/login", loginUser);
 // userRouter.get("/user-info", addingTempUser, getMyProfileController);
 userRouter.get("/user-profile/:id", getUserProfileController);
 userRouter.get("/user-info", isAutheticated, getMyProfileController);
-userRouter.put("/user-info", addingTempUser, updateUserInfo);
+userRouter.put("/user-info", isAutheticated, updateUserInfo);
+// userRouter.put("/user-info", addingTempUser, updateUserInfo);
 
 userRouter.get("/get-organizations", getAllOrganizationsController);
 

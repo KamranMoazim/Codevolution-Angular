@@ -13,7 +13,7 @@ export const createReviewValidator = (req, next) => {
     }
 
     // comment cannot be empty
-    if(req.body.comment.length == 0){
+    if(req.body.comment == undefined || req.body.comment == "" || req.body.comment.length == 0){
         throw new ErrorHandler("Comment cannot be empty", 400);
     }
 }
