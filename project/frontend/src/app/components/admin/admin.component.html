@@ -1,81 +1,22 @@
 
 
 <!-- analytics.component.html -->
-<mat-card class="total-revenue-card" fxLayout="row" fxLayoutAlign="space-around">
+<mat-card fxLayout="row" fxLayoutAlign="space-around" fxLayout.sm="column" fxLayoutAlign.sm="center" class="total-revenue-card" >
   <h3>Total Revenue Generated: ${{ generalAnalytics.totalRevenue }}</h3>
   <h3>Total Events: {{ generalAnalytics.totalEvents }}</h3>
   <h3>Total Tickets Bought: {{ generalAnalytics.totalTickets }}</h3>
   <h3>Total Reviews Received: {{ generalAnalytics.totalReviews }}</h3>
 </mat-card>
 
-<div fxLayout="row" fxLayoutGap="20px" fxLayoutWrap>
-  <!-- <mat-card class="average-ratings-card" fxFlex="45%">
-    <h3>Average Ratings</h3>
-    <mat-list>
-      <mat-list-item *ngFor="let rating of avgRating">
-        <h4 matLine><mat-icon matListIcon>star</mat-icon> Event Name: {{ rating._id }} - Average Rating: {{ rating.averageRating }}</h4>
-      </mat-list-item>
-    </mat-list>
-  </mat-card> -->
 
-  <!-- <mat-card class="sentiment-analysis-card" fxFlex="45%">
-    <h3>Sentiment Analysis</h3>
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let sentiment of sentiment">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Event ID: {{ sentiment._id }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-list>
-          <mat-list-item>
-            <h4 matLine><mat-icon matListIcon>thumb_up</mat-icon> Positive Reviews: {{ sentiment.positiveReviews }}</h4>
-          </mat-list-item>
-          <mat-list-item>
-            <h4 matLine><mat-icon matListIcon>thumbs_up_down</mat-icon> Neutral Reviews: {{ sentiment.neutralReviews }}</h4>
-          </mat-list-item>
-          <mat-list-item>
-            <h4 matLine><mat-icon matListIcon>thumb_down</mat-icon> Negative Reviews: {{ sentiment.negativeReviews }}</h4>
-          </mat-list-item>
-        </mat-list>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </mat-card> -->
 
-  <!-- <mat-card class="popular-categories-card" fxFlex="100%">
-    <h3>Popular Categories</h3>
-    <mat-list>
-      <mat-list-item *ngFor="let category of categories">
-        <h4 matLine><mat-icon matListIcon>category</mat-icon> Category: {{ category._id }} - Total Events: {{ category.totalEvents }}</h4>
-      </mat-list-item>
-    </mat-list>
-  </mat-card> -->
 
+<div fxLayout="row wrap" fxLayoutAlign="space-around" fxLayout.sm="column" fxLayoutAlign.sm="space-around center">
+  <div fxFlex="50%" fxFlex.md="100%" fxFlex.sm="100%">
+    <canvas id="AllEventUniqueCategoriesPieChart">{{ allEventUniqueCategoriesPieChart }}</canvas>
+  </div>
+
+  <div fxFlex="50%" fxFlex.md="100%" fxFlex.sm="100%">
+    <canvas id="TicketsLineChart">{{ ticketsLineChart }}</canvas>
+  </div>
 </div>
-
-
-
-<div fxLayout="row wrap" fxLayoutAlign="space-around">
-
-  <div fxFlex="50%">
-      <div class="chart-container">
-        <canvas  id="AllEventUniqueCategoriesPieChart" >{{ allEventUniqueCategoriesPieChart }}</canvas>
-    </div>
-  </div>
-
-  <div fxFlex="50%">
-    <div class="chart-container">
-      <canvas  id="TicketsLineChart" >{{ ticketsLineChart }}</canvas>
-    </div>
-  </div>
-
-</div>
-
-
-<!-- <div fxLayout="row wrap" fxLayoutAlign="space-around">
-
-  <div class="chart-container">
-    <canvas  id="ShiftsPieChart" >{{ shiftsPieChart }}</canvas>
-  </div>
-
-</div> -->

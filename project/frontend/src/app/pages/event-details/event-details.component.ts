@@ -58,6 +58,8 @@ export class EventDetailsComponent implements OnInit {
 
   eventId: string = null;
 
+  amAuthorizedAdmin: boolean = false;
+
   currentLoggedInUser: User = {
     email: "testUser@gmail.com",
     role: Role.ADMIN,
@@ -99,6 +101,8 @@ export class EventDetailsComponent implements OnInit {
           this.showSnackBar(error);
         }
       });
+
+      this.isAuthorizedAdmin()
   }
 
 
@@ -112,8 +116,22 @@ export class EventDetailsComponent implements OnInit {
     })
   }
 
-  isAdmin(): boolean {
-    return this.currentLoggedInUser.role === Role.ADMIN;
+  isAuthorizedAdmin() {
+    // return this.currentLoggedInUser.role === Role.ADMIN;
+    this.eventService.isThisMyEvent(this.eventId)
+      .subscribe({
+        next: response => {
+          // console.log(response);
+          // response.data.isMyEvent;
+          this.amAuthorizedAdmin = response.data.isMyEvent;
+        },
+        error: error => {
+          console.log(error);
+          this.showSnackBar(error);
+
+          this.amAuthorizedAdmin = false;
+        }
+      });
   }
 
   buyTicket(): void {

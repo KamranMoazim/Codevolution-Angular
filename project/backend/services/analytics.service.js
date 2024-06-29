@@ -17,6 +17,7 @@ export const getLast30DaysTicketsBoughtAnalytics = async (eventId) => {
         {
             $match: {
                 event: mongoose.Types.ObjectId.createFromHexString(eventId),
+                // event: eventId,
                 purchaseDate: { $gte: startDate, $lte: endDate }
             }
         },
@@ -60,6 +61,7 @@ export const eachStarCountAnalytics = async (eventId) => {
     const starCountAnalytics = await reviewModel.aggregate([
         {
             $match: { event: mongoose.Types.ObjectId.createFromHexString(eventId) }
+            // $match: { event: eventId }
         },
         {
             $group: {
@@ -106,7 +108,8 @@ export const ticketsBoughtByTimeOfDayAnalytics = async (eventId) => {
     const ticketsBoughtAnalytics = await ticketModel.aggregate([
         {
             $match: {
-                event: mongoose.Types.ObjectId.createFromHexString(eventId),
+                // event: mongoose.Types.ObjectId.createFromHexString(eventId),
+                event: eventId,
                 purchaseDate: {
                     $gte: new Date(event.startTime),
                     $lte: new Date(event.endTime)
@@ -193,7 +196,8 @@ export const numberOfEventsCreatedInLast12MonthsByUserAnalytics = async (userId)
     const eventsCreatedAnalytics = await eventModel.aggregate([
         {
             $match: {
-                organizer: mongoose.Types.ObjectId.createFromHexString(userId),
+                // organizer: mongoose.Types.ObjectId.createFromHexString(userId),
+                organizer: userId,
                 createdAt: { $gte: startDate, $lte: endDate }
             }
         },
@@ -247,7 +251,8 @@ export const allEventsByUserUniqueCategoriesByCountAnalytics = async (userId) =>
     const eventsCategoryCount = await eventModel.aggregate([
         {
             $match: {
-                organizer: mongoose.Types.ObjectId.createFromHexString(userId)
+                // organizer: mongoose.Types.ObjectId.createFromHexString(userId)
+                organizer: userId
             }
         },
         {
@@ -272,10 +277,9 @@ export const allEventsByUserUniqueCategoriesByCountAnalytics = async (userId) =>
 
 
 export const totalRevenueAnalytics = async (userId) => {
-    const userIdObj = mongoose.Types.ObjectId.createFromHexString(userId);
 
     // Aggregate events organized by the user
-    const events = await eventModel.find({ organizer: userIdObj }).select('_id');
+    const events = await eventModel.find({ organizer: userId }).select('_id');
     const eventIds = events.map(event => event._id);
 
     // Aggregate total revenue and ticket count for the events

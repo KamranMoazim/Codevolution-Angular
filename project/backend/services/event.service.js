@@ -304,3 +304,4 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         totalPages: totalEventsCount.length != 0 ? totalEventsCount[0].total : 0
     }
 };
+

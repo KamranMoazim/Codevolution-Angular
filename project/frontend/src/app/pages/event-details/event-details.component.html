@@ -1,7 +1,7 @@
 
-<div fxLayout="row wrap" fxLayoutAlign="space-around" *ngIf="showAnalytics">
+<div fxLayout="row wrap" fxLayoutAlign="space-around center" fxLayout.sm="column" fxLayoutAlign.sm="space-around center" *ngIf="showAnalytics" >
 
-  <div fxFlex="50%">
+  <div fxFlex="50%" fxFlex.sm="100%">
     <h1>
       Event Rating Distribution
     </h1>
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div fxFlex="50%">
+  <div fxFlex="50%" fxFlex.sm="100%">
     <h1>
       Tickets Sold Over Time
     </h1>
@@ -21,7 +21,7 @@
 
 </div>
 
-<div fxLayout="row wrap" fxLayoutAlign="space-around">
+<div fxLayout="row wrap" fxLayoutAlign="space-around center">
 
   <div fxFlex="80%">
 
@@ -34,10 +34,10 @@
           </mat-card-subtitle>
         </div>
         <mat-card-actions fxLayout.xs="column" fxLayoutAlign.xs="space-around center">
-          <button mat-raised-button style="margin-right: 5px; margin-bottom: 5px; " *ngIf="isAdmin()" (click)="showAnalyticsSection()">
+          <button mat-raised-button style="margin-right: 5px; margin-bottom: 5px;" *ngIf="amAuthorizedAdmin" (click)="showAnalyticsSection()">
             <mat-icon>analytics</mat-icon> Analytics
           </button>
-          <button mat-raised-button style="margin-right: 5px; margin-bottom: 5px;" *ngIf="isAdmin()" (click)="editEvent()">
+          <button mat-raised-button style="margin-right: 5px; margin-bottom: 5px;" *ngIf="amAuthorizedAdmin" (click)="editEvent()">
             <mat-icon>edit</mat-icon> Edit
           </button>
           <button mat-raised-button color="primary" (click)="buyTicket()">
@@ -47,8 +47,8 @@
       </mat-card-header>
 
       <mat-card-content>
-        <div fxLayout="row wrap" fxLayoutAlign="space-around center" class="image-grid">
-          <div *ngFor="let image of event.media; let i = index" class="image-wrapper">
+        <div class="image-grid">
+          <div *ngFor="let image of event.media; let i = index" class="image-wrapper" fxLayout="row wrap" fxLayoutAlign="space-around center" fxLayout.sm="column" fxLayoutAlign.sm="space-around center">
             <img [src]="image" alt="Event image {{ i + 1 }}" class="event-image">
           </div>
         </div>

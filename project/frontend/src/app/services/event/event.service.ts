@@ -140,6 +140,18 @@ export class EventService {
     return this.httpClient.post<CreateOrUpdateEventResponse>(this._url + "/event", eventData).pipe(catchError(this.errorHandler));
   }
 
+  isThisMyEvent(eventId: string): Observable<{
+    data: {
+      isMyEvent: boolean;
+    }
+  }> {
+    return this.httpClient.get<{
+      data: {
+        isMyEvent: boolean;
+      }
+    }>(this._url + "/is-my-event/" + eventId).pipe(catchError(this.errorHandler));
+  }
+
 
 
   errorHandler(error: HttpErrorResponse){

@@ -246,3 +246,31 @@ export const fetchEventsController = CatchAsyncError(
         }
     }
 );
+
+
+
+
+export const IsThisMyEventController = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            const event = await getEventById(req.params.id);
+            if(!event){
+                return next(new ErrorHandler("Event not found", 400));
+            }
+
+            if(event.organizer._id.toString() !== req.user._id.toString()){
+                return next(new ErrorHandler("You are not authorized to perform this action", 401));
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "This is your event",
+                data:{
+                    isMyEvent: true
+                },
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);

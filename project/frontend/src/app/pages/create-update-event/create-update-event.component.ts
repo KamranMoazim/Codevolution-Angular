@@ -15,6 +15,7 @@ export class CreateUpdateEventComponent {
 
   eventForm: FormGroup;
   statusOptions = ['upcoming', 'ongoing', 'past'];
+  amAuthorizedAdmin: boolean = false;
 
   isEditMode = false;
   eventId: string = null;
@@ -63,20 +64,22 @@ export class CreateUpdateEventComponent {
     if (this.eventId !== "new") {
       this.isEditMode = true;
 
-      // Fetch the event data from the server
-      this.eventService.getEventDetails(this.eventId)
-      .subscribe({
-        next: response => {
-          console.log(response);
-          this.eventForm.patchValue(response.data.event);
+      this.isAuthorizedAdmin();
 
-          this.images = response.data.event.media.map(url => ({ url }));
-        },
-        error: error => {
-          console.log(error);
-          this.showSnackBar(error);
-        }
-      });
+      // // Fetch the event data from the server
+      // this.eventService.getEventDetails(this.eventId)
+      // .subscribe({
+      //   next: response => {
+      //     console.log(response);
+      //     this.eventForm.patchValue(response.data.event);
+
+      //     this.images = response.data.event.media.map(url => ({ url }));
+      //   },
+      //   error: error => {
+      //     console.log(error);
+      //     this.showSnackBar(error);
+      //   }
+      // });
     }
     console.log(this.eventId)
   }
@@ -87,6 +90,39 @@ export class CreateUpdateEventComponent {
   }
 
 
+
+  isAuthorizedAdmin() {
+    // return this.currentLoggedInUser.role === Role.ADMIN;
+    this.eventService.isThisMyEvent(this.eventId)
+      .subscribe({
+        next: response => {
+          console.log(response);
+          // response.data.isMyEvent;
+          this.amAuthorizedAdmin = response.data.isMyEvent;
+
+          if (this.amAuthorizedAdmin) {
+            this.eventService.getEventDetails(this.eventId)
+              .subscribe({
+                next: response => {
+                  console.log(response);
+                  this.eventForm.patchValue(response.data.event);
+                  this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
+                },
+                error: error => {
+                  console.log(error);
+                  this.showSnackBar(error);
+                }
+              });
+          }
+        },
+        error: error => {
+          console.log(error);
+          this.amAuthorizedAdmin = false;
+          this.showSnackBar(error);
+          this.router.navigate(['/events']);
+        }
+      });
+  }
 
 
 
