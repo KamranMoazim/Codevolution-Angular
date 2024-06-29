@@ -27,14 +27,5 @@ const reviewSchema = new mongoose.Schema(
 );
 
 const ReviewModel = mongoose.model("Review", reviewSchema);
-// module.exports = Review;
-
-// reviewSchema.post("save", async function (doc, next) {
-//     const EventModel = mongoose.model("Event");
-//     await EventModel.findByIdAndUpdate(doc.event, {
-//         $push: { reviews: doc._id },
-//     });
-//     next();
-// });
 
 export default ReviewModel

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import EventModel from "./event.model.js";
 
 const ticketSchema = new mongoose.Schema(
     {
@@ -30,19 +29,7 @@ const ticketSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-// Post save middleware to update the Event's tickets array
-// ticketSchema.post("save", async function (doc, next) {
-//     try {
-//         await EventModel.findByIdAndUpdate(doc.event, {
-//             $addToSet: { tickets: doc._id }
-//         });
-//         next();
-//     } catch (err) {
-//         next(err);
-//     }
-// });
 
 const TicketModel = mongoose.model("Ticket", ticketSchema);
-// module.exports = Ticket;
 
 export default TicketModel;
