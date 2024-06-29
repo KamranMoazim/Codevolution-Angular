@@ -6,7 +6,7 @@ import { hasRoleGuard } from '../guards/has-role.guard';
 
 // import { HomeComponent } from '../components/home/home.component';
 import { AdminComponent } from '../components/admin/admin.component';
-import { UnauthorizedComponent } from '../components/unauthorized/unauthorized.component';
+// import { UnauthorizedComponent } from '../components/unauthorized/unauthorized.component';
 import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
 
 import { RegisterComponent } from '../pages/register/register.component';
