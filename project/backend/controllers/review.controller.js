@@ -31,7 +31,7 @@ export const createReview = CatchAsyncError(
             // console.log(isTicketBuyed)
 
             if(isTicketBuyed === null){
-                return next(new ErrorHandler("You have not buyed ticket for this event", 400));
+                return next(new ErrorHandler("You have not bought ticket for this event", 400));
             }
 
             // check if user has already reviewed this event

@@ -10,6 +10,7 @@ import {
     fetchEvents
 } from "../services/event.service.js";
 import { createEventValidator, updateEventValidator } from '../validators/event.validator.js';
+import mongoose from 'mongoose';
 
 
 
@@ -24,6 +25,8 @@ export const createEventController = CatchAsyncError(
 
             // ! apply validation on Event - CLEAN Architecture
             createEventValidator(req, next);
+
+            console.log(req.body._id)
 
             // if(req.body._id && req.body._id !== "new"){
             if(req.body._id){
@@ -47,8 +50,12 @@ export const createEventController = CatchAsyncError(
 
             const eventData = {
                 ...req.body,
-                organizer: req.user._id
+                // organizer: mongoose.Types.ObjectId.createFromHexString(req.user.id)
+                organizer: req.user.id
             };
+
+            delete eventData['_id'];
+            // console.log(eventData)
 
             const event = await createEvent(eventData);
             

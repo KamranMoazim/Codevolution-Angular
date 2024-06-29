@@ -127,7 +127,7 @@ export class EventDetailsComponent implements OnInit {
         },
         error: error => {
           console.log(error);
-          this.showSnackBar(error);
+          // this.showSnackBar(error);
 
           this.amAuthorizedAdmin = false;
         }

@@ -37,7 +37,7 @@ export const buyEventTicket = CatchAsyncError(
             // console.log(isTicketBuyed)
 
             if(isTicketBuyed !== null){
-                return next(new ErrorHandler("You have already buyed ticket for this event", 400));
+                return next(new ErrorHandler("You have already bought ticket for this event", 400));
             }
 
             const ticketData = {
