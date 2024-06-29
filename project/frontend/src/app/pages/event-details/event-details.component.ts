@@ -60,11 +60,11 @@ export class EventDetailsComponent implements OnInit {
 
   amAuthorizedAdmin: boolean = false;
 
-  currentLoggedInUser: User = {
-    email: "testUser@gmail.com",
-    role: Role.ADMIN,
-    name: "Test User",
-  } as User
+  // currentLoggedInUser: User = {
+  //   email: "testUser@gmail.com",
+  //   role: Role.ADMIN,
+  //   name: "Test User",
+  // } as User
 
   constructor(
     private router:Router,
@@ -121,7 +121,7 @@ export class EventDetailsComponent implements OnInit {
     this.eventService.isThisMyEvent(this.eventId)
       .subscribe({
         next: response => {
-          // console.log(response);
+          console.log(response);
           // response.data.isMyEvent;
           this.amAuthorizedAdmin = response.data.isMyEvent;
         },

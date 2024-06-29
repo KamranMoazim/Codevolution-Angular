@@ -14,7 +14,8 @@ const refreshTokenExpire = parseInt(
 export const accessTokenOptions = {
     expires: new Date(Date.now() + accessTokenExpire * 24 * 60  * 60 * 1000),
     maxAge: accessTokenExpire * 24 * 60 * 60 * 1000,
-    httpOnly: true,
+    // httpOnly: true,
+    httpOnly: false,
     secure:false,
     // sameSite: "none",
     // priority: "high",

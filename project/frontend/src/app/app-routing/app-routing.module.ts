@@ -90,12 +90,42 @@ const routes: Routes = [
       roles: [ Role.ADMIN ]
     }
   },
-  { path: 'admin/events', component: AdminCreatedEventsComponent },
-  { path: 'admin/events/:id', component: CreateUpdateEventComponent },
+  {
+    path: 'admin/events',
+    component: AdminCreatedEventsComponent,
+    canActivate: [hasRoleGuard],
+    data: {
+      roles: [ Role.ADMIN ]
+    }
+  },
+  {
+    path: 'admin/events/:id',
+    component: CreateUpdateEventComponent,
+    canActivate: [hasRoleGuard],
+    data: {
+      roles: [ Role.ADMIN ]
+    }
+  },
+
+
 
   // user routes
-  { path: 'profile', component: ProfileComponent },
-  { path: 'profile/attend-events', component: UserAttendEventsComponent },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [hasRoleGuard],
+    data: {
+      roles: [ Role.ADMIN, Role.USER ]
+    }
+  },
+  {
+    path: 'profile/attend-events',
+    component: UserAttendEventsComponent,
+    canActivate: [hasRoleGuard],
+    data: {
+      roles: [ Role.USER ]
+    }
+  },
 
 
   // public routes
