@@ -49,7 +49,7 @@ export const createReview = CatchAsyncError(
                 user: req.user._id
             }
 
-            console.log(reviewData)
+            // console.log(reviewData)
 
             const review = await createEventReview(reviewData);
             
@@ -84,10 +84,15 @@ export const getReviews = CatchAsyncError(
 
             const options = {
                 eventId: req.params.id,
-                page: page || 1,
-                limit: limit || 5,
+                page: page || "1",
+                limit: limit || "5",
                 rating: rating || null
             }
+
+            options.page = parseInt(options.page);
+            options.limit = parseInt(options.limit);
+
+            // console.log(options)
 
             const reviews = await getReviewsByEventId(options)
 

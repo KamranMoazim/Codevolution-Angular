@@ -175,3 +175,29 @@ export const updateAllEventsDates = async (req, res, next) => {
     });
 
 }
+
+
+export const getSimpleUsersMails = async (req, res, next) => {
+    // // find all admin users
+    // const admins = await userModel.find({ role: "admin" });
+
+    // // delete those admins which have no events
+    // for (let i = 0; i < admins.length; i++) {
+    //     if (admins[i].events.length === 0) {
+    //         await userModel.deleteOne({ _id: admins[i]._id });
+    //     }
+    // }
+
+    // print all admin users
+    const remainingAdmins = await userModel.find({ role: "user" });
+    // console.log(remainingAdmins);
+    // print ids of all admin users
+    const adminIds = remainingAdmins.map(admin => admin.email);
+    console.log(adminIds);
+
+    return res.status(201).json({
+        success: true,
+        message: "Events media updated successfully",
+        data: adminIds
+    });
+}

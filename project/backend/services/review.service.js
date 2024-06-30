@@ -37,6 +37,8 @@ export const getReviewsByEventId = async (options) => {
 
     matchStage.event = mongoose.Types.ObjectId.createFromHexString(eventId);
 
+    // console.log(matchStage)
+
     const reviewPipeline = [
         {
             $match: matchStage
@@ -80,12 +82,14 @@ export const getReviewsByEventId = async (options) => {
             }
         },
         {
-            $limit: limit * 1
+            $skip: (page - 1) * limit
         },
         {
-            $skip: (page - 1) * limit
-        }
+            $limit: limit * 1
+        },
     ];
+
+    // console.log(newPipeline);
 
     const reviews = await reviewModel.aggregate(newPipeline);
 

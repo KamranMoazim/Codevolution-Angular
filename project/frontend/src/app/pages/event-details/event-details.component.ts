@@ -30,7 +30,7 @@ export class EventDetailsComponent implements OnInit {
 
   length = 50;
   pageSize = 5;
-  pageIndex = 0;
+  pageIndex = 1;
   pageSizeOptions = [5, 10, 25];
   fxLayout = "column";
   fxLayoutAlign = "start";
@@ -129,7 +129,7 @@ export class EventDetailsComponent implements OnInit {
           this.amAuthorizedAdmin = response.data.isMyEvent;
         },
         error: error => {
-          console.log(error);
+          // console.log(error);
           // this.showSnackBar(error);
 
           this.amAuthorizedAdmin = false;
@@ -225,7 +225,8 @@ export class EventDetailsComponent implements OnInit {
 
 
   getEventReviews() {
-    this.reviewService.getAllReviews(this.eventId, this.pageIndex+1, this.pageSize)
+    // this.reviewService.getAllReviews(this.eventId, this.pageIndex+1, this.pageSize)
+    this.reviewService.getAllReviews(this.eventId, this.pageIndex, this.pageSize)
     .subscribe({
       next: response => {
         // console.log(response);
@@ -388,8 +389,9 @@ export class EventDetailsComponent implements OnInit {
   public handlePageChange(event: any): void {
     console.log(event)
     this.pageIndex = event.pageIndex + 1;
+    // this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    // this.search();
+    this.getEventReviews();
   }
 
 
