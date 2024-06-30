@@ -138,7 +138,7 @@ export class AdminComponent {
             // ],
             labels: response.data.analysis.labels,
             datasets: [{
-              label: 'My First Dataset',
+              label: 'Number of Events in each Category',
               // data: [300, 50, 100],
               data: response.data.analysis.datasets,
               backgroundColor: [
