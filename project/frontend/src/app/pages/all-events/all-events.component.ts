@@ -74,8 +74,8 @@ export class AllEventsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // console.log('Filters applied:', this.dateRange.value);
-        // console.log('Result applied:', result);
+        console.log('Filters applied:', this.dateRange);
+        console.log('Result applied:', result);
 
         this.selectedStatus = result.selectedStatus;
         this.dateRange = result.dateRange;

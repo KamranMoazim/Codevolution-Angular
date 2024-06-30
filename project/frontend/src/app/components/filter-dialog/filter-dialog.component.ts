@@ -11,8 +11,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class FilterDialogComponent {
 
   dateRange: FormGroup;
-  minPrice: number = 100;
-  maxPrice: number = 200;
+  minPrice: number = 1;
+  maxPrice: number = 2000;
   selectedStatus: string;
   startTime: string;
   endTime: string;
@@ -28,8 +28,11 @@ export class FilterDialogComponent {
     this.dateRange = this.fb.group({
       // start: [data.start],
       // end: [data.end],
+      start: [null],
+      end: [null],
     });
     // this.selectedStatus = data.selectedStatus;
+    this.selectedStatus = "";
     this.times = this.generateTimes();
   }
 

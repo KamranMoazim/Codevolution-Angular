@@ -6,6 +6,7 @@
     </div>
     <mat-card-title>{{event.title | slice:0:35}}...</mat-card-title>
     <mat-card-subtitle>{{event.organizer.name}}</mat-card-subtitle>
+    <mat-card-subtitle>${{event.ticketPrice | number : '1.2-2'}}</mat-card-subtitle>
     <div fxLayout="row" fxLayoutGap="10px">
       @if (event.status.toLowerCase() === 'past') {
         <button mat-flat-button color="primary" class="past-button">Past</button>
