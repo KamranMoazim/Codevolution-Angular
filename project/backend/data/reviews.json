@@ -1,0 +1,82 @@
+[
+  {
+    "_id": "667fe5c80048824e6c8fa122",
+    "event": "667c3ac6588d2f49935369e9",
+    "user": "667ea302362db621b68ecdb7",
+    "rating": 5,
+    "comment": "New Rating",
+    "createdAt": "2024-06-29T10:45:28.388Z",
+    "updatedAt": "2024-06-29T10:45:28.388Z",
+    "__v": 0
+  },
+  {
+    "_id": "66803e2f61f09b31ef6b6d5b",
+    "event": "66801f3d0d4cabfe3979ff64",
+    "user": "667c32d4779612f796daa13f",
+    "rating": 5,
+    "comment": "Best Event Ever",
+    "createdAt": "2024-06-29T17:02:39.422Z",
+    "updatedAt": "2024-06-29T17:02:39.422Z",
+    "__v": 0
+  },
+  {
+    "_id": "66817dfd71552f03515dc0c2",
+    "event": "668124c7b12a1ce6c7bc2ede",
+    "user": "668124c7b12a1ce6c7bc2eb2",
+    "rating": 4,
+    "comment": "I am the admin and i bough ticket for it.",
+    "createdAt": "2024-06-30T15:47:09.777Z",
+    "updatedAt": "2024-06-30T15:47:09.777Z",
+    "__v": 0
+  },
+  {
+    "_id": "66817e8efd6b7f1b2571581a",
+    "event": "668124c7b12a1ce6c7bc2ede",
+    "user": "66812373904d7281804e878d",
+    "rating": 2,
+    "comment": "New Comment",
+    "createdAt": "2024-06-30T15:49:34.148Z",
+    "updatedAt": "2024-06-30T15:49:34.148Z",
+    "__v": 0
+  },
+  {
+    "_id": "66817ec1fd6b7f1b25715834",
+    "event": "668124c7b12a1ce6c7bc2ede",
+    "user": "668123de64b07fe75505cf4b",
+    "rating": 5,
+    "comment": "Good event",
+    "createdAt": "2024-06-30T15:50:25.801Z",
+    "updatedAt": "2024-06-30T15:50:25.801Z",
+    "__v": 0
+  },
+  {
+    "_id": "66817ee2fd6b7f1b2571584e",
+    "event": "668124c7b12a1ce6c7bc2ede",
+    "user": "668123fbe95d0535b6f742ad",
+    "rating": 1,
+    "comment": "Worst Event",
+    "createdAt": "2024-06-30T15:50:58.067Z",
+    "updatedAt": "2024-06-30T15:50:58.067Z",
+    "__v": 0
+  },
+  {
+    "_id": "66817f06fd6b7f1b25715868",
+    "event": "668124c7b12a1ce6c7bc2ede",
+    "user": "6681247b622c265e3dc81070",
+    "rating": 3,
+    "comment": "Fair Event",
+    "createdAt": "2024-06-30T15:51:34.224Z",
+    "updatedAt": "2024-06-30T15:51:34.224Z",
+    "__v": 0
+  },
+  {
+    "_id": "66817f43fd6b7f1b25715886",
+    "event": "668124c7b12a1ce6c7bc2ede",
+    "user": "6681247b622c265e3dc81074",
+    "rating": 5,
+    "comment": "Good Enough",
+    "createdAt": "2024-06-30T15:52:35.939Z",
+    "updatedAt": "2024-06-30T15:52:35.939Z",
+    "__v": 0
+  }
+]
