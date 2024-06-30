@@ -51,42 +51,55 @@ export class CreateUpdateEventComponent {
       media: [null]
     });
 
-
-
-    // Load existing image URLs from local storage or other sources
-    // const savedUrls = this.getSavedImageUrls();
-    // if (savedUrls) {
-    //   this.localImageUrls = savedUrls;
-    //   this.images = savedUrls.map(url => ({ url }));
-    // }
-
     this.eventId = this.route.snapshot.paramMap.get('id');
     if (this.eventId !== "new") {
       this.isEditMode = true;
 
       this.isAuthorizedAdmin();
 
-      // // Fetch the event data from the server
-      // this.eventService.getEventDetails(this.eventId)
-      // .subscribe({
-      //   next: response => {
-      //     console.log(response);
-      //     this.eventForm.patchValue(response.data.event);
-
-      //     this.images = response.data.event.media.map(url => ({ url }));
-      //   },
-      //   error: error => {
-      //     console.log(error);
-      //     this.showSnackBar(error);
-      //   }
-      // });
     }
     console.log(this.eventId)
   }
 
 
+  get title() {
+    return this.eventForm.get('title');
+  }
+
+  get description() {
+    return this.eventForm.get('description');
+  }
+
+  get date() {
+    return this.eventForm.get('date');
+  }
+
+  get startTime() {
+    return this.eventForm.get('startTime');
+  }
+
+  get endTime() {
+    return this.eventForm.get('endTime');
+  }
+
+  get location() {
+    return this.eventForm.get('location');
+  }
+
   get capacity() {
     return this.eventForm.get('capacity');
+  }
+
+  get category() {
+    return this.eventForm.get('category');
+  }
+
+  get ticketPrice() {
+    return this.eventForm.get('ticketPrice');
+  }
+
+  get status() {
+    return this.eventForm.get('status');
   }
 
 
@@ -164,6 +177,11 @@ export class CreateUpdateEventComponent {
       createOrUpdateEventRequest.status = this.eventForm.value.status
       createOrUpdateEventRequest.media = this.images.map(image => image.url);
 
+      if (this.images.length == 0) {
+        this.showSnackBar("Please upload at least one image");
+        return;
+      }
+
       console.log(createOrUpdateEventRequest)
 
       this.eventService.createOrUpdateEvent(createOrUpdateEventRequest)
@@ -191,51 +209,6 @@ export class CreateUpdateEventComponent {
   }
 
 
-  // onFileSelected(event: any) {
-  //   const files = event.target.files;
-  //   if (files.length + this.images.length > 5) {
-  //     alert('You can only upload up to 5 images.');
-  //     return;
-  //   }
-  //   for (let i = 0; i < files.length; i++) {
-  //     const file = files[i];
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.images.push({ file, preview: e.target.result });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  // removeImage(index: number) {
-  //   const removedImage = this.images.splice(index, 1)[0];
-  //   this.showSnackBar('Image removed.');
-  // }
-
-  // uploadImages() {
-  //   this.showSnackBar('Uploading images...');
-  //   this.images.forEach((image, index) => {
-  //     if (image.file) {
-  //       const params = {
-  //         Bucket: 'edusculpt-bucket-prod',
-  //         Key: `uploads/${image.file.name}`,
-  //         Body: image.file,
-  //         ACL: 'public-read'
-  //       };
-
-  //       this.s3.upload(params, (err: any, data: any) => {
-  //         if (err) {
-  //           console.error('Error uploading image:', err);
-  //           this.showSnackBar('Failed to upload images. Please try again.');
-  //         } else {
-  //           console.log('Successfully uploaded image:', data);
-  //           this.images[index].url = data.Location;
-  //           this.showSnackBar(`Image ${index + 1} uploaded successfully.`);
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
 
 
   timeToMinutes(timeStr) {

@@ -9,11 +9,17 @@
   <mat-form-field>
     <mat-label>Title</mat-label>
     <input matInput formControlName="title">
+    @if (title.hasError('required')) {
+      <mat-error>Title is <strong>required</strong></mat-error>
+      }
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Description</mat-label>
     <textarea matInput formControlName="description" rows="5"></textarea>
+    @if (description.hasError('required')) {
+      <mat-error>Description is <strong>required</strong></mat-error>
+      }
   </mat-form-field>
 
   <mat-form-field>
@@ -21,17 +27,26 @@
     <input matInput [matDatepicker]="picker" formControlName="date">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
+    @if (date.hasError('required')) {
+      <mat-error>Date is <strong>required</strong></mat-error>
+      }
   </mat-form-field>
 
   <div fxLayout="row" fxLayoutGap="10px">
     <mat-form-field>
       <mat-label>Start Time</mat-label>
       <input type="time" matInput value="{{eventForm.value.startTime}}" formControlName="startTime">
+      @if (startTime.hasError('required')) {
+        <mat-error>StartTime is <strong>required</strong></mat-error>
+        }
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>End Time</mat-label>
       <input type="time" matInput value="{{eventForm.value.endTime}}" formControlName="endTime">
+      @if (endTime.hasError('required')) {
+        <mat-error>EndTime is <strong>required</strong></mat-error>
+        }
     </mat-form-field>
   </div>
 
@@ -39,6 +54,9 @@
     <mat-form-field>
       <mat-label>Location</mat-label>
       <input matInput formControlName="location">
+      @if (location.hasError('required')) {
+        <mat-error>Location is <strong>required</strong></mat-error>
+        }
     </mat-form-field>
 
     <mat-form-field>
@@ -46,13 +64,20 @@
       <input matInput type="number" formControlName="capacity">
       <!-- <small class="text-danger" *ngIf="capacity.errors?.min">Capacity should be at least {{capacity.value}}</small> -->
       <!-- <small class="text-danger" *ngIf="capacity.errors?.min">Capacity should be at least 1</small> -->
-
+      @if (capacity.hasError('required')) {
+        <mat-error>Capacity is <strong>required</strong></mat-error>
+        }
+      @if (capacity.hasError('min')) {
+        <mat-error>Capacity cannot be <strong>less than 20</strong></mat-error>
+        }
     </mat-form-field>
-    <!-- {{capacity.errors | json}} -->
 
     <mat-form-field>
       <mat-label>Category</mat-label>
       <input matInput formControlName="category">
+      @if (category.hasError('required')) {
+        <mat-error>Category is <strong>required</strong></mat-error>
+        }
     </mat-form-field>
   </div>
 
@@ -61,6 +86,13 @@
     <mat-label>Ticket Price</mat-label>
     <input matInput type="number" placeholder="0" formControlName="ticketPrice">
     <span matTextPrefix>$&nbsp;</span>
+    <!-- <mat-hint>Enter 0 if the event is free</mat-hint> -->
+    @if (ticketPrice.hasError('required')) {
+      <mat-error>Ticket Price is <strong>required</strong></mat-error>
+      }
+    @if (ticketPrice.hasError('required')) {
+      <mat-error>Ticket Price is <strong>required</strong></mat-error>
+      }
   </mat-form-field>
 
   <mat-form-field>
@@ -68,27 +100,14 @@
     <mat-select formControlName="status">
       <mat-option *ngFor="let status of statusOptions" value="{{status}}">{{status | titlecase}}</mat-option>
     </mat-select>
+    @if (status.hasError('required')) {
+      <mat-error>Status is <strong>required</strong></mat-error>
+      }
   </mat-form-field>
 </div>
 
 
-<!-- <mat-card>
-  <mat-card-title style="margin: 10px;">Upload Event Images</mat-card-title>
-  <mat-card-content>
-    <input type="file" (change)="onFileSelected($event)" multiple>
-    <div *ngIf="images.length > 0">
-      <mat-list>
-        <mat-list-item *ngFor="let image of images; let i = index" fxLayout="row" fxLayoutAlign="start center">
-          <img [src]="image.preview || image.url" alt="Image preview" width="200px" height="200px" (click)="removeImage(i)">
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <p *ngIf="images.length >= 5" class="text-danger">You can only upload up to 5 images.</p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="images.length === 0">Upload Images</button>
-  </mat-card-actions>
-</mat-card> -->
+
 
 <app-images-uploader
   [images]="images"
