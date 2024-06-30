@@ -20,6 +20,10 @@ export const buyEventTicket = CatchAsyncError(
                 return next(new ErrorHandler("Event not found", 400));
             }
 
+            if(event.status === "past"){
+                return next(new ErrorHandler("Event is already past", 400));
+            }
+
             // console.log(event)
 
             // check if tickets are available
