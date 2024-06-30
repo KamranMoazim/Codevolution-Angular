@@ -7,7 +7,7 @@
 }
 
 .example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  /* background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); */
   background-size: cover;
 }
 
@@ -16,3 +16,22 @@
   flex: 1 1 auto; /* Allow content to grow and take available space */
 }
 
+
+
+.uniform-card {
+  width: 300px; /* Adjust the width as needed */
+  height: 600px; /* Adjust the height as needed */
+  display: flex;
+  flex-direction: column;
+}
+
+.uniform-card mat-card-header,
+.uniform-card mat-card-content,
+.uniform-card mat-card-actions {
+  flex: none; /* Ensure these elements don't stretch */
+}
+
+.uniform-card img {
+  flex: 1; /* Allow the image to take up available space */
+  object-fit: cover; /* Ensure the image covers the space without distortion */
+}

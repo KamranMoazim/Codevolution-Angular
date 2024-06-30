@@ -1,12 +1,12 @@
 
-<mat-card class="example-card">
+<mat-card class="example-card uniform-card">
   <mat-card-header>
     <mat-card-title>{{organization.name}}</mat-card-title>
     <mat-card-subtitle style="margin-bottom: 10px;">
       Rating ({{organization.averageRating}}/5) - Events ({{organization.totalEvents}})
     </mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image  src={{organization.avatar}} alt="Photo of a Shiba Inu">
+  <img mat-card-image  src={{organization.avatar}} alt={{organization.name}}>
   <mat-card-content>
     <p style="margin-top: 10px;">
       {{organization.bio}}
