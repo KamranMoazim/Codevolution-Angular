@@ -140,3 +140,38 @@ export const updateAdmins = async (req, res, next) => {
         message: "Events media updated successfully",
     });
 }
+
+export const updateAllEventsDates = async (req, res, next) => {
+    const events = await eventModel.find();
+
+    // generate random dates for all events in next 30 days
+    const dates = []
+    for (let i = 0; i < events.length; i++) {
+        // const date = faker.date.future();
+        // take a random date between today and next 30 days
+        // const date = faker.date.future(30);
+        const date = new Date();
+        date.setDate(date.getDate() + Math.floor(Math.random() * 30));
+        dates.push(date);
+    }
+    // console.log(dates)
+
+    for (let i = 0; i < events.length; i++) {
+        // const date = faker.date.future();
+        // take a random date between today and next 30 days
+        // const date = faker.date.future(30);
+        await eventModel.updateOne(
+            { _id: events[i]._id },
+            { 
+                // random date between today and next 30 days
+                date: dates[Math.floor(Math.random() * dates.length)]
+            }
+        );
+    }
+
+    return res.status(201).json({
+        success: true,
+        message: "Events dates updated successfully",
+    });
+
+}

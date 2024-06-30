@@ -9,7 +9,7 @@ import {
 } from "../controllers/user.controller.js";
 import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
 import { addingTempUser } from "../middlewares/temp.js";
-import { generateFakeUsers, updateAdmins, updateAllEventsMedia } from "../controllers/dummy.controller.js";
+import { generateFakeUsers, updateAdmins, updateAllEventsMedia, updateAllEventsDates } from "../controllers/dummy.controller.js";
 const userRouter = express.Router();
 
 // 'kamrannaseer765@gmail.com',
@@ -33,6 +33,7 @@ userRouter.put("/user-info", isAutheticated, updateUserInfo);
 
 userRouter.get("/get-organizations", getAllOrganizationsController);
 
+// userRouter.get("/generate-dummy-data", updateAllEventsDates);
 // userRouter.get("/generate-dummy-data", updateAdmins);
 // userRouter.get("/generate-dummy-data", updateAllEventsMedia);
 // userRouter.get("/generate-dummy-data", generateFakeUsers);
