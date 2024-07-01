@@ -18,6 +18,7 @@ export class AllEventsComponent implements OnInit {
   @Input() isUser: boolean = false;
   @Input() isOrganizer: boolean = false;
   @Input() organizer:string = ""
+  @Input() isReturnAble:boolean = false
 
   public events: Event[] = []
   searchValue = '';

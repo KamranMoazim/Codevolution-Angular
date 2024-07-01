@@ -2,7 +2,7 @@ import 'dotenv/config'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
 import { getEventById } from "../services/event.service.js";
-import { checkIfUserHasTicket, purchaseTicket } from '../services/ticket.service.js';
+import { checkIfUserHasTicket, purchaseTicket, returnTicket } from '../services/ticket.service.js';
 
 
 
@@ -56,6 +56,57 @@ export const buyEventTicket = CatchAsyncError(
             return res.status(201).json({
                 success: true,
                 message: "Ticket bought successfully"
+            });
+
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
+
+
+
+
+
+// return event ticket
+export const returnEventTicket = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            // Retrieve the event by ID
+            const event = await getEventById(req.body.eventId);
+
+            console.log(event)
+
+            if (!event) {
+                return next(new ErrorHandler("Event not found", 400));
+            }
+
+            // // Check if the user has purchased a ticket for this event
+            // const ticket = await ticketModel.findOne({
+            //     event: req.body.eventId,
+            //     user: req.user._id
+            // });
+
+            // if (!ticket) {
+            //     return next(new ErrorHandler("You have not purchased a ticket for this event", 400));
+            // }
+
+
+            const isTicketBuyed = await checkIfUserHasTicket(req.user._id, req.body.eventId)
+
+            console.log(isTicketBuyed)
+
+            if(isTicketBuyed === null){
+                return next(new ErrorHandler("You have not purchased a ticket for this event", 400));
+            }
+
+            const k = await returnTicket(isTicketBuyed._id)
+
+            console.log(k)
+
+            return res.status(200).json({
+                success: true,
+                message: "Ticket returned successfully"
             });
 
         } catch (error) {

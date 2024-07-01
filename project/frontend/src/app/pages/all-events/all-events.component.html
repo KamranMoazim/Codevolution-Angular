@@ -24,7 +24,7 @@
 
 
 <ng-template #itemTemplate let-item>
-  <app-event-card [event]="item"></app-event-card>
+  <app-event-card [isReturnAble]="this.isReturnAble" [event]="item"></app-event-card>
 </ng-template>
 
 <app-generic-pagination

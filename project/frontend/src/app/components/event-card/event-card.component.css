@@ -33,6 +33,11 @@
   color: white;
 }
 
+.return-button {
+  background-color: #dbc64f; /* Orange */
+  color: white;
+}
+
 /* Ensure buttons have a consistent look */
 button.mat-flat-button {
   margin: 5px;

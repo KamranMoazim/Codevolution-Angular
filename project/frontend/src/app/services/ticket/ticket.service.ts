@@ -21,6 +21,14 @@ export class TicketService {
     .pipe(catchError(this.errorHandler));
   }
 
+  // CreateTicketRequest
+  returnTicket(eventId:string) : Observable<BaseResponse> {
+    return this.httpClient.post<BaseResponse>(this._url + "/return-ticket/", {
+      eventId
+    })
+    .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error: HttpErrorResponse){
     // console.log(error)
     // return throwError(() => error.message || "Server Error");

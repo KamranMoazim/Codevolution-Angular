@@ -23,6 +23,32 @@ export const purchaseTicket = async (ticketData) => {
     return ticket;
 };
 
+
+// return ticket
+export const returnTicket = async (ticketId) => {
+    // Find the ticket by ID
+    const ticket = await ticketModel.findById(ticketId);
+
+    // Update event tickets array and numberOfTicketsSold
+    await eventModel.findByIdAndUpdate(ticket.event, {
+        $pull: { tickets: ticket._id },
+        $inc: { numberOfTicketsSold: -1 }
+    });
+
+    // Update user tickets array
+    await userModel.findByIdAndUpdate(ticket.user, {
+        $pull: { tickets: ticket._id }
+    });
+
+    // Remove the ticket
+    await ticketModel.findByIdAndDelete(ticketId);
+
+
+    console.log(ticket)
+
+    return ticket;
+};
+
 // check if user has already bought ticket for event
 export const checkIfUserHasTicket = async (userId, eventId) => {
     // console.log(userId, eventId)
