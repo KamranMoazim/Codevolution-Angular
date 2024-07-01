@@ -84,14 +84,14 @@
   <div fxLayout="row" fxLayoutGap="10px">
   <mat-form-field floatLabel="always">
     <mat-label>Ticket Price</mat-label>
-    <input matInput type="number" placeholder="0" formControlName="ticketPrice">
+    <input matInput value="{{this.receivedEvent.ticketPrice}}" type="number" placeholder="0" formControlName="ticketPrice">
     <span matTextPrefix>$&nbsp;</span>
     <!-- <mat-hint>Enter 0 if the event is free</mat-hint> -->
     @if (ticketPrice.hasError('required')) {
       <mat-error>Ticket Price is <strong>required</strong></mat-error>
       }
-    @if (ticketPrice.hasError('required')) {
-      <mat-error>Ticket Price is <strong>required</strong></mat-error>
+    @if (ticketPrice.hasError('min')) {
+      <mat-error>Ticket Price cannot be <strong>less than 10</strong></mat-error>
       }
   </mat-form-field>
 

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as AWS from 'aws-sdk';
 import { EventService } from '../../services/event/event.service';
-import { CreateOrUpdateEventRequest } from '../../models/Event';
+import { CreateOrUpdateEventRequest, Event } from '../../models/Event';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -19,6 +19,9 @@ export class CreateUpdateEventComponent {
 
   isEditMode = false;
   eventId: string = null;
+  receivedEvent:Event = {
+    ticketPrice: 0
+  };
 
   images: { file?: File, preview?: string, url?: string }[] = [];
   s3: AWS.S3;
@@ -46,7 +49,7 @@ export class CreateUpdateEventComponent {
       location: ['', Validators.required],
       capacity: [null, [Validators.required, Validators.min(20)]],
       category: ['', Validators.required],
-      ticketPrice: [null, Validators.required],
+      ticketPrice: [null, Validators.required, Validators.min(10)],
       status: ['', Validators.required],
       media: [null]
     });
@@ -112,21 +115,9 @@ export class CreateUpdateEventComponent {
           console.log(response);
           // response.data.isMyEvent;
           this.amAuthorizedAdmin = response.data.isMyEvent;
+          this.getEventDetails()
+          // this.eventForm.patchValue(this.receivedEvent);
 
-          if (this.amAuthorizedAdmin) {
-            this.eventService.getEventDetails(this.eventId)
-              .subscribe({
-                next: response => {
-                  console.log(response);
-                  this.eventForm.patchValue(response.data.event);
-                  this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
-                },
-                error: error => {
-                  console.log(error);
-                  this.showSnackBar(error);
-                }
-              });
-          }
         },
         error: error => {
           console.log(error);
@@ -137,6 +128,37 @@ export class CreateUpdateEventComponent {
       });
   }
 
+  getEventDetails(){
+    if (this.amAuthorizedAdmin) {
+
+      this.eventService.getEventDetails(this.eventId)
+        .subscribe({
+          next: response => {
+            console.log(response);
+            this.receivedEvent = response.data.event
+            // this.eventForm.patchValue(this.receivedEvent);
+            this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
+            // console.log(response.data.event?.media)
+
+            this.title.setValue(response.data.event.title)
+            this.description.setValue(response.data.event.description)
+            this.date.setValue(response.data.event.date)
+            this.startTime.setValue(response.data.event.startTime)
+            this.endTime.setValue(response.data.event.endTime)
+            this.location.setValue(response.data.event.location)
+            this.capacity.setValue(response.data.event.capacity)
+            this.category.setValue(response.data.event.category)
+            this.status.setValue(response.data.event.status)
+
+          },
+          error: error => {
+            console.log(error);
+            this.showSnackBar(error);
+          }
+        });
+    }
+
+  }
 
 
 

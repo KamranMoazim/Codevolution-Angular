@@ -115,6 +115,7 @@ export class EventService {
   }
 
 
+  // getEventDetails(eventId:string) : Observable<SingleEventDetailssResponse> {
   getEventDetails(eventId:string) : Observable<SingleEventDetailssResponse> {
     return this.httpClient.get<SingleEventDetailssResponse>(this._url + "/event/" + eventId)
     .pipe(

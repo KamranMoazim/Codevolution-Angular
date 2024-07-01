@@ -34,6 +34,10 @@ export const createReview = CatchAsyncError(
                 return next(new ErrorHandler("You have not bought ticket for this event", 400));
             }
 
+            if(event.status == "upcoming"){
+                return next(new ErrorHandler("You cannot Create a Review for an Upcoming Event", 400));
+            }
+
             // check if user has already reviewed this event
             const isAlreadyReviewed = await getReviewByUserIdAndEventId(req.user._id, req.body.eventId);
 

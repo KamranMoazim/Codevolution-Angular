@@ -273,6 +273,50 @@ export const allEventsByUserUniqueCategoriesByCountAnalytics = async (userId) =>
 };
 
 
+export const eachStarCountForAllEventsAnalytics = async (userId) => {
+    // Step 1: Fetch all events for the given userId
+    console.log(userId)
+    const userEvents = await eventModel.find({ organizer: userId }, '_id');
+    console.log(userEvents)
+    const eventIds = userEvents.map(event => event._id);
+
+    // Step 2: Perform aggregation using the fetched eventIds
+    const starCountAnalytics = await reviewModel.aggregate([
+        {
+            $match: { event: { $in: eventIds } }
+        },
+        {
+            $group: {
+                _id: "$rating",
+                count: { $sum: 1 }
+            }
+        }
+    ]);
+
+    // Step 3: Create a map for quick lookup
+    const analyticsMap = new Map(starCountAnalytics.map(data => [data._id, data.count]));
+
+    // Step 4: Create an array with counts for each star from 1 to 5
+    const eachStarCount = Array.from({ length: 5 }, (_, i) => {
+        const star = i + 1;
+        return {
+            star,
+            ticketsCount: analyticsMap.get(star) || 0,
+        };
+    });
+
+    const allLabels = eachStarCount.map(data => data.star);
+    const allData = eachStarCount.map(data => data.ticketsCount);
+
+    console.log(allLabels)
+    console.log(allData)
+
+    return {
+        labels: allLabels,
+        datasets: allData,
+    };
+};
+
 
 
 

@@ -6,7 +6,8 @@ import {
     numberOfEventsCreatedInLast12MonthsByUserController,
     allEventsByUserUniqueCategoriesByCountAnalyticsController,
     // mostEventTimeOfDayController,
-    totalRevenueAnalyticsController
+    totalRevenueAnalyticsController,
+    eachStarCountForAllEventsAnalyticsController
 } from "../controllers/analytics.controller.js";
 import { isAutheticated } from "../middlewares/auth.js";
 // import { authorizeRoles, isAutheticated } from "../middlewares/auth.js";
@@ -27,5 +28,6 @@ analyticsRouter.get("/analytics/events/event-count/", isAutheticated, numberOfEv
 analyticsRouter.get("/analytics/events/categories/", isAutheticated, allEventsByUserUniqueCategoriesByCountAnalyticsController);
 // analyticsRouter.get("/analytics/events/times/", addingTempUser, mostEventTimeOfDayController);
 analyticsRouter.get("/analytics/events/total-revenue/", isAutheticated, totalRevenueAnalyticsController);
+analyticsRouter.get("/analytics/events/each-star-ratings/", isAutheticated, eachStarCountForAllEventsAnalyticsController);
 
 export default analyticsRouter;

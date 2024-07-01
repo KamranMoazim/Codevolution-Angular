@@ -6,6 +6,7 @@ import {
     eachStarCountAnalytics,
     numberOfEventsCreatedInLast12MonthsByUserAnalytics,
     allEventsByUserUniqueCategoriesByCountAnalytics,
+    eachStarCountForAllEventsAnalytics,
     // mostEventTimeOfDayAnalytics
     totalRevenueAnalytics
 } from '../services/analytics.service.js';
@@ -117,6 +118,25 @@ export const totalRevenueAnalyticsController = CatchAsyncError(
             return res.status(200).json({
                 success: true,
                 data:analysis
+            });
+        } catch (error) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+    }
+);
+
+
+export const eachStarCountForAllEventsAnalyticsController = CatchAsyncError(
+    async (req, res, next) => {
+        try {
+            
+            const analysis = await eachStarCountForAllEventsAnalytics(req.user._id);
+            
+            return res.status(200).json({
+                success: true,
+                data:{
+                    analysis
+                }
             });
         } catch (error) {
             return next(new ErrorHandler(error.message, 400));

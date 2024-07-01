@@ -12,7 +12,8 @@ export class AdminComponent {
 
   public ticketsLineChart: any;
   public allEventUniqueCategoriesPieChart: any;
-  public shiftsPieChart: any;
+  // public shiftsPieChart: any;
+  public ratingBarChart: any;
 
   avgRating: any = [
     { _id: 'event1', averageRating: 4.5 },
@@ -60,7 +61,8 @@ export class AdminComponent {
 
     this.createTicketsLineChart();
     this.createAllEventUniqueCategoriesPieChart();
-    this.createShiftsPieChart();
+    // this.createShiftsPieChart();
+    this.createRatingBarChart()
 
     this.analyticsService.getTotalRevenueAnalytics()
     .subscribe({
@@ -166,7 +168,61 @@ export class AdminComponent {
 
 
 
-  createShiftsPieChart(){
+  createRatingBarChart(){
+
+    // getEachStarCountAnalytics
+
+
+    this.analyticsService.getEachStarCountForAllEventsAnalytics()
+    .subscribe({
+      next: response => {
+        console.log(response);
+
+        this.ratingBarChart = new Chart("RatingBarChart", {
+          type: 'bar', //this denotes tha type of chart
+          data:{
+            // labels: ['*', '**', '***', '****', '*****'],
+            labels: response.data.analysis.labels,
+            datasets: [{
+              label: 'Event Ratings',
+              // data: [65, 40, 80, 81, 56],
+              data: response.data.analysis.datasets,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)'
+              ],
+              borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            aspectRatio:1.5,
+          }
+
+        });
+
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
+
+
+
+  }
+
+
+  // createShiftsPieChart(){
 
     // this.analyticsService.getAllEventsTimeOfTheDayAnalytics()
     // .subscribe({
@@ -224,7 +280,7 @@ export class AdminComponent {
     //   }
 
     // });
-  }
+  // }
 
 
 

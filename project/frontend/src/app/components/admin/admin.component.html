@@ -2,10 +2,10 @@
 
 <!-- analytics.component.html -->
 <mat-card fxLayout="row" fxLayoutAlign="space-around" fxLayout.sm="column" fxLayoutAlign.sm="center" class="total-revenue-card" >
-  <h3>Total Revenue Generated: ${{ generalAnalytics.totalRevenue }}</h3>
-  <h3>Total Events: {{ generalAnalytics.totalEvents }}</h3>
-  <h3>Total Tickets Bought: {{ generalAnalytics.totalTickets }}</h3>
-  <h3>Total Reviews Received: {{ generalAnalytics.totalReviews }}</h3>
+  <h1><span class="badge text-bg-primary">Total Revenue Generated:</span> ${{ generalAnalytics.totalRevenue }}</h1>
+  <h1><span class="badge text-bg-secondary">Total Events:</span> {{ generalAnalytics.totalEvents }}</h1>
+  <h1><span class="badge text-bg-dark">Total Tickets Bought:</span> {{ generalAnalytics.totalTickets }}</h1>
+  <h1><span class="badge text-bg-success">Total Reviews Received:</span> {{ generalAnalytics.totalReviews }}</h1>
 </mat-card>
 
 
@@ -13,10 +13,26 @@
 
 <div fxLayout="row wrap" fxLayoutAlign="space-around" fxLayout.sm="column" fxLayoutAlign.sm="space-around center">
   <div fxFlex="50%" fxFlex.md="100%" fxFlex.sm="100%">
-    <canvas id="AllEventUniqueCategoriesPieChart">{{ allEventUniqueCategoriesPieChart }}</canvas>
+    <div class="chart-container" fxLayout="row wrap" fxLayoutAlign="space-around center">
+      <h1>All Categories Event Count</h1>
+      <canvas id="AllEventUniqueCategoriesPieChart">{{ allEventUniqueCategoriesPieChart }}</canvas>
+    </div>
   </div>
 
   <div fxFlex="50%" fxFlex.md="100%" fxFlex.sm="100%">
-    <canvas id="TicketsLineChart">{{ ticketsLineChart }}</canvas>
+    <div class="chart-container" fxLayout="row wrap" fxLayoutAlign="space-around center">
+      <h1>Number of Tickets in Last 12 Months </h1>
+      <canvas id="TicketsLineChart">{{ ticketsLineChart }}</canvas>
+    </div>
   </div>
+
+  <div fxFlex="50%" fxFlex.md="100%" fxFlex.sm="100%" style="margin-top: 50px;">
+    <div class="chart-container" fxLayout="row wrap" fxLayoutAlign="space-around center">
+      <h1>Overall Event Ratings</h1>
+      <canvas id="RatingBarChart" >{{ ratingBarChart }}</canvas>
+    </div>
+  </div>
+
 </div>
+
+

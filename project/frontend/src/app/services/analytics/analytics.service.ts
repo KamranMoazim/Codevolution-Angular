@@ -45,6 +45,10 @@ export class AnalyticsService {
     return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/categories/`).pipe(catchError(this.errorHandler));
   }
 
+  getEachStarCountForAllEventsAnalytics() : Observable<LineOrBarChartResponse>{
+    return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/each-star-ratings/`).pipe(catchError(this.errorHandler));
+  }
+
   // getAllEventsTimeOfTheDayAnalytics() : Observable<LineOrBarChartResponse>{
   //   return this.httpClient.get<LineOrBarChartResponse>(`${this._url}/analytics/events/times/`).pipe(catchError(this.errorHandler));
   // }
