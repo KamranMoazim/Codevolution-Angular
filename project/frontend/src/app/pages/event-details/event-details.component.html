@@ -138,19 +138,19 @@
         </mat-card-actions>
 
         <ng-template #itemTemplate let-item>
-          <div class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column" fxLayoutAlign.xs="space-around start" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
+          <div style="margin-top: 25px;" class="review-item" fxLayout="row" fxLayoutAlign="start start" fxLayout.xs="column" fxLayoutAlign.xs="space-around start" fxLayoutGap="10px" >
             <img [src]="item.user.avatar" style="height: 50px; width: 50px; border-radius: 50%;" alt="User avatar">
             <!-- {{item.user.avatar}} -->
-            <div>
-              <h4>{{ item.user.name }}</h4>
-              <p>
+            <div fxLayout="column"  fxLayoutAlign="start start">
+              <h5 class="badge text-bg-primary">{{ item.user.name }}</h5>
+              <div>
                 <!-- Rating: -->
                 <ng-container *ngFor="let star of getStars(item.rating)">
-                  <mat-icon>{{ star }}</mat-icon>
+                    <mat-icon>{{ star }}</mat-icon>
                 </ng-container>
                 {{ item.comment }}
                 <!-- {{item.user | json}} -->
-              </p>
+              </div>
             </div>
           </div>
         </ng-template>
