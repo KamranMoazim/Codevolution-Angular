@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Role } from '../../enums/role';
@@ -18,6 +18,10 @@ export class AuthService {
   _url = "http://localhost:5000/api/v1";
 
   constructor(private httpClient:HttpClient) { }
+
+
+  private loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  public loggedInUser$: Observable<string> = this.loggedInUserSubject.asObservable();
 
 
   getUserRole(): Role {
@@ -39,6 +43,11 @@ export class AuthService {
       return null;
     }
   }
+
+  setLoggedInUser(username: string) {
+    this.loggedInUserSubject.next(username);
+  }
+
 
   resgisterUser(registerRequest: RegisterRequest): Observable<RegisterResponse>{
     // return this.httpClient.post(this._url, {}).pipe(catchError(this.errorHandler));

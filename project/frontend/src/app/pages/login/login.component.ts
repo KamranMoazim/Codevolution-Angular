@@ -42,6 +42,7 @@ export class LoginComponent {
         console.log(response);
         this.showSnackBar(response.message);
         this.router.navigate(['/profile']);
+        this._authService.setLoggedInUser(response.message);
       },
       error: error => {
         // console.log("error");
