@@ -241,6 +241,26 @@ export class EventDetailsComponent implements OnInit {
     });
   }
 
+  getStarReview(rating:number){
+    if (rating == 0) {
+      this.getEventReviews()
+      return
+    }
+    this.reviewService.getAllReviews(this.eventId, this.pageIndex, this.pageSize, rating)
+    .subscribe({
+      next: response => {
+        // console.log(response);
+        // this.showSnackBar(response.message);
+        this.event.reviews = response.data.reviews;
+        this.length = response.data.total;
+      },
+      error: error => {
+        console.log(error);
+        this.showSnackBar(error);
+      }
+    });
+  }
+
 
   onClick(rating:number) {
     console.log(rating)

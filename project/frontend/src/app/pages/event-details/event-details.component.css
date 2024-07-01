@@ -40,3 +40,15 @@
 .mat-card-actions {
   margin-left: auto;
 }
+
+
+/* star-rating.component.css (adjust as per your component's CSS file) */
+
+.rating-group {
+  display: flex;
+  gap: 8px; /* Adjust the gap/margin between each rating option */
+}
+
+.rating-option {
+  min-width: 0; /* Ensure minimum width for each toggle */
+}

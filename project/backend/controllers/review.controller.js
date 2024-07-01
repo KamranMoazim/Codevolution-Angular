@@ -95,8 +95,11 @@ export const getReviews = CatchAsyncError(
 
             options.page = parseInt(options.page);
             options.limit = parseInt(options.limit);
+            if(rating !== null){
+                options.rating = parseInt(options.rating);
+            }
 
-            // console.log(options)
+            console.log(options)
 
             const reviews = await getReviewsByEventId(options)
 

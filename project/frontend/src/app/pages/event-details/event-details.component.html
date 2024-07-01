@@ -26,11 +26,17 @@
   <div fxFlex="80%">
 
     <mat-card class="event-details-card">
-      <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayout.xs="column" fxLayoutAlign.xs="space-around center">
+      <mat-card-header fxLayout="row wrap" fxLayoutAlign="start start" fxLayout.xs="column" fxLayoutAlign.xs="space-around center">
         <div>
           <mat-card-title>{{ event.title }}</mat-card-title>
-          <mat-card-subtitle>
-            {{ event.category }} - {{ event.location }}
+          <mat-card-subtitle fxLayout="row wrap" fxLayoutAlign="start start">
+            <h3 style="margin-right: 10px;" class="badge text-bg-primary">#{{ event.category }}</h3>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+              <h3 class="badge text-bg-warning" fxLayoutAlign="start center">
+                <mat-icon>pin_drop</mat-icon>
+                {{ event.location }}
+              </h3>
+            </div>
           </mat-card-subtitle>
         </div>
         <mat-card-actions fxLayout.xs="column" fxLayoutAlign.xs="space-around center">
@@ -40,9 +46,11 @@
           <button mat-raised-button style="margin-right: 5px; margin-bottom: 5px;" *ngIf="amAuthorizedAdmin" (click)="editEvent()">
             <mat-icon>edit</mat-icon> Edit
           </button>
-          <button mat-raised-button color="primary" (click)="buyTicket()">
-            <mat-icon>shopping_cart</mat-icon> Buy Ticket ${{ event.ticketPrice | number: '1.2-2'}}
-          </button>
+          @if(event.status !== "past"){
+            <button mat-raised-button color="primary" (click)="buyTicket()">
+              <mat-icon>shopping_cart</mat-icon> Buy Ticket ${{ event.ticketPrice | number: '1.2-2'}}
+            </button>
+          }
         </mat-card-actions>
       </mat-card-header>
 
@@ -75,7 +83,7 @@
           </div>
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
             <mat-icon>attach_money</mat-icon>
-            <p><strong>Ticket Price:</strong> ${{ event.ticketPrice }}</p>
+            <p><strong>Ticket Price:</strong> ${{ event.ticketPrice | number : '1.2-2' }}</p>
           </div>
         </div>
 
@@ -93,6 +101,41 @@
       <mat-card class="reviews-card" style="padding: 10px;">
 
         <mat-card-title>Reviews</mat-card-title>
+
+        <mat-card-actions>
+
+          <mat-button-toggle-group #ratingGroup="matButtonToggleGroup" class="rating-group" aria-label="Rating">
+            <mat-button-toggle value="0" class="rating-option" (click)="getStarReview(0)">
+              All
+            </mat-button-toggle>
+            <mat-button-toggle value="1" class="rating-option" (click)="getStarReview(1)">
+              <mat-icon>star</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="2" class="rating-option" (click)="getStarReview(2)">
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="3" class="rating-option" (click)="getStarReview(3)">
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="4" class="rating-option" (click)="getStarReview(4)">
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="5" class="rating-option" (click)="getStarReview(5)">
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+
+        </mat-card-actions>
 
         <ng-template #itemTemplate let-item>
           <div class="review-item" fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column" fxLayoutAlign.xs="space-around start" fxLayoutGap="10px" style="height: fit-content; align-items: center;">
