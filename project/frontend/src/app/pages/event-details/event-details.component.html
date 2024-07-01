@@ -146,7 +146,7 @@
               <div>
                 <!-- Rating: -->
                 <ng-container *ngFor="let star of getStars(item.rating)">
-                    <mat-icon>{{ star }}</mat-icon>
+                    <mat-icon [style.color]="getStarColor(item.rating)">{{ star }}</mat-icon>
                 </ng-container>
                 {{ item.comment }}
                 <!-- {{item.user | json}} -->

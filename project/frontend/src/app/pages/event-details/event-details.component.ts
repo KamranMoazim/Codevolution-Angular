@@ -261,6 +261,17 @@ export class EventDetailsComponent implements OnInit {
     });
   }
 
+  getStarColor(star: number): string {
+    // Define your logic to determine color based on star rating
+    if (star >= 4) {
+      return 'gold'; // Example: Color for 4 and 5 stars
+    } else if (star >= 2) {
+      return 'orange'; // Example: Color for 2 and 3 stars
+    } else {
+      return 'black'; // Example: Color for 1 star
+    }
+  }
+
 
   onClick(rating:number) {
     console.log(rating)
