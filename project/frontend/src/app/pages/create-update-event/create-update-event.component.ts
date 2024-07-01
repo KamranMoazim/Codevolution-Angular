@@ -15,6 +15,7 @@ export class CreateUpdateEventComponent {
 
   eventForm: FormGroup;
   statusOptions = ['upcoming', 'ongoing', 'past'];
+  // statusOptions = ['upcoming', 'ongoing'];
   amAuthorizedAdmin: boolean = false;
 
   isEditMode = false;
@@ -49,7 +50,8 @@ export class CreateUpdateEventComponent {
       location: ['', Validators.required],
       capacity: [null, [Validators.required, Validators.min(20)]],
       category: ['', Validators.required],
-      ticketPrice: [null, Validators.required, Validators.min(10)],
+      // ticketPrice: [this.receivedEvent.ticketPrice===0?null:this.receivedEvent.ticketPrice, Validators.required, Validators.min(10)],
+      ticketPrice: [null, Validators.required],
       status: ['', Validators.required],
       media: [null]
     });
@@ -135,7 +137,7 @@ export class CreateUpdateEventComponent {
         .subscribe({
           next: response => {
             console.log(response);
-            this.receivedEvent = response.data.event
+            // this.receivedEvent = response.data.event
             // this.eventForm.patchValue(this.receivedEvent);
             this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
             // console.log(response.data.event?.media)
@@ -149,7 +151,13 @@ export class CreateUpdateEventComponent {
             this.capacity.setValue(response.data.event.capacity)
             this.category.setValue(response.data.event.category)
             this.status.setValue(response.data.event.status)
+            this.ticketPrice.setValue(response.data.event.ticketPrice)
+            // this.ticketPrice.setValue(parseInt(`${response.data.event.ticketPrice}`))
 
+            if (this.status.value === "past") {
+              this.eventForm.disable()
+              this.showSnackBar("Event is Past, You can only change its Highlights");
+            }
           },
           error: error => {
             console.log(error);
