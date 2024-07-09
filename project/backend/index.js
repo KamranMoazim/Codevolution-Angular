@@ -26,7 +26,7 @@ app.use(cors({
 
 // Connect to MongoDB
 const dbUrl = process.env.MONGODB_URL || '';
-connectDB(dbUrl);
+await connectDB(dbUrl);
 
 
 app.get("/api/v1/", (req, res) => {

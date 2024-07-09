@@ -1,18 +1,26 @@
+
+
+import connectDB from "../utils/database.js";
 import { MongoClient } from 'mongodb';
 
+import userModel from "../models/user.model.js";
+import eventModel from "../models/event.model.js";
+import reviewModel from "../models/review.model.js";
+import ticketModel from "../models/ticket.model.js";
+import scriptModel from "../models/script.model.js";
+
 async function exportAdminsToAdminColletion() {
-    const url = 'mongodb://localhost:27017';
+
+    const url = 'mongodb://localhost:27017/'
     const dbName = 'meanStackDb';
-    const client = new MongoClient(url);
-
+    
     try {
-        // Connect to MongoDB
-        await client.connect();
-        console.log('Connected to MongoDB');
 
+        await connectDB(url + dbName);
+        const client = new MongoClient(url);
         const db = client.db(dbName);
 
-        const cursor = await db.collection('users').aggregate([
+        const cursor = await userModel.aggregate([
             {
                 $match: {
                     role: 'admin',
@@ -28,16 +36,9 @@ async function exportAdminsToAdminColletion() {
             }
         ]);
 
+        // now save users who have purchased a ticket and have given a review in a new collection called script
 
-        // // now save users who have purchased a ticket and have given a review in a new collection called script
-        // const result = await cursor.toArray();
-        // console.log(result);
-        // // await script.insertMany(result[0]);
-        // await db.collection('script').insertOne(result[0]);
-
-        // Use bulkWrite to perform upsert operations
-        const documentsToInsert = await cursor.toArray();
-        const bulkOperations = documentsToInsert.map(doc => ({
+        const bulkOperations = cursor.map(doc => ({
             updateOne: {
                 filter: {
                     _id: doc._id,
@@ -46,18 +47,18 @@ async function exportAdminsToAdminColletion() {
                 upsert: true,
             }
         }));
-        // bulkOperations -- it will find the doc, if not found it will insert the doc else it will update the doc (means same doc with same values will be updated)
 
         // Execute bulk write operations
         const bulkWriteResult = await db.collection('admins').bulkWrite(bulkOperations);
+
         console.log('Bulk write result:', bulkWriteResult);
 
 
     } catch (err) {
         console.error(err);
     } finally {
-        await client.close();
+        process.exit();
     }
 }
 
-await exportAdminsToAdminColletion();
+exportAdminsToAdminColletion();

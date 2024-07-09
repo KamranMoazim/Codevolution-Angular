@@ -1,18 +1,18 @@
-import { MongoClient } from 'mongodb';
+import connectDB from "../utils/database.js";
+import userModel from "../models/user.model.js";
+import eventModel from "../models/event.model.js";
+import reviewModel from "../models/review.model.js";
+import ticketModel from "../models/ticket.model.js";
+import scriptModel from "../models/script.model.js";
+
 
 async function exportPeronsWhoHavePurchasedTicketsAndGivenA_Review_ToScriptsCollection() {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'meanStackDb';
-    const client = new MongoClient(url);
 
     try {
         // Connect to MongoDB
-        await client.connect();
-        console.log('Connected to MongoDB');
+        await connectDB('mongodb://localhost:27017/meanStackDb');
 
-        const db = client.db(dbName);
-
-        const cursor = await db.collection('users').aggregate([
+        const cursor = await userModel.aggregate([
             {
                 $lookup: {
                     from: "tickets",
@@ -59,8 +59,7 @@ async function exportPeronsWhoHavePurchasedTicketsAndGivenA_Review_ToScriptsColl
         // await db.collection('script').insertOne(result[0]);
 
         // Use bulkWrite to perform upsert operations
-        const documentsToInsert = await cursor.toArray();
-        const bulkOperations = documentsToInsert.map(doc => ({
+        const bulkOperations = cursor.map(doc => ({
             updateOne: {
                 filter: {
                     user: doc.user,
@@ -75,14 +74,14 @@ async function exportPeronsWhoHavePurchasedTicketsAndGivenA_Review_ToScriptsColl
         // bulkOperations -- it will find the doc, if not found it will insert the doc else it will update the doc (means same doc with same values will be updated)
 
         // Execute bulk write operations
-        const bulkWriteResult = await db.collection('script').bulkWrite(bulkOperations);
+        const bulkWriteResult = await scriptModel.bulkWrite(bulkOperations);
         console.log('Bulk write result:', bulkWriteResult);
 
 
     } catch (err) {
         console.error(err);
     } finally {
-        await client.close();
+        process.exit();
     }
 }
 
