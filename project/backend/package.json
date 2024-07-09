@@ -9,7 +9,8 @@
     "start": "clear && nodemon index.js",
     "fake": "clear && node ./utils/generate_fake_date.js",
     "first":"clear && node ./scripts/first.script.js",
-    "admins":"clear && node ./scripts/get-admins.script.js"
+    "admins":"clear && node ./scripts/get-admins.script.js",
+    "eventStatus":"clear && node ./scripts/changeEventStatus.script.js"
   },
   "keywords": [],
   "author": "",
