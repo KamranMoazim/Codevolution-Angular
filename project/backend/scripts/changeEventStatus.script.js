@@ -83,6 +83,12 @@ async function changeEventsStatus() {
 
         // find users who have purchased a ticket and have not given a review
         const usersWithTickets = await ticketModel.aggregate([
+            {
+                $project: {
+                    user: 1,
+                    event: 1,
+                }
+            }
         ]);
 
         console.log(usersWithTickets);
