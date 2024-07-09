@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "clear && nodemon index.js",
-    "fake": "clear && node ./utils/generate_fake_date.js"
+    "fake": "clear && node ./utils/generate_fake_date.js",
+    "first":"clear && node ./scripts/first.script.js",
+    "admins":"clear && node ./scripts/get-admins.script.js"
   },
   "keywords": [],
   "author": "",
