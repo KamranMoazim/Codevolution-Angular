@@ -145,8 +145,10 @@ export class CreateUpdateEventComponent {
             this.title.setValue(response.data.event.title)
             this.description.setValue(response.data.event.description)
             this.date.setValue(response.data.event.date)
-            this.startTime.setValue(response.data.event.startTime)
-            this.endTime.setValue(response.data.event.endTime)
+            this.startTime.setValue(this.convertTo24Hour(response.data.event.startTime))
+            this.endTime.setValue(this.convertTo24Hour(response.data.event.endTime))
+            // this.startTime.setValue(response.data.event.startTime)
+            // this.endTime.setValue(response.data.event.endTime)
             this.location.setValue(response.data.event.location)
             this.capacity.setValue(response.data.event.capacity)
             this.category.setValue(response.data.event.category)
@@ -168,6 +170,30 @@ export class CreateUpdateEventComponent {
 
   }
 
+
+  convertTo24Hour(time: string): string {
+    // Match the time string with groups for hour, minutes, and period (AM/PM)
+    const [timeStr, modifier] = time.split(' ');
+    let [hours, minutes] = timeStr.split(':');
+
+    // Convert string values to numbers
+    let hoursNum = parseInt(hours, 10);
+    let minutesNum = parseInt(minutes, 10);
+
+    // Convert 12-hour format to 24-hour format
+    if (modifier === 'PM' && hoursNum < 12) {
+        hoursNum += 12;
+    }
+    if (modifier === 'AM' && hoursNum === 12) {
+        hoursNum = 0;
+    }
+
+    // Ensure hours and minutes are in "HH:mm" format
+    const hoursStr = hoursNum.toString().padStart(2, '0');
+    const minutesStr = minutesNum.toString().padStart(2, '0');
+
+    return `${hoursStr}:${minutesStr}`;
+  }
 
 
   showSnackBar(message: string) {

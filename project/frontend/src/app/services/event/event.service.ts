@@ -126,6 +126,9 @@ export class EventService {
             ...response.data,
             event: {
               ...response.data.event,
+              // startTime: this.convertMinutesToTimeFormat(parseInt(response.data.event.startTime)),
+              // endTime: this.convertMinutesToTimeFormat(parseInt(response.data.event.endTime)),
+
               startTime: this.convertMinutesToTimeFormat(parseInt(response.data.event.startTime)),
               endTime: this.convertMinutesToTimeFormat(parseInt(response.data.event.endTime)),
             }
@@ -185,6 +188,8 @@ convertMinutesToTimeFormat(minutes: number): string {
   const formattedMinutes = mins < 10 ? `0${mins}` : mins;
   return `${adjustedHours}:${formattedMinutes} ${period}`;
 }
+
+
 
 
 
