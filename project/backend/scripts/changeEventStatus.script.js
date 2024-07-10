@@ -65,11 +65,7 @@ async function changeEventsStatus() {
                 $match: {
                     date: todaysDate,
                     startTime: { $lte: todaysDate.getHours() },
-                    status: { 
-                        // $ne: "ongoing",
-                        // $ne: "past",
-                        $eq: "upcoming"
-                    },
+                    status: "upcoming",
                 },
             }
         ])
@@ -87,6 +83,39 @@ async function changeEventsStatus() {
         await eventModel.bulkWrite(bulkOperations2);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+        // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // // take all events whose 'date' is today and 'startTime' is in the past
+        // const eventsToBeChangedToUpcoming = await eventModel.aggregate([
+        //     {
+        //         $match: {
+        //             date: { $gt: todaysDate },
+        //             status: "ongoing"
+        //         },
+        //     }
+        // ])
+
+        // console.log("eventsToBeChangedToUpcoming")
+        // console.log(eventsToBeChangedToUpcoming)
+
+        // // write bulk operations
+        // const bulkOperations4 = eventsToBeChangedToUpcoming.map(event => ({
+        //     updateOne: {
+        //         filter: {
+        //             _id: event._id,
+        //         },
+        //         update: { $set: { status: "upcoming" } },
+        //     }
+        // }));
+
+        // await eventModel.bulkWrite(bulkOperations4);
+        // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -200,7 +229,7 @@ async function changeEventsStatus() {
     }
 }
 
-// changeEventsStatus();
+changeEventsStatus();
 
 
 // 

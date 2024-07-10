@@ -8,10 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "clear && nodemon index.js",
     "fake": "clear && node ./utils/generate_fake_date.js",
-    "first":"clear && node ./scripts/first.script.js",
-    "admins":"clear && node ./scripts/get-admins.script.js",
-    "eventStatus":"clear && node ./scripts/changeEventStatus.script.js",
-    "dummyInsert":"clear && node ./scripts/dummyInsert.script.js"
+    "first": "clear && node ./scripts/first.script.js",
+    "admins": "clear && node ./scripts/get-admins.script.js",
+    "eventStatus": "clear && node ./scripts/changeEventStatus.script.js",
+    "dummyInsert": "clear && node ./scripts/dummyInsert.script.js",
+    "scripts:dev":"run-para 'node scripts/changeEventStatus.script.js' 'node scripts/first.script.js' 'node scripts/get-admins.script.js'"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +27,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.4",
     "node-cron": "^3.0.3",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "script-runner": "^0.1.8"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1"
