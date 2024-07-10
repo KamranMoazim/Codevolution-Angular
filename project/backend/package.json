@@ -10,7 +10,8 @@
     "fake": "clear && node ./utils/generate_fake_date.js",
     "first":"clear && node ./scripts/first.script.js",
     "admins":"clear && node ./scripts/get-admins.script.js",
-    "eventStatus":"clear && node ./scripts/changeEventStatus.script.js"
+    "eventStatus":"clear && node ./scripts/changeEventStatus.script.js",
+    "dummyInsert":"clear && node ./scripts/dummyInsert.script.js"
   },
   "keywords": [],
   "author": "",

@@ -21,7 +21,7 @@ async function exportAdminsToAdminColletion() {
         const client = new MongoClient(url);
         const db = client.db(dbName);
 
-        const cursor = await userModel.aggregate([
+        const allAdmins = await userModel.aggregate([
             {
                 $match: {
                     role: 'admin',
@@ -39,12 +39,14 @@ async function exportAdminsToAdminColletion() {
 
         // now save users who have purchased a ticket and have given a review in a new collection called script
 
-        const bulkOperations = cursor.map(doc => ({
+        // loop through allAdmins and create bulk write operations (if admin does not exist in the collection)
+        const bulkOperations = allAdmins.map(admin => ({
             updateOne: {
                 filter: {
-                    _id: doc._id,
+                    email: admin.email,
+                    role: 'admin',
                 },
-                update: { $setOnInsert: doc },
+                update: { $set: admin },
                 upsert: true,
             }
         }));
