@@ -51,7 +51,7 @@ export class FilterDialogComponent {
       // dateRange: this.dateRange.value,
       // dateRange: formattedDateRange,
       // startDate:formattedStartDate,
-      // endDate:formattedEndDate,
+      // endDate: formattedEndDate,
       startDate:formattedStartDate ? this.convertDate(formattedStartDate) : formattedStartDate,
       endDate:formattedEndDate ? this.convertDate(formattedEndDate) : formattedEndDate,
       minPrice: this.minPrice,

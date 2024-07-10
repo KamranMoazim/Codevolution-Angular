@@ -47,7 +47,7 @@
             <mat-icon>edit</mat-icon> Edit
           </button>
           @if(event.status !== "past"){
-            <button mat-raised-button color="primary" (click)="buyTicket()">
+            <button mat-raised-button color="primary" (click)="buyTicket()" *ngIf="!amAuthorizedAdmin">
               <mat-icon>shopping_cart</mat-icon> Buy Ticket ${{ event.ticketPrice | number: '1.2-2'}}
             </button>
           }
@@ -68,6 +68,7 @@
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
             <mat-icon>schedule</mat-icon>
             <p><strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}</p>
+            <!-- <p><strong>Time:</strong> {{ convertMinutesToTimeFormat(event.startTime) }} - {{ convertMinutesToTimeFormat(event.endTime) }}</p> -->
           </div>
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
             <mat-icon>person</mat-icon>

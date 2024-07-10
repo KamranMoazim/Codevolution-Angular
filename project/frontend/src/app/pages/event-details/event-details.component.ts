@@ -426,4 +426,16 @@ export class EventDetailsComponent implements OnInit {
   }
 
 
+  // time-format.util.ts
+convertMinutesToTimeFormat(minute: string): string {
+  let minutes = parseInt(minute, 1);
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const adjustedHours = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes = mins < 10 ? `0${mins}` : mins;
+  return `${adjustedHours}:${formattedMinutes} ${period}`;
+}
+
+
 }

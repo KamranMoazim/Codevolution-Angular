@@ -126,8 +126,8 @@ export class EventService {
             ...response.data,
             event: {
               ...response.data.event,
-              startTime: this.convertToAMPM(parseInt(response.data.event.startTime)),
-              endTime: this.convertToAMPM(parseInt(response.data.event.endTime)),
+              startTime: this.convertMinutesToTimeFormat(parseInt(response.data.event.startTime)),
+              endTime: this.convertMinutesToTimeFormat(parseInt(response.data.event.endTime)),
             }
           }
         };
@@ -175,6 +175,17 @@ export class EventService {
     }
     return `${newhours}:${mins}`;
   }
+
+  // time-format.util.ts
+convertMinutesToTimeFormat(minutes: number): string {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const adjustedHours = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes = mins < 10 ? `0${mins}` : mins;
+  return `${adjustedHours}:${formattedMinutes} ${period}`;
+}
+
 
 
 }

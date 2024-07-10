@@ -64,4 +64,4 @@ async function exportAdminsToAdminColletion() {
     }
 }
 
-exportAdminsToAdminColletion();
+await exportAdminsToAdminColletion();

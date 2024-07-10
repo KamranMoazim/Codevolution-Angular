@@ -184,8 +184,7 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         // matchStage.organizer = filters.organizer;
     }
 
-    console.log("matchStage")
-    console.log(matchStage)
+
 
     if (search) {
         matchStage.$or = [
@@ -204,12 +203,28 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         matchStage.status = filters.status;
     }
 
+    // if (filters.startDate) {
+    //     // matchStage.startDate = filters.startDate;
+    //     matchStage.date = { $gte: filters.startDate };
+    // }
+
+    // if (filters.endDate) {
+    //     // matchStage.endDate = filters.endDate;
+    //     matchStage.date = { ...matchStage.date, $lte: new Date(filters.endDate) };
+    // }
+
+    // if (filters.startTime) {
+    //     matchStage.startTime = { $gte: new Date(filters.startTime) };
+    // }
+
     if (filters.startDate) {
-        matchStage.startDate = filters.startDate;
+        // matchStage.startDate = filters.startDate;
+        matchStage.date = { $gte: new Date(filters.startDate) };
     }
 
     if (filters.endDate) {
-        matchStage.endDate = filters.endDate;
+        // matchStage.endDate = filters.endDate;
+        matchStage.date = { ...matchStage.date, $lte: new Date(filters.endDate) };
     }
 
     if (filters.startTime) {
@@ -219,7 +234,8 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
     if (filters.endTime) {
         matchStage.endTime = { $lte: filters.endTime };
     }
-
+    console.log("matchStage")
+    console.log(matchStage)
     const sortOrderValue = sortOrder === 'asc' ? 1 : -1;
 
     const aggregationPipeline = [

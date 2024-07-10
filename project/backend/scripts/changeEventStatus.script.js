@@ -22,7 +22,8 @@ async function changeEventsStatus() {
 
 
 
-        
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         const todaysDate = new Date();
 
         // take all events whose 'date' is in the past or today and 'endTime' is also in the past
@@ -47,6 +48,8 @@ async function changeEventsStatus() {
         }));
 
         await eventModel.bulkWrite(bulkOperations);
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -54,8 +57,8 @@ async function changeEventsStatus() {
 
 
 
-
-
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // take all events whose 'date' is today and 'startTime' is in the past
         const eventsToBeChangedToOngoing = await eventModel.aggregate([
             {
@@ -82,11 +85,17 @@ async function changeEventsStatus() {
         }));
 
         await eventModel.bulkWrite(bulkOperations2);
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
 
 
+
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // find users who have purchased a ticket and have not given a review
         const usersWithoutReviewingEvents = await ticketModel.aggregate([
             // find users who have purchased a ticket
@@ -180,6 +189,9 @@ async function changeEventsStatus() {
 
         // Execute bulk write operations
         await db.collection('users_not_gave_reviews').bulkWrite(bulkOperations3);
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
     } catch (err) {
         console.error(err);
@@ -188,4 +200,7 @@ async function changeEventsStatus() {
     }
 }
 
-changeEventsStatus();
+// changeEventsStatus();
+
+
+// 
