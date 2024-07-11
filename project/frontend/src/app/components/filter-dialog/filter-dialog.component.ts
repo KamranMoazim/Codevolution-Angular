@@ -10,9 +10,28 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class FilterDialogComponent {
 
+  sortBy: string;
+  sortOrder: string;
+  // orderByList: string[] = ['title', 'startTime', 'endTime', 'location', 'capacity', 'category', 'ticketPrice', 'status'];
+  orderByList = [
+    { value: 'title', display: 'Title' },
+    { value: 'startTime', display: 'Start Time' },
+    { value: 'endTime', display: 'End Time' },
+    { value: 'location', display: 'Location' },
+    { value: 'capacity', display: 'Capacity' },
+    { value: 'category', display: 'Category' },
+    { value: 'ticketPrice', display: 'Ticket Price' },
+    { value: 'status', display: 'Status' }
+  ];
+
+  sortOrderList = [
+    { value: 'asc', display: 'Ascending' },
+    { value: 'desc', display: 'Descending' }
+  ];
+
   dateRange: FormGroup;
   minPrice: number = 1;
-  maxPrice: number = 2000;
+  maxPrice: number = 500;
   selectedStatus: string;
   startTime: string;
   endTime: string;
@@ -47,6 +66,10 @@ export class FilterDialogComponent {
     // const formattedDateRange = { start: formattedStartDate, end: formattedEndDate };
 
     const filters = {
+
+      orderBy: this.sortBy,
+      sortOrder: this.sortOrder,
+
       selectedStatus: this.selectedStatus,
       // dateRange: this.dateRange.value,
       // dateRange: formattedDateRange,

@@ -34,6 +34,9 @@ export class AllEventsComponent implements OnInit {
   // pageEvent: PageEvent;
 
 
+  sortBy: string = '';
+  sortOrder: string = '';
+  
   selectedStatus: string = '';
   minPrice: number = 0;
   maxPrice: number = 0;
@@ -78,6 +81,10 @@ export class AllEventsComponent implements OnInit {
         console.log('Filters applied:', this.dateRange);
         console.log('Result applied:', result);
 
+
+        this.sortBy = result.orderBy;
+        this.sortOrder = result.sortOrder;
+
         this.selectedStatus = result.selectedStatus;
         this.dateRange = result.dateRange;
         this.startDate = result.startDate;
@@ -113,6 +120,9 @@ export class AllEventsComponent implements OnInit {
 
     allEventsRequest.page = this.pageIndex;
     allEventsRequest.limit = this.pageSize;
+
+    if(this.sortBy) allEventsRequest.sortBy = this.sortBy;
+    if(this.sortOrder) allEventsRequest.sortOrder = this.sortOrder;
 
     if(this.minPrice) allEventsRequest.minPrice = this.minPrice;
     if(this.maxPrice) allEventsRequest.maxPrice = this.maxPrice;

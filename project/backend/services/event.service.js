@@ -281,7 +281,10 @@ export const fetchEvents = async ({ search = '', page = 1, limit = 10, sortBy = 
         {
             $count: 'total'
         }]
-
+        console.log("sortBy")
+        console.log(sortBy)
+        console.log("sortOrderValue")
+        console.log(sortOrderValue)
     aggregationPipeline.push(
         { $sort: { [sortBy]: sortOrderValue } },
         { $skip: (page - 1) * limit },

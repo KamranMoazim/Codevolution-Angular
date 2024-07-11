@@ -12,7 +12,7 @@
     </mat-form-field>
 
     <h4>Price Range</h4>
-    <mat-slider style="width: 100%;" min="1" max="2000" step="50" tickInterval="500" >
+    <mat-slider style="width: 100%;" min="1" max="500" step="5" tickInterval="500" >
       <input value="{{minPrice}}" matSliderStartThumb [(ngModel)]="minPrice">
       <input value="{{maxPrice}}" matSliderEndThumb [(ngModel)]="maxPrice">
     </mat-slider>
@@ -68,6 +68,32 @@
       <mat-error *ngIf="dateRange.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
       <mat-error *ngIf="dateRange.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
     </mat-form-field>
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <div fxFlex="45%">
+    <mat-form-field >
+      <mat-label>Sort By</mat-label>
+      <mat-select [(value)]="sortBy">
+        @for (item of orderByList; track $index) {
+          <mat-option value="{{item.value}}">{{item.display | titlecase}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    
+  </div>
+    <div fxFlex="45%">
+    <mat-form-field >
+      <mat-label>Sort Order</mat-label>
+      <mat-select [(value)]="sortOrder">
+        @for (item of sortOrderList; track $index) {
+          <mat-option value="{{item.value}}">{{item.display | titlecase}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
