@@ -4,12 +4,16 @@
     <input type="file" (change)="onFileSelected($event)" multiple>
     <div *ngIf="images.length > 0">
       <mat-list>
-        <mat-list-item *ngFor="let image of images; let i = index" fxLayout="row" fxLayoutAlign="start center">
-          <img [src]="image.preview || image.url" alt="Image preview" width="200px" height="200px" (click)="removeImage(i)">
+        <mat-list-item *ngFor="let image of images; let i = index" fxLayout="row" fxLayoutAlign="start center" (mouseenter)="showIcon = i" (mouseleave)="showIcon = null">
+          <!-- <img [src]="image.preview || image.url" alt="Image preview" width="200px" height="200px" (click)="removeImage(i)"> -->
+          <div class="image-container" >
+            <img [src]="image.preview || image.url" alt="Image preview" width="200px" height="200px" (click)="removeImage(i)">
+            <mat-icon *ngIf="showIcon === i" class="crash-icon" (click)="removeImage(i)">delete</mat-icon>
+          </div>
         </mat-list-item>
       </mat-list>
     </div>
-    <p *ngIf="images.length >= numberOfImages" class="text-danger">You can only upload up to {{numberOfImages}} images.</p>
+    <p *ngIf="images.length > numberOfImages" class="text-danger">You can only upload up to {{numberOfImages}} images.</p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="primary" (click)="uploadImages()" [disabled]="images.length === 0">

@@ -1,5 +1,5 @@
 <div>
-  <mat-card fxLayout="column " fxLayoutAlign="center center" >
+  <mat-card fxLayout="column" fxLayoutAlign="center center" >
     <div class="image-container">
       <img src="{{user.avatar}}" alt="User Image" class="profile-image">
     </div>
@@ -7,7 +7,7 @@
       <mat-card-title>Edit User Information</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="profileForm">
+      <form [formGroup]="profileForm"  fxLayout="row">
         <mat-form-field class="full-width">
           <mat-label>Name</mat-label>
           <input matInput formControlName="name">

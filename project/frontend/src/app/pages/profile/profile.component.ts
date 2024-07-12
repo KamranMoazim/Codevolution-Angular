@@ -80,6 +80,7 @@ export class ProfileComponent {
 
   onImagesChange(images: { file?: File, preview?: string, url?: string }[]) {
     this.images = images;
+    console.log(this.images);
     // this.saveImageUrls();
   }
 
