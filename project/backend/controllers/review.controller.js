@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
-import { createReviewValidator } from '../validators/review.validator.js';
+import { createReviewValidator, validateReviewSchema } from '../validators/review.validator.js';
 import { createEventReview, getReviewByUserIdAndEventId, getReviewsByEventId } from '../services/review.service.js';
 import { getEventById } from "../services/event.service.js";
 import { checkIfUserHasTicket } from '../services/ticket.service.js';
@@ -17,7 +17,8 @@ export const createReview = CatchAsyncError(
         try {
 
             // ! apply validation on Review - CLEAN Architecture
-            createReviewValidator(req, next);
+            // createReviewValidator(req, next);
+            await validateReviewSchema(req, res, next);
 
             const event = await getEventById(req.body.eventId);
 

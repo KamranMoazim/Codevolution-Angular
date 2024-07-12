@@ -3,8 +3,9 @@ import userModel from "../models/user.model.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import { CatchAsyncError } from "../middlewares/catchAsyncErrors.js";
 import jwt from "jsonwebtoken";
-import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt.js";
+import { accessTokenOptions, sendToken } from "../utils/jwt.js";
 import { getAllOrganizationsService } from "../services/user.service.js";
+import { validateUserSchema } from '../validators/user.validator.js';
 
 
 
@@ -15,12 +16,11 @@ export const registrationUser = CatchAsyncError(
     async (req, res, next) => {
         try {
             
+            await validateUserSchema(req, res, next);
+
             const { name, email, password, role } = req.body;
 
-            const isEmailExist = await userModel.findOne({ email });
-            if (isEmailExist) {
-                return next(new ErrorHandler("Email already exist", 400));
-            }
+            
 
             const user = await userModel.create({
                 name,

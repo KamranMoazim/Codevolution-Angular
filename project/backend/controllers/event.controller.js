@@ -9,7 +9,7 @@ import {
     getPersonsWhoBoughtTicket,
     fetchEvents
 } from "../services/event.service.js";
-import { createEventValidator, updateEventValidator } from '../validators/event.validator.js';
+import { createEventValidator, updateEventValidator, validateEvent } from '../validators/event.validator.js';
 import mongoose from 'mongoose';
 
 
@@ -24,7 +24,8 @@ export const createEventController = CatchAsyncError(
         try {
 
             // ! apply validation on Event - CLEAN Architecture
-            createEventValidator(req, next);
+            // createEventValidator(req, next);
+            await validateEvent(req, res, next);
 
             console.log(req.body._id)
 

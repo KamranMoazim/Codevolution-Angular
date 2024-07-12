@@ -12,7 +12,7 @@
     "admins": "clear && node ./scripts/get-admins.script.js",
     "eventStatus": "clear && node ./scripts/changeEventStatus.script.js",
     "dummyInsert": "clear && node ./scripts/dummyInsert.script.js",
-    "scripts:dev":"run-para 'node scripts/changeEventStatus.script.js' 'node scripts/first.script.js' 'node scripts/get-admins.script.js'"
+    "scripts:dev": "run-para 'node scripts/changeEventStatus.script.js' 'node scripts/first.script.js' 'node scripts/get-admins.script.js'"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.4",
     "node-cron": "^3.0.3",
