@@ -204,6 +204,7 @@ export class EventDetailsComponent implements OnInit {
     reviewData.comment = this.comments;
     reviewData.rating = this.rating;
     reviewData.eventId = this.eventId;
+    reviewData.userId = this.isUserLoggedIn ? this.authService.getUser()._id : null;
 
     this.reviewService.addReview(reviewData)
     .subscribe({

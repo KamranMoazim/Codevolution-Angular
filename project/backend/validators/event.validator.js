@@ -89,6 +89,8 @@ export const updateEventValidator = (req) => {
 import Joi from 'joi';
 
 const eventSchema = Joi.object({
+    _id: Joi.string().optional(),
+    media: Joi.array().items(Joi.string()).optional().default([]),
     category: Joi.string().min(1).required().messages({
         'any.required': 'Category is required',
         'string.empty': 'Category should not be empty',

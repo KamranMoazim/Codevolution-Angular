@@ -17,8 +17,11 @@ export const registrationUser = CatchAsyncError(
         try {
             
             await validateUserSchema(req, res, next);
+            
+            console.log("req.body => ", req.body)
 
             const { name, email, password, role } = req.body;
+
 
             
 

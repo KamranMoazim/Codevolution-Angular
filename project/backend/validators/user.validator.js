@@ -59,13 +59,21 @@ const userSchema = Joi.object({
 });
 
 export const validateUserSchema = async (req, res, next) => {
+
+    // console.log(req.body)
+
     const { error } = userSchema.validate(req.body);
 
     if (error) {
         throw new ErrorHandler(error.details[0].message, 400)
     }
 
-    const isEmailExist = await userModel.findOne({ email });
+    console.log("Email validation")
+
+    // const isEmailExist = await userModel.find({ email });
+    const isEmailExist = await userModel.findOne({ email: req.body.email });
+    console.log("isEmailExist")
+    console.log(isEmailExist)
     if (isEmailExist) {
         throw new ErrorHandler("Email already exist", 400)
     }

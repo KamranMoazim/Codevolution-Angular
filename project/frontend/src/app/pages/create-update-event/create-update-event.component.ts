@@ -153,7 +153,7 @@ export class CreateUpdateEventComponent {
             this.capacity.setValue(response.data.event.capacity)
             this.category.setValue(response.data.event.category)
             this.status.setValue(response.data.event.status)
-            this.ticketPrice.setValue(response.data.event.ticketPrice)
+            this.ticketPrice.setValue(response.data.event.ticketPrice.toFixed(2))
             // this.ticketPrice.setValue(parseInt(`${response.data.event.ticketPrice}`))
 
             if (this.status.value === "past") {
@@ -209,6 +209,10 @@ export class CreateUpdateEventComponent {
 
 
   onSubmit() {
+    console.log("this.eventForm.value")
+    console.log(this.eventForm.valid)
+    console.log(this.eventForm.value)
+    this.eventForm.enable()
     if (this.eventForm.valid) {
 
       let createOrUpdateEventRequest = new CreateOrUpdateEventRequest()
@@ -248,10 +252,12 @@ export class CreateUpdateEventComponent {
           // this.images = response.data.event?.media ? response.data.event?.media.map(url => ({ url })) : [];
           // this.router.navigate(['/events']);
           this.showSnackBar(response.message);
+          this.eventForm.disable()
         },
         error: error => {
           console.log(error);
           this.showSnackBar(error);
+          this.eventForm.disable()
         }
       });
 

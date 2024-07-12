@@ -141,6 +141,7 @@ export class EventService {
 
 
   createOrUpdateEvent(eventData: CreateOrUpdateEventRequest) : Observable<CreateOrUpdateEventResponse> {
+    console.log(eventData)
     return this.httpClient.post<CreateOrUpdateEventResponse>(this._url + "/event", eventData).pipe(catchError(this.errorHandler));
   }
 

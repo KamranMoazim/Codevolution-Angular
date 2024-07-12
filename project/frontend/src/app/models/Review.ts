@@ -31,6 +31,7 @@ export class AllReviewsResponse extends BaseResponse {
 
 export class CreateReviewRequest {
   constructor(
+    public userId?: string,
     public eventId?: string,
     public rating?: number,
     public comment?: string,

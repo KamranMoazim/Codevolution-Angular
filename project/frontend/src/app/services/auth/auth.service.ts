@@ -87,6 +87,10 @@ export class AuthService {
     return throwError(() => error.error.message || "Server Error");
   }
 
+  getUser(): any {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
   private clearAllCookies(): void {
     const cookies = document.cookie.split(';');
     for (const cookie of cookies) {
