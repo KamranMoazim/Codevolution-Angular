@@ -11,6 +11,7 @@ export class ImagesUploaderComponent {
 
   @Input() numberOfImages: number = 5;
   @Input() images: { file?: File, preview?: string, url?: string }[] = [];
+  showIcon: number|null = null;
 
   @Output() imagesChange = new EventEmitter<{ file?: File, preview?: string, url?: string }[]>();
 
@@ -44,6 +45,11 @@ export class ImagesUploaderComponent {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  changeShowIcon(index: number|null) {
+    console.log('changeShowIcon:', index)
+    this.showIcon = index;
   }
 
   removeImage(index: number) {
