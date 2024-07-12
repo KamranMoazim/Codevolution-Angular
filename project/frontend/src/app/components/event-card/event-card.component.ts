@@ -48,6 +48,10 @@ export class EventCardComponent {
       next: response => {
         console.log(response)
         this.showSnackBar(response.message)
+        // refresh current component
+        // window.location.reload();
+
+        
       },
       error: error => {
         console.log(error);

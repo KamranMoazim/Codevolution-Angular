@@ -62,6 +62,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     this._authServer.logoutUser();
     this.userRole = this._authServer.getUserRole();
+    window.location.reload();
   }
 
   // getUserRole(){
